@@ -7,7 +7,7 @@ namespace BuffyInvaders
 {
     public class Game
     {
-        private const int ENEMY_ROW = 18;
+        private const int ENEMY_ROW = 10;
         private const int FPS_TEMPO = 15;
         private const int BULLET_SPEED = 2;
         private const int SHOT_DELAY = 10;
@@ -40,6 +40,7 @@ namespace BuffyInvaders
 
         private char[][] buffer;
         private Enemy[,] enemies;
+        private Enemy specialEnemy;
         private List<Bullet> projectiles = new List<Bullet>();
         private Stopwatch timer = new Stopwatch();
 
@@ -63,12 +64,15 @@ namespace BuffyInvaders
             }
             enemies = new Enemy[ENEMY_ROW, ENEMY_ROW];
 
-            //création de la vague d'ennemis
+            //création de la vague d'ennemis et de l'ennemi spécial
             for(int l = 0; l < ENEMY_ROW; l++)
                 for(int c = 0; c < ENEMY_ROW; c++)
                 {
-                    enemies[l, c] = new Enemy("|-O-|", ConsoleColor.White, c * ("|-O-|".Length + 2), l * 2 + 1, enemySpeed);
+                    enemies[l, c] = new Enemy("|-O-|", ConsoleColor.White, c * ("|-O-|".Length + 2), l * 2 + 1, enemySpeed, false);
                 }
+
+            specialEnemy = new Enemy("", ConsoleColor.Black, -11, 3, 4, true);
+            specialEnemy.IsAlive = false;
 
             //boucle qui met à jour le jeu
             do
@@ -143,7 +147,7 @@ namespace BuffyInvaders
                     graphics.SLightningTwoD(buffer, Math.Abs(graphicsInt - 10));
                     graphics.SLightningTwoD(buffer, graphicsInt);
                     graphics.SLightningTwoD(buffer, graphicsInt + 10);
-                }
+                }//fin des jolis graphismes
 
                 //contôle du joueur
                 if (Console.KeyAvailable)
@@ -178,7 +182,6 @@ namespace BuffyInvaders
                             break;
                         case ConsoleKey.DownArrow:
                             player.Stopped = true;
-                            player.Appearence = "<I>-T-<I>";
                             break;
                         case ConsoleKey.Spacebar:
                             if (shotDelayTimer > SHOT_DELAY)
@@ -204,6 +207,9 @@ namespace BuffyInvaders
                             {
                                 e.IsAlive = false;
                             }
+                            break;
+                        case ConsoleKey.O:
+                            ticks = 45;
                             break;
                             
                     }
@@ -253,8 +259,18 @@ namespace BuffyInvaders
                             projectiles.Remove(projectiles[i]);
                         }
                     }
+                    //si l'ennemi special est touché
+                    if (projectiles.Count > i)
+                        if (projectiles[i].CollidesWith(specialEnemy) && projectiles[i].GoingUp)
+                        {
+                            specialEnemy.IsAlive = false;
+                            specialEnemy.Appearence = " ";
+                            projectiles.Remove(projectiles[i]);
+                        }
+
+
                     //si joueur est touché
-                    if(i < projectiles.Count)
+                    if (i < projectiles.Count)
                     if(!projectiles[i].GoingUp && projectiles[i].X >= player.X && projectiles[i].X <= player.X + player.Appearence.Length && projectiles[i].Y == player.Y)
                     {
                         projectiles.Remove(projectiles[i]);
@@ -262,6 +278,14 @@ namespace BuffyInvaders
                         livesIndicator = player.Appearence + " × " + player.Lives;
 
                     }
+                }
+
+                //apparition d'un ennemi special
+                if(ticks % 200 == 0 && !specialEnemy.IsAlive)
+                {
+                    specialEnemy.Appearence = "███████████";
+                    specialEnemy.IsAlive = true;
+                    specialEnemy.X = -11;
                 }
 
                 //gestion de l'apparition de nouvelles vagues
@@ -274,7 +298,7 @@ namespace BuffyInvaders
                     for (int l = 0; l < ENEMY_ROW; l++)
                         for (int c = 0; c < ENEMY_ROW; c++)
                         {
-                            enemies[l, c] = new Enemy("|=_=|", ConsoleColor.White, c * ("|=_=|".Length + 2), l * 2 - ENEMY_ROW * 2, 3);
+                            enemies[l, c] = new Enemy("|=_=|", ConsoleColor.White, c * ("|=_=|".Length + 2), l * 2 - ENEMY_ROW * 2, 3, false);
                         }
                     waveAlive = true;
                 }
@@ -357,6 +381,21 @@ namespace BuffyInvaders
                     }
                 }
 
+                //déplacement/chargement de l'enemi spécial
+                if (specialEnemy.IsAlive && ticks % specialEnemy.Speed == 0)
+                {
+                    specialEnemy.SpecialMove();
+                }
+
+                specialEnemy.Load(ref buffer);
+
+                //si le special quitte la fenêtre
+                if (specialEnemy.X > windowWidth)
+                {
+                    specialEnemy.IsAlive = false;
+                    specialEnemy.Appearence = "";
+                }
+
 
                 //chargement des éléments dans le buffer
                 //le vaisseau du joueur
@@ -387,7 +426,7 @@ namespace BuffyInvaders
                 for (int i = 0; i < buffer.GetLength(0); i++)
                 {
 
-                    fullWindow += new string(buffer[i]) + " ";
+                    fullWindow += new string(buffer[i]) + " "; 
                 }
 
                 if (ticks % FLICKER_RATE == 0)
@@ -408,8 +447,8 @@ namespace BuffyInvaders
                 Console.Write(fullWindow);
                 //fin de l'écriture des éléments
 
-                //on vérifie qu'aucun ennemi a atteint le vaisseau ou que le joueur n'aie plus de vies
-                if (GetEnemyExtremity(enemies, "down").Y == player.Y || player.Lives < 0)
+                //on vérifie qu'aucun ennemi ait atteint le vaisseau ou que le joueur n'aie plus de vies
+                if (GetEnemyExtremity(enemies, "bottom").Y == player.Y || player.Lives < 0)
                 {
                     hasLost = true;
                 }
@@ -424,7 +463,7 @@ namespace BuffyInvaders
                     delta = 0;
                 }
 
-                if(timer.ElapsedMilliseconds > 10)
+                if(timer.ElapsedMilliseconds > 9)
                 Debug.Write(" lowTime: " + timer.ElapsedMilliseconds + " | ");
 
                 //on temporise le thread un moment
@@ -436,7 +475,7 @@ namespace BuffyInvaders
             Console.Clear();
             Console.SetCursorPosition(windowWidth / 2, windowHeight / 2);
             Console.WriteLine("Vous avez été envahi");
-            Console.WriteLine("                                                  big seum");
+            Console.WriteLine("                                                          big seum");
 
         }//fin de Launch()
 
@@ -464,7 +503,7 @@ namespace BuffyInvaders
                                 theMostXtreme = enemies[i, j];
                             }
                     break;
-                case "up":
+                case "top":
                     theMostXtreme = enemies[ENEMY_ROW - 1, 0];
                     for (int i = 0; i < ENEMY_ROW; i++)
                         for (int j = 0; j < ENEMY_ROW; j++)
@@ -473,7 +512,7 @@ namespace BuffyInvaders
                                 theMostXtreme = enemies[i, j];
                             }
                     break;
-                case "down":
+                case "bottom":
                     theMostXtreme = enemies[0, 0];
                     for (int i = 0; i < ENEMY_ROW; i++)
                         for (int j = 0; j < ENEMY_ROW; j++)
@@ -511,6 +550,5 @@ namespace BuffyInvaders
 
             return frontLine;
         }
-
     }
 }

@@ -16,6 +16,9 @@ namespace BuffyInvaders
 
         private Random random = new Random();
 
+        private int windowHeight;
+        private int windowWidth;
+
         public Graphics()
         {
             _lightning.Add("╔╩╦╩╩╩═╬¤");
@@ -35,12 +38,15 @@ namespace BuffyInvaders
             _TwoDLightnings.Add(_TwoDLightning);
             _TwoDLightnings.Add(_TwoDLightning2);
 
+            windowHeight = Console.WindowHeight;
+            windowWidth = Console.WindowWidth;
+
         }
 
         public void SideLigthning(char[][] buffer)
         {
 
-            for (int i = 0; i < Console.WindowHeight - 1; i++)
+            for (int i = 0; i < windowHeight - 1; i++)
                 for(int s = 0; s < 2; s++)
                 if (random.Next(4) == 0)
                 {
@@ -48,7 +54,7 @@ namespace BuffyInvaders
                     {
                         if (random.Next(4) == 0)
                         {
-                            buffer[i][l + (s * (Console.WindowWidth - _lightning[0].Length - 1))] = _lightning[0][l];
+                            buffer[i][l + (s * (windowWidth - _lightning[0].Length - 1))] = _lightning[0][l];
                         }
                     }
                 }
@@ -68,7 +74,7 @@ namespace BuffyInvaders
                     {
                         for (int l = 0; l < _lightning[ranIndex].Length; l++)
                         {
-                            buffer[line][l + (s * (Console.WindowWidth - _lightning[ranIndex].Length - 1))] = _lightning[ranIndex][l];
+                            buffer[line][l + (s * (windowWidth - _lightning[ranIndex].Length - 1))] = _lightning[ranIndex][l];
                         }
                     }
                 }
@@ -92,7 +98,7 @@ namespace BuffyInvaders
                         {
                             for (int l = 0; l < _TwoDLightnings[ranIndex][i].Length; l++)
                             {
-                                buffer[line + i][l + (s * (Console.WindowWidth - _TwoDLightnings[ranIndex][i].Length - 1))] = _TwoDLightnings[ranIndex][i][l];
+                                buffer[line + i][l + (s * (windowWidth - _TwoDLightnings[ranIndex][i].Length - 1))] = _TwoDLightnings[ranIndex][i][l];
                             }
 
                         }

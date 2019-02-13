@@ -22,6 +22,7 @@ namespace BuffyInvaders
         private bool _goingLeft = false;
         private bool _isChanging = false;
         private bool _isAlive = true;
+        private bool _isSpecial;
 
         //get set pour savoir la direction des ennemis
         public bool IsGoingLeft
@@ -125,7 +126,7 @@ namespace BuffyInvaders
         /// <summary>
         /// constructeur avec coordonnées
         /// </summary>
-        public Enemy(string appearence, ConsoleColor color, int x, int y, int speed)
+        public Enemy(string appearence, ConsoleColor color, int x, int y, int speed, bool special)
         {
             _appearence = appearence;
             _color = color;
@@ -133,6 +134,7 @@ namespace BuffyInvaders
             _y = y;
             _speed = speed;
             _fireFrequency = FIRE_FREQ;
+            _isSpecial = special;
 
             _hp = 1;
             _score = 1000;
@@ -172,12 +174,27 @@ namespace BuffyInvaders
             }
         }
 
+        public void SpecialMove()
+        {
+            if (_goingLeft)
+            {
+                _x--;
+            }
+            else
+            {
+                _x++;
+            }
+        }
+
         public void Load(ref char[][] buffer)
         {
-            if (_x + _appearence.Length < buffer[0].Length && _y >= 0)
+            if (_x < buffer[0].Length && _y >= 0)
             for (int i = 0; i < _appearence.Length; i++)
             {
-                buffer[_y][_x + i] = _appearence[i];
+                    if (_x + i < buffer[0].Length && _x + i > 0)
+                    {
+                        buffer[_y][_x + i] = _appearence[i];
+                    }
             }
         }
 

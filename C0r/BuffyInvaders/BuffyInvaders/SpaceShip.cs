@@ -125,7 +125,7 @@ namespace BuffyInvaders
         {
             for(int i = 0; i < _appearence.Length; i++)
             {
-                buffer[_y][X + i] = _appearence[i];
+                buffer[_y][_x + i] = _appearence[i];
             }
         }
 
