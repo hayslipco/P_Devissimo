@@ -13,8 +13,8 @@ namespace BuffyInvaders
 
         static void Main(string[] args)
         {
-            int WINDOW_WIDTH = 150;
-            int WINDOW_HEIGHT = 60;
+            int WINDOW_WIDTH = 120;
+            int WINDOW_HEIGHT = 40;
 
             //Mise en place de la musique
             WindowsMediaPlayer player = new WindowsMediaPlayer();
@@ -39,7 +39,7 @@ namespace BuffyInvaders
             switch (mainMenu.SelectedOption)
             {
                 case 0:
-                    player.controls.play();
+                    //player.controls.play();
                     game.Launch();
                     break;
                 case 5:

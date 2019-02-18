@@ -11,6 +11,7 @@ namespace BuffyInvaders
         private const int LIVES = 10;
 
         private string _appearence;
+        private string _blinkAppearence;
         private int _x;
         private int _y;
         private int _lives;
@@ -27,6 +28,7 @@ namespace BuffyInvaders
             _spaceFlight = false;
             _goingLeft = true;
             _stopped = true;
+            _blinkAppearence = _appearence;
         }
 
         public int X
@@ -74,6 +76,7 @@ namespace BuffyInvaders
             set
             {
                 _appearence = value;
+                _blinkAppearence = value;
             }
         }
 
@@ -121,11 +124,29 @@ namespace BuffyInvaders
             }
         }
 
-        public void LoadShip(ref char[][] buffer)
+        public void LoadShip(char[][] buffer)
         {
             for(int i = 0; i < _appearence.Length; i++)
             {
+                if(_x + i < buffer[_y].Length)
                 buffer[_y][_x + i] = _appearence[i];
+            }
+        }
+
+        public void flicker(int flickerRate)
+        {
+            if(flickerRate % 12 == 0)
+            {
+                _appearence = _blinkAppearence;
+            }
+            else if (flickerRate % 6 == 0)
+            {
+                _appearence = "";
+                for(int i = 0; i < _blinkAppearence.Length; i++)
+                {
+                    _appearence += " ";
+                }
+                
             }
         }
 

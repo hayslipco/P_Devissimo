@@ -12,6 +12,9 @@ namespace BuffyInvaders
         private const int FIRE_FREQ = 200;
 
         string _appearence;
+
+        List<String> _deathAnimationStrings;
+
         public ConsoleColor _color;
         int _x;
         int _y;
@@ -19,10 +22,43 @@ namespace BuffyInvaders
         int _hp;
         int _fireFrequency;
         int _score;
+        int _deathAnimationInt;
         private bool _goingLeft = false;
         private bool _isChanging = false;
         private bool _isAlive = true;
         private bool _isSpecial;
+
+
+        /// <summary>
+        /// constructeur avec coordonnées
+        /// </summary>
+        public Enemy(string appearence, ConsoleColor color, int x, int y, int speed, bool special)
+        {
+            _appearence = appearence;
+            _color = color;
+            _x = x;
+            _y = y;
+            _speed = speed;
+            _fireFrequency = FIRE_FREQ;
+            _isSpecial = special;
+
+            _hp = 1;
+            _score = 1000;
+
+            IsGoingLeft = _goingLeft;
+
+            _deathAnimationInt = 0;
+            _deathAnimationStrings = new List<string>()
+            {
+               "|/*\\|",
+               "/>o<-\\",
+               "-->o<--",
+               "\\ - /",
+               "_ * _",
+               "  *  ",
+               " "
+            };
+        }
 
         //get set pour savoir la direction des ennemis
         public bool IsGoingLeft
@@ -124,24 +160,6 @@ namespace BuffyInvaders
         }
 
         /// <summary>
-        /// constructeur avec coordonnées
-        /// </summary>
-        public Enemy(string appearence, ConsoleColor color, int x, int y, int speed, bool special)
-        {
-            _appearence = appearence;
-            _color = color;
-            _x = x;
-            _y = y;
-            _speed = speed;
-            _fireFrequency = FIRE_FREQ;
-            _isSpecial = special;
-
-            _hp = 1;
-            _score = 1000;
-
-            IsGoingLeft = _goingLeft;
-        }
-        /// <summary>
         /// Méthode de déplacement des ennemis
         /// </summary>
         public void Move()
@@ -186,12 +204,12 @@ namespace BuffyInvaders
             }
         }
 
-        public void Load(ref char[][] buffer)
+        public void Load(char[][] buffer)
         {
             if (_x < buffer[0].Length && _y >= 0)
             for (int i = 0; i < _appearence.Length; i++)
             {
-                    if (_x + i < buffer[0].Length && _x + i > 0)
+                    if (_x + i < buffer[0].Length && _x + i >= 0)
                     {
                         buffer[_y][_x + i] = _appearence[i];
                     }
@@ -201,6 +219,15 @@ namespace BuffyInvaders
         public void Shoot(List<Bullet> projectiles)
         {
             projectiles.Add(new Bullet("█", _x + _appearence.Length/2, _y, 1, false));
+        }
+
+        public void Die()
+        {
+            if(_deathAnimationInt < _deathAnimationStrings.Count)
+            {
+                _appearence = _deathAnimationStrings[_deathAnimationInt];
+                _deathAnimationInt++;
+            }
         }
 
     }

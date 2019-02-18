@@ -75,9 +75,9 @@ namespace BuffyInvaders
             }
         }
 
-        public void Load(ref char[][] buffer)
+        public void Load(char[][] buffer)
         {
-            if(_y < buffer.GetLength(0) && _y >= 0)
+            if(_y < buffer.GetLength(0) && _y >= 0 && _x >= 0 && _x < buffer[0].Length)
             for(int i = 0; i < _appearence.Length; i++)
             {
                 buffer[_y][_x + i] = _appearence[i];

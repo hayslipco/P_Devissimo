@@ -25,3 +25,12 @@ F:\5-repertoires-ict-ssd\PROJETS\032-P_Dev\git\P_Devissimo\C0r\BuffyInvaders\Buf
 F:\5-repertoires-ict-ssd\PROJETS\032-P_Dev\git\P_Devissimo\C0r\BuffyInvaders\BuffyInvaders\obj\Debug\BuffyInvaders.csproj.CoreCompileInputs.cache
 F:\5-repertoires-ict-ssd\PROJETS\032-P_Dev\git\P_Devissimo\C0r\BuffyInvaders\BuffyInvaders\obj\Debug\BuffyInvaders.exe
 F:\5-repertoires-ict-ssd\PROJETS\032-P_Dev\git\P_Devissimo\C0r\BuffyInvaders\BuffyInvaders\obj\Debug\BuffyInvaders.pdb
+H:\5-repertoires-ict-ssd\PROJETS\032-P_Dev\git\P_Devissimo\C0r\BuffyInvaders\BuffyInvaders\obj\Debug\Interop.WMPLib.dll
+H:\5-repertoires-ict-ssd\PROJETS\032-P_Dev\git\P_Devissimo\C0r\BuffyInvaders\BuffyInvaders\obj\Debug\BuffyInvaders.csproj.ResolveComReference.cache
+H:\5-repertoires-ict-ssd\PROJETS\032-P_Dev\git\P_Devissimo\C0r\BuffyInvaders\BuffyInvaders\obj\Debug\BuffyInvaders.csproj.CoreCompileInputs.cache
+H:\5-repertoires-ict-ssd\PROJETS\032-P_Dev\git\P_Devissimo\C0r\BuffyInvaders\BuffyInvaders\obj\Debug\BuffyInvaders.exe
+H:\5-repertoires-ict-ssd\PROJETS\032-P_Dev\git\P_Devissimo\C0r\BuffyInvaders\BuffyInvaders\obj\Debug\BuffyInvaders.pdb
+H:\5-repertoires-ict-ssd\PROJETS\032-P_Dev\git\P_Devissimo\C0r\BuffyInvaders\BuffyInvaders\bin\Debug\BuffyInvaders.exe.config
+H:\5-repertoires-ict-ssd\PROJETS\032-P_Dev\git\P_Devissimo\C0r\BuffyInvaders\BuffyInvaders\bin\Debug\BuffyInvaders.exe
+H:\5-repertoires-ict-ssd\PROJETS\032-P_Dev\git\P_Devissimo\C0r\BuffyInvaders\BuffyInvaders\bin\Debug\BuffyInvaders.pdb
+H:\5-repertoires-ict-ssd\PROJETS\032-P_Dev\git\P_Devissimo\C0r\BuffyInvaders\BuffyInvaders\obj\Debug\BuffyInvaders.csprojAssemblyReference.cache
