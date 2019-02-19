@@ -218,7 +218,7 @@ namespace BuffyInvaders
 
         public void Shoot(List<Bullet> projectiles)
         {
-            projectiles.Add(new Bullet("█", _x + _appearence.Length/2, _y, 1, false));
+            projectiles.Add(new Bullet("█", _x + _appearence.Length/2, _y, 1, false, false));
         }
 
         public void Die()

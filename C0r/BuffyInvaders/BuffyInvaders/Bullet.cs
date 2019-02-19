@@ -11,16 +11,18 @@ namespace BuffyInvaders
         private string _appearence;
         private int _x;
         private int _y;
-        private int _length;
+        private int _speed;
         private bool _goingUp;
+        private bool _isShort;
 
-        public Bullet(string appearence, int x, int y, int length, bool goingUp)
+        public Bullet(string appearence, int x, int y, int speed, bool goingUp, bool isShort)
         {
             _appearence = appearence;
             _x = x;
             _y = y;
-            _length = length;
+            _speed = speed;
             _goingUp = goingUp;
+            _isShort = isShort;
         }
 
         public int Y
@@ -49,16 +51,16 @@ namespace BuffyInvaders
             }
         }
 
-        public int Length
+        public int speed
         {
             get
             {
-                return _length;
+                return _speed;
             }
 
             set
             {
-                _length = value;
+                _speed = value;
             }
         }
 
@@ -72,6 +74,19 @@ namespace BuffyInvaders
             set
             {
                 _goingUp = value;
+            }
+        }
+
+        public bool IsShort
+        {
+            get
+            {
+                return _isShort;
+            }
+
+            set
+            {
+                _isShort = value;
             }
         }
 

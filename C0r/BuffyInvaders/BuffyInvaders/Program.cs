@@ -14,7 +14,7 @@ namespace BuffyInvaders
         static void Main(string[] args)
         {
             int WINDOW_WIDTH = 120;
-            int WINDOW_HEIGHT = 40;
+            int WINDOW_HEIGHT = 60;
 
             //Mise en place de la musique
             WindowsMediaPlayer player = new WindowsMediaPlayer();
