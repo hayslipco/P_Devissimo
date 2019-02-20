@@ -23,7 +23,7 @@ namespace BuffyInvaders
         private int playerRespawnTimer = PLAYER_RESPAWN_TIME;
         private int delta;
         private int ticks;
-        private int playerSpeed = 2;
+        private int playerSpeed = 1;
         private int enemySpeed = 2;
         private int backgroundTicker = 2;
         private int graphicsInt;
@@ -65,6 +65,8 @@ namespace BuffyInvaders
 
             //création du vaisseau joueur
             SpaceShip player = new SpaceShip("<I>-T-<I>", 5, windowHeight - 3);
+
+            //liste pour gérer l'animation du vaisseau
             shipAnimation = new List<string>()
             {
                 "<I>-T-<I>",
@@ -91,9 +93,11 @@ namespace BuffyInvaders
                     enemies[l, c] = new Enemy("|-O-|", ConsoleColor.White, c * ("|-O-|".Length + 2), l * 2 + 1, enemySpeed, false);
                 }
 
+            //ennemi spécial initialisé en étant vide, plus tard nous modifierons son apparence
             specialEnemy = new Enemy("", ConsoleColor.Black, -11, 3, 4, true);
             specialEnemy.IsAlive = false;
 
+            //ennemi utilisé lors des vagues inversés, cela empêche la double vérification des extremités 
             invisibleEnemy = new Enemy(" ", ConsoleColor.White, 1, 1, enemySpeed, false);
             invisibleEnemy.IsAlive = false;
 
@@ -106,7 +110,7 @@ namespace BuffyInvaders
                 //démarrage du timer qui va calculer le temps de temporisation nécessaire
                 timer.Restart();
 
-                //augmentation des timer de délai
+                //augmentation des timers de délai
                 shotDelayTimer++;
                 playerRespawnTimer++;
 
@@ -144,31 +148,34 @@ namespace BuffyInvaders
                     }
 
                 //Gros graphismes jolis
+
+                //on augmente les int de 1 au même moment que change la couleur
                 if (ticks % FLICKER_RATE == 0)
                 {
                     graphicsInt++;
                     graphicsLoop++;
                 }
+
+                //graphicsInt permettant le placement des éclairs sur l'axe Y, il doit rester < WindowHeight
                 if (graphicsInt >= windowHeight)
                 {
                     graphicsInt = 0;
                 }
 
+                //graphicsLoop permet de faire le changement entre les éclairs et le débris, on utilise windowHeight ici juste pour ne pas avoir à recréer de variable
                 if (graphicsLoop > windowHeight / 2)
                 {
                     graphicsLoop = 0;
                 }
 
+                //fait que la moitié du temps soit dédié au débris et l'autre moitié au éclairs
                 if (graphicsLoop < windowHeight / 4)
                 {
                     graphics.SideLigthning(buffer);
                 }
-                else if (ticks < windowHeight / 3)
-                {
-                    graphics.SideLightningSlide(buffer, graphicsInt);
-                }
                 else
                 {
+                    //boucle pour faire apparaître un certain nombre d'éclairs à la fois
                     for (int i = 0; i < 8; i++)
                     {
                         graphics.SLightningTwoD(buffer, Math.Abs(graphicsInt - (i * 15)));
@@ -176,6 +183,7 @@ namespace BuffyInvaders
                 }//fin des jolis graphismes
 
                     //contôle du joueur
+                    //on entre dans la condition que lorsqu'une touche est entrée
                     if (Console.KeyAvailable)
                     {
                         ConsoleKeyInfo entry = Console.ReadKey(true);
@@ -183,15 +191,14 @@ namespace BuffyInvaders
                         switch (entry.Key)
                         {
                             case ConsoleKey.RightArrow:
-                                if (!player.SpaceFlight)
+                                if (!player.SpaceFlight) //en mode classique, on déplace le vaisseau de 2 pixels à chaque appui de boutton
                                 {
                                     player.MoveShip(2);
                                 }
-                                else
+                                else //en mode SpaceFlight, on change le bool qui régit la direction du vaisseau
                                 {
                                     player.GoingLeft = false;
                                     player.Stopped = false;
-                                    //player.Appearence = ">I<-T->I<";
                                 }
                                 break;
                             case ConsoleKey.LeftArrow:
@@ -203,19 +210,22 @@ namespace BuffyInvaders
                                 {
                                     player.GoingLeft = true;
                                     player.Stopped = false;
-                                    //player.Appearence = ">I<-T->I<";
                                 }
                                 break;
                             case ConsoleKey.DownArrow:
+                            //on arrete le vaisseau
                                 player.Stopped = true;
                                 break;
                             case ConsoleKey.Spacebar:
+                            //condition pour gérer le délai de tir
                                 if (shotDelayTimer > shotDelay)
                                 {
+                                //conditions pour vérifier le mode de tir sélectionné, on fait varier le nombre, l'apparence et la vitesse en fonction du mode
                                     if (shortShot)
                                     {
                                         projectiles.Add(new Bullet("■", player.X + (player.Appearence.Length / 3), player.Y, 4, true, true));
                                         projectiles.Add(new Bullet("■", player.X + (2 * player.Appearence.Length / 3), player.Y, 4, true, true));
+                                        projectiles.Add(new Bullet("■", player.X + player.Appearence.Length, player.Y, 4, true, true));
                                     }
                                     else if (longShot)
                                     {
@@ -226,41 +236,43 @@ namespace BuffyInvaders
                                         projectiles.Add(new Bullet("█", player.X + player.Appearence.Length / 2, player.Y, 2, true, false));
                                     }
 
+                                    //on met à zéro pour qu'il prenne un certain temps à se remettre > shotDelay, pour que la condition soit de nouveau vraie
                                     shotDelayTimer = 0;
                                 }
                                 break;
                             case ConsoleKey.Q:
+                            //permet de basculer entre le mode de contrôle classique et le mode SpaceFlight
                                 if (!player.SpaceFlight)
                                 {
                                     player.SpaceFlight = true;
-                                    //player.Appearence = ">I<-T->I<";
                                 }
                                 else
                                 {
                                     player.SpaceFlight = false;
-                                    //player.Appearence = "<I>-T-<I>";
                                 }
                                 break;
-                            case ConsoleKey.K:
+                            case ConsoleKey.K: //tue tous les ennemis 
                                 foreach (Enemy e in enemies)
                                 {
                                     e.IsAlive = false;
                                 }
                                 break;
-                            case ConsoleKey.D1:
-                                shotDelay = 15;
+                            //Gestion du mode de tir
+                            //chaque case va modifier les bools pour connaître el mode de tir, de plus, shotDelay est changé car chaque mode de tir a des délais différents
+                            case ConsoleKey.D1: //tir long
+                                shotDelay = 20;
                                 shortShot = false;
                                 longShot = true;
                                 midShot = false;
                                 break;
-                            case ConsoleKey.D2:
+                            case ConsoleKey.D2: //tir moyen/classique
                                 shotDelay = 8;
                                 shortShot = false;
                                 midShot = true;
                                 longShot = false;
                                 break;
-                            case ConsoleKey.D3:
-                                shotDelay = 4;
+                            case ConsoleKey.D3://tir court ==> trois projectiles lancés mais ne dépassent pas le tier du bas de la console
+                                shotDelay = 15;
                                 shortShot = true;
                                 longShot = false;
                                 midShot = false;
@@ -269,43 +281,45 @@ namespace BuffyInvaders
                         }
                     } //fin du contrôle du joueur
 
-                    //gestion du déplacement en mode "SpaceFlight"
+                    //gestion du déplacement en mode "SpaceFlight" lorsque le joueur n'est pas à l'arrêt
                     if (player.SpaceFlight && !player.Stopped)
                     {
+                    //playerSpeed est utilisé pour gérer la vitesse du joueur
                         if (ticks % playerSpeed == 0)
                         {
+                            //s'il va à gauche, on le déplace vers la gauche...
                             if (player.GoingLeft)
                             {
-                                player.MoveShip(-2);
+                                player.MoveShip(-1);
                             }
                             else
                             {
-                                player.MoveShip(2);
+                                player.MoveShip(1);
                             }
                         }
                     }
 
                     //gestion du déplacement des tirs
+                    //boucle passant à travers chaque projectile présent dans le jeu (dans projectiles)
                     for (int i = 0; i < projectiles.Count; i++)
                     {
+                        //tous les projectiles se trouvant dans la fenêtre de la console vont ête déplacés (sinon elles sont supprimées)
                         if (projectiles[i].Y >= 0 && projectiles[i].Y <= windowHeight)
                         {
-                            if (projectiles[i].GoingUp && ticks % projectiles[i].speed == 0)
+                            //condition pour gérer la vitesse des projectiles qui ont chacun une variable speed attribué
+                            if (ticks % projectiles[i].speed == 0)
                             {
                                 projectiles[i].Move();
 
-                                //on retire les balles courtes
+                                //on retire les balles courtes au tiers de la console
                                 if (projectiles[i].IsShort && projectiles[i].Y < 2 * windowHeight / 3)
                                 {
                                     projectiles.Remove(projectiles[i]);
                                 }
                             }
-                            else if (!projectiles[i].GoingUp && ticks % ENEMY_BULLET_SPEED == 0)
-                            {
-                                projectiles[i].Move();
-                            }
                         }
-                        else if (projectiles[i].Y < 1 && projectiles[i].GoingUp || projectiles[i].Y >= windowHeight && !projectiles[i].GoingUp)
+                        //condition pour enlever les projectiles du joueur lorsqu'ils sortent de la fenêtre de la console
+                        else if (projectiles[i].Y < 1 /*&& projectiles[i].GoingUp*/ || projectiles[i].Y >= windowHeight /*&& !projectiles[i].GoingUp*/)
                         {
                             projectiles.Remove(projectiles[i]);
                         }
@@ -318,7 +332,9 @@ namespace BuffyInvaders
                         //si un ennemi est touché
                         foreach (Enemy e in enemies)
                         {
+                            //condition pour empêcher du pointeur null exception s'il arrivait qu'on enlève des projectiles
                             if (projectiles.Count > i)
+                            //si un projectile montant, donc au joueur, entre en collision avec un ennemi
                                 if (projectiles[i].GoingUp && projectiles[i].CollidesWith(e))
                                 {
                                     e.IsAlive = false;
@@ -326,9 +342,9 @@ namespace BuffyInvaders
                                     projectiles.Remove(projectiles[i]);
                                 }
                         }
-                        //si l'ennemi special est touché
+                        //si l'ennemi special est touché, on fait de même
                         if (projectiles.Count > i)
-                            if (projectiles[i].CollidesWith(specialEnemy) && projectiles[i].GoingUp)
+                            if (projectiles[i].GoingUp && projectiles[i].CollidesWith(specialEnemy))
                             {
                                 specialEnemy.IsAlive = false;
                                 specialEnemy.Appearence = " ";
@@ -337,34 +353,43 @@ namespace BuffyInvaders
 
 
                         //si joueur est touché
+                        //condition pour empêcher le pointer null
                         if (i < projectiles.Count)
+                            //condition pour vérifier que le projectile descend, qu'il soit au même niveau y, qu'il soit dans la plage x du vaisseau et que le joueur ne soit plus invincible (après avoi reçu une balle récemment)
                             if (!projectiles[i].GoingUp && projectiles[i].X >= player.X && projectiles[i].X <= player.X + player.Appearence.Length && projectiles[i].Y == player.Y && playerRespawnTimer > PLAYER_RESPAWN_TIME)
                             {
                                 projectiles.Remove(projectiles[i]);
                                 player.Lives--;
+                                //on met à jour le string indiquant le nombre de vies du joueur
                                 livesIndicator = player.Appearence + " × " + player.Lives;
+                                //on met à zéro le timer de respawn pour donner un temps d'invincibilité au joueur
                                 playerRespawnTimer = 0;
-
                             }
                     }
 
                     //apparition d'un ennemi special
+                    //tous les 200 ticks, on fait spawn un ennemi spécial, s'il n'est pas déjà en vie
                     if (ticks % 200 == 0 && !specialEnemy.IsAlive)
                     {
                         specialEnemy.Appearence = "██████";
                         specialEnemy.IsAlive = true;
+                        //on le fait apparaître juste à gauche de la fenêtre de console
                         specialEnemy.X = -specialEnemy.Appearence.Length;
                     }
 
                     //gestion de l'apparition de nouvelles vagues
+                    //lorsqu'il n y a plus d'ennemis vivants dans la vague et que random atteignent un certain nombre (cela permet un petit temps aléatoire de temporisation entre les vagues)
                     if (!waveAlive && random.Next(20) == 10)
                     {
                         waveCount++;
                         player.Lives++;
                         livesIndicator = player.Appearence + " × " + player.Lives;
+                        //booléen pour gérer le déplacement des ennemis pendant leur arrivée dans la fenêtre de console
                         spawning = true;
+                        //string utilisé pour définir l'apparence des ennemis de la prochaine vague
                         newWaveAppearence = "|-O-|";
 
+                        //condition pour que les vagues alternent leur arrivée de la gauche et de la droite
                         if (waveCount % 2 == 0)
                         {
                             waveSpawnX = windowWidth - ((newWaveAppearence.Length + 2) * ENEMY_ROW);
@@ -373,7 +398,9 @@ namespace BuffyInvaders
                             waveSpawnX = 1;
                         }
                         //création de la nouvelle vague d'ennemis
+                        //boucle itérant à travers chaque ligne de la vague
                         for (int l = 0; l < ENEMY_ROW; l++)
+                            //lors des vagues inversées, la vague apparaît au milieu de la fenêtre de console et une ligne sur deux aura sa direction de départ changée
                             if (waveCount % 4 == 0 && l % 2 == 0)
                             {
                                 for (int c = 0; c < ENEMY_ROW; c++)
@@ -396,22 +423,29 @@ namespace BuffyInvaders
                                     enemies[l, c] = new Enemy(newWaveAppearence, ConsoleColor.White, c * (newWaveAppearence.Length + 2) + waveSpawnX, l * 2 - ENEMY_ROW * 2, 3, false);
                                 }
                             }
+
+                        //après avoir rempli le tableau enemies de nouveaux ennemis, on peut considérer la vague comme vivante
                         waveAlive = true;
                     }
 
 
                     //gestion du déplacement des ennemis
-                    //on récupère l'ennemi qui se trouve le plus à gauche ou à droite dépendant du sens du groupe
+                    //on récupère l'ennemi (ou les ennemis) qui se trouve(nt) le plus à gauche ou à droite dépendant du sens du groupe
+
+                    //si le groupe va à gauche
                     if (enemies[0, 0].IsGoingLeft)
                     {
-                        //ajout de l'ennemi à observer pour vérifier que les deux groupes restent dans la fenêtre (que lors de vague inversée)
+                        //ajout de l'ennemi à observer pour vérifier que les deux groupes restent dans la fenêtre (uniquement lors de vague inversée)
                         if (waveCount % 4 == 0)
                         {
+                            //oddXtremeEnemy utilisé lors de vague inversée pour gérer le deuxième groupe d'ennemis
+
                             XtremeEnemy = GetEnemyExtremity(enemies, "left", 2, 0);
                             oddXtremeEnemy = GetEnemyExtremity(enemies, "right", 2, 1);
                         }
                         else
                         {
+                            //lors de vagues non inversée, l'ennemi pour vérifier le deuxième groupe est envoyé à l'ennemi stationnaire invisible pour empêcher une fausse interprétation de la position de l'essein
                             XtremeEnemy = GetEnemyExtremity(enemies, "left", 1, 0);
                             oddXtremeEnemy = invisibleEnemy;
                         }
@@ -426,17 +460,21 @@ namespace BuffyInvaders
                         //on fait changer de direction tous les ennemis
                         if (XtremeEnemy.X == 0 || oddXtremeEnemy.X == windowWidth - oddXtremeEnemy.Appearence.Length - 1)
                         {
-                            for (int i = 0; i < ENEMY_ROW; i++)
-                                for (int j = 0; j < ENEMY_ROW; j++)
-                                {
-                                    enemies[i, j].IsChanging = true;
-                                }
+                            //for (int i = 0; i < ENEMY_ROW; i++)
+                            //    for (int j = 0; j < ENEMY_ROW; j++)
+                            //    {
+                            //        enemies[i, j].IsChanging = true;
+                            //    }
+
+                            foreach(Enemy e in enemies)
+                            {
+                            e.IsChanging = true;
+                            }
                         }
                     }
+                    //si le groupe va à droite
                     else
                     {
-
-
                         if (waveCount % 4 == 0)
                         {
                             XtremeEnemy = GetEnemyExtremity(enemies, "right", 2, 0);
@@ -457,36 +495,47 @@ namespace BuffyInvaders
                         //on fait de même mais dans le cas où le groupe se déplace vers la droite
                         if (XtremeEnemy.X == windowWidth - XtremeEnemy.Appearence.Length - 1 || oddXtremeEnemy.X == 0)
                         {
-                            for (int i = 0; i < ENEMY_ROW; i++)
-                                for (int j = 0; j < ENEMY_ROW; j++)
-                                {
-                                    enemies[i, j].IsChanging = true;
-                                }
+                            //for (int i = 0; i < ENEMY_ROW; i++)
+                            //    for (int j = 0; j < ENEMY_ROW; j++)
+                            //    {
+                            //        enemies[i, j].IsChanging = true;
+                            //    }
+
+                            foreach(Enemy e in enemies)
+                            {
+                                e.IsChanging = true;
+                            }
                         }
                     } //fin déplacement ennemi
 
                     //gestion des tirs ennemis
                     foreach (Enemy e in GetFrontLineEnemies(enemies))
                     {
+                        //si l'ennemi le plus à l'avant de chaque colonne est en vie
                         if (e.IsAlive)
                         {
-                            if (random.Next(e.FireFrequency) == e.FireFrequency - 1)
+                            //on fait tirer l'ennemi de manîère aléatoire en fonction de la propriété FireFrequency
+                            if (random.Next(e.FireFrequency) == 1)
                             {
-                                e.Shoot(projectiles);
+                                e.Shoot(projectiles, ENEMY_BULLET_SPEED);
                             }
                         }
                     }
 
                     //déplacement, vérification et chargement des ennemis
+                    //on considère la vague comme morte jusqu'à ce qu'on trouve un ennemi vivant dans enemies
                     waveAlive = false;
+                    //on considère que la vague n'est pas entrain d'apparaître tant qu'on ne trouve aucun ennemi qui se trouve au dessus de la fenêtre de la console
                     spawning = false;
                     foreach (Enemy e in enemies)
                     {
+                        //condition pour gérer la vitesse des ennemis
                         if (ticks % enemies[0, 0].Speed == 0)
                         {
                             //on déplace les ennemis
                             e.Move();
                         }
+                        //si l'ennemi n'est pas mort (ou n'a pas fini son animation de destruction)
                         if (e.Appearence != " ")
                         {
                             //on les charge dans le buffer
@@ -501,22 +550,25 @@ namespace BuffyInvaders
 
                         if (e.Y < 0)
                         {
+                            //on vérifie que tous les ennemis soient dans la fenêtre de la console
                             spawning = true;
                         }
 
+                        //condition pour lancer l'animation de destruction des ennemis
                         if (!e.IsAlive)
                         {
                             e.Die();
                         }
                     }
 
-                    if (spawning)
-                    {
+                //s'il manque des ennemis, on fait "descendre" toute la vague en les faisant constamment changer de sens (et donc descendre d'un cran)
+                if (spawning)
+                {
                         foreach (Enemy e in enemies)
                         {
                             e.IsChanging = true;
                         }
-                    }
+                }
 
                     //déplacement/chargement de l'enemi spécial
                     if (specialEnemy.IsAlive && ticks % specialEnemy.Speed == 0)
@@ -526,7 +578,7 @@ namespace BuffyInvaders
 
                     specialEnemy.Load(buffer);
 
-                    //si le special quitte la fenêtre
+                    //si le special quitte la fenêtre, on le considère comme mort
                     if (specialEnemy.X > windowWidth)
                     {
                         specialEnemy.IsAlive = false;
@@ -535,15 +587,17 @@ namespace BuffyInvaders
 
 
                     //chargement des éléments dans le buffer
-                    //le vaisseau du joueur
 
-                    //condition pour faire clignoter le vaisseau
+                    //le vaisseau du joueur
+                    //condition pour faire clignoter le vaisseau lorsqu'il a été touché
                     if (playerRespawnTimer < PLAYER_RESPAWN_TIME)
                     {
                         player.flicker(playerRespawnTimer);
                     }
+                    //animation du vaisseau en mode SpaceFLight
                     else if (player.SpaceFlight)
                     {
+                        //on fait varier l'apparence du vaisseau selon le nombre du tick
                         player.Appearence = shipAnimation[ticks % shipAnimation.Count];
                     }
                     else
@@ -558,7 +612,7 @@ namespace BuffyInvaders
                         b.Load(buffer);
                     }
 
-                    //le HUD
+                    //le HUD (nombre de vies du joueur)
                     for (int i = 0; i < livesIndicator.Length; i++)
                     {
                         buffer[0][windowWidth - livesIndicator.Length + i - 1] = livesIndicator[i];
@@ -571,14 +625,17 @@ namespace BuffyInvaders
                     timer.Start();
 
                     //écriture de l'entierté de la fenêtre
+
+                    //on remet le string de la fenêtre entière à vide
                     fullWindow = "";
 
-                    Console.SetCursorPosition(0, 0);
+                    //concatenation de chaque ligne de char de buffer dans fullWindow
                     for (int i = 0; i < buffer.GetLength(0); i++)
                     {
                         fullWindow += new string(buffer[i]);
                     }
 
+                    //conditions pour gérer les changements de couleurs
                     if (ticks % FLICKER_RATE == 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Cyan;
@@ -594,9 +651,10 @@ namespace BuffyInvaders
                         Console.ForegroundColor = ConsoleColor.Red;
                     }
 
-                    Console.Write(fullWindow);
+                //on écrit toute la fenêtre avec un string
+                Console.SetCursorPosition(0, 0);
+                Console.Write(fullWindow);
 
-                    fullWindow = "";
                     //fin de l'écriture des éléments
 
                     //on vérifie qu'aucun ennemi ait atteint le vaisseau ou que le joueur n'aie plus de vies
@@ -605,10 +663,12 @@ namespace BuffyInvaders
                         hasLost = true;
                     }
 
-                    //calcul du temps de tempo en fonction du temps pris à effectuer la boucle
+                    //calcul du temps de tempo en fonction du temps pris à effectuer la boucle update
                     timer.Stop();
-
+                    
+                    //variable du temps à attendre
                     delta = (FPS_TEMPO - (int)timer.ElapsedMilliseconds);
+
                     //on empêche un thread.sleep avec un temps négatif
                     if (delta < 0)
                     {
@@ -631,7 +691,14 @@ namespace BuffyInvaders
 
             }//fin de Launch()
 
-
+        /// <summary>
+        /// Méthode pour trouver un des ennemis vivants se trouvant aux extrémités du groupe
+        /// </summary>
+        /// <param name="enemies"></param>
+        /// <param name="Extremity">extrémité à vérifier (haut, bas, gauche, droite)</param>
+        /// <param name="lineSpecificMultiplier">le multiple des lignes à vérifier</param>
+        /// <param name="lineSpecificIncrementer">un décalage pour seléctionner exactement quels lignes sont à vérifier</param>
+        /// <returns></returns>
         public static Enemy GetEnemyExtremity(Enemy[,] enemies, string Extremity, int lineSpecificMultiplier, int lineSpecificIncrementer)
         {
             Enemy theMostXtreme;

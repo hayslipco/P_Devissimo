@@ -92,8 +92,8 @@ namespace BuffyInvaders
                 for (int s = 0; s < 2; s++)
                 {
 
-                    //if (random.Next(4) == 0)
-                    //{
+                    if (random.Next(4) == 0)
+                    {
                         for (int i = 0; i < _TwoDLightnings[ranIndex].Count; i++)
                         {
                             for (int l = 0; l < _TwoDLightnings[ranIndex][i].Length; l++)
@@ -102,7 +102,7 @@ namespace BuffyInvaders
                             }
 
                         }
-                    //}
+                    }
                 }
             }
         }

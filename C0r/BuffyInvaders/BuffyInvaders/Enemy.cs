@@ -221,6 +221,11 @@ namespace BuffyInvaders
             projectiles.Add(new Bullet("█", _x + _appearence.Length/2, _y, 1, false, false));
         }
 
+        public void Shoot(List<Bullet> projectiles, int bulletSpeed)
+        {
+            projectiles.Add(new Bullet("█", _x + _appearence.Length / 2, _y, bulletSpeed, false, false));
+        }
+
         public void Die()
         {
             if(_deathAnimationInt < _deathAnimationStrings.Count)
