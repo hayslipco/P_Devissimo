@@ -26,6 +26,10 @@ namespace BuffyInvaders
             {
                 return _optionSelected;
             }
+            set
+            {
+                _optionSelected = value;
+            }
         }
 
         public Menu(string selector, ConsoleColor cursorColor, ConsoleColor optionsColor, List<string> options)
@@ -67,6 +71,7 @@ namespace BuffyInvaders
         {
             DrawMenu();
             DrawCursor();
+            _stay = true;
             while (_stay)
             {
                 if (Console.KeyAvailable)
@@ -111,6 +116,35 @@ namespace BuffyInvaders
                 }//fin if KeyAvailable
 
             } //fin select Mode
+        }
+
+        /// <summary>
+        /// Affichage du menu paramètre
+        /// </summary>
+        public void Parameters()
+        {
+            Console.Clear();
+            Console.SetCursorPosition(_leftPadding, 10);
+            Console.WriteLine("Paramètres");
+            EnterMenu();
+            DrawCursor();      
+            
+        }
+
+        /// <summary>
+        /// Affiche le mode d'emploi du jeu
+        /// </summary>
+        public void ModeDemploi()
+        {
+
+        }
+
+        /// <summary>
+        /// Affiche des infos concernant le jeu
+        /// </summary>
+        public void Apropos()
+        {
+
         }
     }
 }
