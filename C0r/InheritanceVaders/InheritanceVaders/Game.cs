@@ -29,8 +29,10 @@ namespace InheritanceVaders
         private string livesIndicator;
         private string newWaveAppearence;
         private string fullWindow;
+        private string stateIndicator;
         private List<string> playerWithShield;
         private List<string> normalPlayer;
+        private List<string> shieldIndicator;
 
         private bool hasLost = false;
         private bool backgroundUp = true;
@@ -44,7 +46,7 @@ namespace InheritanceVaders
         private Enemy oddXtremeEnemy;
         //ennemi stationaire invisible utilisé pour garder une condition à false (lors de vagues non-inversées)
         private Enemy invisibleEnemy;
-        //private Graphics graphics = new Graphics();
+        private Graphics graphics = new Graphics();
         private Random random = new Random();
 
         private char[][] buffer;
@@ -53,8 +55,7 @@ namespace InheritanceVaders
         private Enemy specialEnemy;
         private List<Bullet> projectiles = new List<Bullet>();
         private List<Enemy> enemies;
-        private Stopwatch timer = new Stopwatch();
-
+        private Stopwatch timer = new Stopwatch(); 
 
         public void Launch()
         {
@@ -70,7 +71,6 @@ namespace InheritanceVaders
            SpaceShip player = new SpaceShip(5, windowHeight - 3, playerSpeed, new List<string> { "/\\     /\\", "<I>-T-<I>" });
 
             normalPlayer = new List<string> { "/\\     /\\", "<I>-T-<I>" };
-            playerWithShield = new List<string> { "▀▀▀▀▀▀▀▀▀", "<I>-T-<I>" };
 
             //initialisation du buffer dans lequel chaque caractère sera chargé avant de tout Write en un coup
             buffer = new char[windowHeight - 1][];
@@ -79,8 +79,18 @@ namespace InheritanceVaders
                 buffer[i] = new char[windowWidth];
             }
 
-            //création du string indiquant le nombre de vies
+            //création des strings indiquants le nombre de vies et l'état du bouclier
             livesIndicator = "♥ × " + player.Lives;
+
+            shieldIndicator = new List<string>();
+            
+            for(int i = 0; i < 15; i++)
+            {
+                string shieldState = "";
+                shieldState = shieldState.PadLeft(i, '█');
+                shieldState = shieldState.PadRight(15 - i, '▒');
+                shieldIndicator.Add(shieldState);
+            }
 
             //création de la vague d'ennemis, de l'ennemi spécial et de l'ennemi invisible
             enemySwarm = new Enemy[ENEMY_ROW, ENEMY_ROW];
@@ -115,6 +125,7 @@ namespace InheritanceVaders
                 playerRespawnTimer++;
                 shieldDelayTimer++;
 
+
                 //gestion du timer en charge de l'arrière plan galactique
                 if (backgroundUp)
                 {
@@ -147,6 +158,36 @@ namespace InheritanceVaders
                             buffer[i][j] = ' ';
                         }
                     }
+
+                //Gros graphismes jolis
+                if (ticks % FLICKER_RATE == 0)
+                {
+                    graphicsInt++;
+                    graphicsLoop++;
+                }
+                if (graphicsInt >= windowHeight)
+                {
+                    graphicsInt = 0;
+                }
+
+                if (graphicsLoop > windowHeight / 2)
+                {
+                    graphicsLoop = 0;
+                }
+
+                if (graphicsLoop < windowHeight / 4)
+                {
+                    graphics.SideLigthning(buffer);
+                }
+                else
+                {
+                    for (int i = 0; i < 8; i++)
+                    {
+                        graphics.SLightningTwoD(buffer, Math.Abs(graphicsInt - (i * 15)));
+                    }
+                }//fin des jolis graphismes
+
+
 
                 //contôle du joueur
                 //on entre dans la condition que lorsqu'une touche est entrée
@@ -183,9 +224,11 @@ namespace InheritanceVaders
                             player.Stopped = true;
                             break;
                         case ConsoleKey.E:
-                            if(shieldDelayTimer > shieldDelay)
-                            player.ShieldUp = true;
-                            shieldDelayTimer = 0;
+                            if (shieldDelayTimer > shieldDelay)
+                            {
+                                player.ShieldUp = true;
+                                shieldDelayTimer = 0;
+                            }
                             break;
                         case ConsoleKey.Q:
                             //permet de basculer entre le mode de contrôle classique et le mode SpaceFlight
@@ -225,7 +268,7 @@ namespace InheritanceVaders
                         //Gestion du mode de tir
                         //chaque case va modifier les bools pour connaître el mode de tir, de plus, shotDelay est changé car chaque mode de tir a des délais différents
                         case ConsoleKey.D1: //tir long
-                            shotDelay = 25;
+                            shotDelay = 30;
                             shortShot = false;
                             longShot = true;
                             midShot = false;
@@ -560,12 +603,17 @@ namespace InheritanceVaders
                     }
                     else
                     {
-                        player.Appearence = playerWithShield;
-                        player.AnimateLine(new List<string>{ "   ▀█▀   ", "  ▀▀█▀▀  ", " ▀▀▀▀▀▀▀ ", "▀▀▀▀▀▀▀▀▀",
-                            "▀▀▀▀▀▀▀▀▀", "█▀▀▀▀▀▀▀█", "█▀▀▀ ▀▀▀█", "█▀▀   ▀▀█", "█▀     ▀█", "█       █",
-                        "█▄     ▄█", "█▄▄   ▄▄█", "▄▄▄▄ ▄▄▄▄", "▄▄▄▄▄▄▄▄▄", " ▄▄▄▄▄▄▄ ", "  ▄▄█▄▄  ", "   ▄█▄   ", "    █    "}, 3, 0);
+                        player.AnimateShield();
                     }
 
+                    stateIndicator = shieldIndicator[shieldDelayTimer % shieldIndicator.Count] + livesIndicator;
+
+                }
+                else
+                {
+
+                    player.Appearence = normalPlayer;
+                    stateIndicator = livesIndicator;
                 }
 
                 //mise à jour de la liste d'éléments
@@ -587,10 +635,10 @@ namespace InheritanceVaders
                     e.Load(buffer);
                 }
 
-                //le HUD (nombre de vies du joueur)
-                for (int i = 0; i < livesIndicator.Length; i++)
+                //le HUD (nombre de vies du joueur et barre d'état du bouclier)
+                for (int i = 0; i < stateIndicator.Length; i++)
                 {
-                    buffer[0][windowWidth - livesIndicator.Length + i - 1] = livesIndicator[i];
+                    buffer[0][windowWidth - stateIndicator.Length + i - 1] = stateIndicator[i];
                 }
 
                 //écriture de l'entierté de la fenêtre
@@ -603,6 +651,23 @@ namespace InheritanceVaders
                 {
                     fullWindow += new string(buffer[i]);
                 }
+
+                //Changements de couleur
+                if (ticks % FLICKER_RATE == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                }
+
+                if (ticks % (FLICKER_RATE * 2) == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                }
+
+                if (ticks % (FLICKER_RATE * 3) == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                }
+
 
                 Console.SetCursorPosition(0, 0);
                 Console.Write(fullWindow);

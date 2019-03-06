@@ -14,7 +14,8 @@ namespace InheritanceVaders
         private bool _goingLeft;
         private bool _stopped;
         private bool _shieldUp;
-        
+        private List<string> _shieldAnimation;
+
         public SpaceShip(int x, int y, int speed, List<string> appearence) : base(x, y, speed, appearence)
         {
             _lives = PLAYER_INIT_LIVES;
@@ -22,6 +23,10 @@ namespace InheritanceVaders
             _goingLeft = true;
             _stopped = true;
             _shieldUp = false;
+
+            _shieldAnimation = new List<string>{ "   ▀█▀   ", "  ▀▀█▀▀  ", " ▀▀▀▀▀▀▀ ", "▀▀▀▀▀▀▀▀▀",
+                            "▀▀▀▀▀▀▀▀▀", "█▀▀▀▀▀▀▀█", "█▀▀▀ ▀▀▀█", "█▀▀   ▀▀█", "█▀     ▀█", "█       █",
+                        "█▄     ▄█", "█▄▄   ▄▄█", "▄▄▄▄ ▄▄▄▄", "▄▄▄▄▄▄▄▄▄", " ▄▄▄▄▄▄▄ ", "  ▄▄█▄▄  ", "   ▄█▄   ", "    █    "};
         }
 
         public int Lives
@@ -86,11 +91,18 @@ namespace InheritanceVaders
 
         public void MoveShip(int pixels)
         {
-            if (_x + pixels >= 0 && _x + pixels + _maxLength < Console.WindowWidth)
+            if (_x + pixels >= 0 + graphicsMargin && _x + pixels + _maxLength + graphicsMargin < Console.WindowWidth)
             {
                 _x += pixels;
             }
         }
+
+        public void AnimateShield()
+        {
+            AnimateLine(_shieldAnimation, 3, 0);
+        }
+
+
 
         //public void flicker(int flickerRate)
         //{

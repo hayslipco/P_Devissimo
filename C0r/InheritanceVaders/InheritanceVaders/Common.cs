@@ -14,9 +14,11 @@ namespace InheritanceVaders
         protected const int ENEMY_FIRE_FREQ = 50;
         protected const int SHOT_DELAY = 10;
         protected const int BACKGROUND_THRESHOLD = 400;
-        protected const int FLICKER_RATE = 10;
+        protected const int FLICKER_RATE = 20;
         protected const int PLAYER_RESPAWN_TIME = 100;
         protected const int PLAYER_INIT_LIVES = 10;
+
+        protected int graphicsMargin = 0;
 
         protected int windowWidth = Console.WindowWidth;
         protected int windowHeight = Console.WindowHeight;
@@ -91,7 +93,31 @@ namespace InheritanceVaders
 
             return frontLine;
         }
-        
+
+        protected int GetMaxLength(List<string> strings)
+        {
+            int maxLength = 0;
+
+            foreach (string s in strings)
+            {
+                if (s.Length > maxLength)
+                {
+                    maxLength = s.Length;
+                }
+            }
+
+            return maxLength;
+        }
+
+        protected int GetMostLength()
+        {
+            int mostLength;
+            Graphics graphics = new Graphics();
+
+            mostLength = graphics.GetMostLength();
+            return mostLength;
+        }
+
 
 
     }

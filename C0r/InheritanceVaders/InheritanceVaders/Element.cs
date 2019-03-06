@@ -118,21 +118,6 @@ namespace InheritanceVaders
             }
         }
 
-        private int GetMaxLength(List<string> strings)
-        {
-            int maxLength = 0;
-
-            foreach (string s in strings)
-            {
-                if(s.Length > maxLength)
-                {
-                    maxLength = s.Length;
-                }
-            }
-
-            return maxLength;
-        }
-
         public void Flicker(int flickerRate)
         {
             _flickeringInt++;
