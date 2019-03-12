@@ -13,13 +13,13 @@ namespace InheritanceVaders
 
         private int shotDelayTimer = 0;
         private int shotDelay = 15;
-        private int shieldDelayTimer = 250;
-        private int shieldDelay = 250;
+        private int shieldDelayTimer = 350;
+        private int shieldDelay = 350;
         private int playerRespawnTimer = PLAYER_RESPAWN_TIME;
         private int delta;
         private int ticks;
         private int playerSpeed = 1;
-        private int enemySpeed = 2;
+        private int enemySpeed = 1;
         private int backgroundTicker = 2;
         private int graphicsInt;
         private int graphicsLoop;
@@ -319,7 +319,7 @@ namespace InheritanceVaders
                     //si l'ennemi le plus à l'avant de chaque colonne est en vie
                     if (e.IsAlive)
                     {
-                        //on fait tirer l'ennemi de manîère aléatoire en fonction de la propriété FireFrequency
+                        //on fait tirer l'ennemi de manière aléatoire en fonction de la propriété FireFrequency
                         if (random.Next(e.FireFrequency) == 1)
                         {
                             e.Shoot(projectiles);
@@ -391,7 +391,6 @@ namespace InheritanceVaders
                             else
                             {
                                 projectiles[i].GoingUp = true;
-                                shieldDelayTimer -= 20;
                             }
                         }
                 } //fin gestion des collisions
@@ -587,9 +586,10 @@ namespace InheritanceVaders
                 {
                     player.Flicker(5);
                 }
+                //si le vaisseau ne fait qu'une ligne, c'est qu'il a terminé son clignotement en étant invisible, cette condition remet player.appearence au bon 'sprite'
                 else if (player.Appearence.Count <= 1)
                 {
-                    player.Flicker(1);
+                     player.Flicker(1);
                 }
 
                 if (player.ShieldUp)
@@ -597,8 +597,8 @@ namespace InheritanceVaders
 
                     if(shieldDelayTimer > shieldDelay/3)
                     {
-
-                        player.Appearence = normalPlayer;
+                        player.Appearence = new List<string>(normalPlayer);   
+                        player.InitialAppearence = new List<string>(normalPlayer);
                         player.ShieldUp = false;
                     }
                     else
@@ -606,13 +606,11 @@ namespace InheritanceVaders
                         player.AnimateShield();
                     }
 
-                    stateIndicator = shieldIndicator[shieldDelayTimer % shieldIndicator.Count] + livesIndicator;
+                    stateIndicator = shieldIndicator[0] + livesIndicator;
 
                 }
                 else
                 {
-
-                    player.Appearence = normalPlayer;
                     stateIndicator = livesIndicator;
                 }
 

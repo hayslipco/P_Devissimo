@@ -8,7 +8,7 @@ namespace InheritanceVaders
 {
     public class Common
     {
-        protected const int ENEMY_ROW = 7;
+        protected const int ENEMY_ROW = 10;
         protected const int FPS_TEMPO = 20;
         protected const int ENEMY_BULLET_SPEED = 3;
         protected const int ENEMY_FIRE_FREQ = 50;
@@ -87,8 +87,9 @@ namespace InheritanceVaders
                         lowest = enemySwarm[l, c];
                     }
                 }
-                frontLine.Add(lowest);
 
+                frontLine.Add(lowest);
+                lowest.Appearence = new List<string> { "loww" };
             }
 
             return frontLine;
