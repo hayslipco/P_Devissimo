@@ -8,7 +8,7 @@ namespace InheritanceVaders
 {
     public class Common
     {
-        protected const int ENEMY_ROW = 10;
+        protected const int ENEMY_ROW = 7;
         protected const int FPS_TEMPO = 20;
         protected const int ENEMY_BULLET_SPEED = 3;
         protected const int ENEMY_FIRE_FREQ = 50;
@@ -79,7 +79,7 @@ namespace InheritanceVaders
             List<Enemy> frontLine = new List<Enemy>();
             for (int c = 0; c < enemySwarm.GetLength(1); c++)
             {
-                lowest = enemySwarm[0, 0];
+                lowest = enemySwarm[0, c];
                 for (int l = 0; l < enemySwarm.GetLength(0); l++)
                 {
                     if (enemySwarm[l, c].Y > lowest.Y && enemySwarm[l, c].IsAlive)
@@ -89,7 +89,6 @@ namespace InheritanceVaders
                 }
 
                 frontLine.Add(lowest);
-                lowest.Appearence = new List<string> { "loww" };
             }
 
             return frontLine;

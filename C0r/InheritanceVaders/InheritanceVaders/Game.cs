@@ -108,9 +108,8 @@ namespace InheritanceVaders
             enemies.Add(specialEnemy);
 
             //ennemi utilisé lors des vagues inversés, cela empêche la double vérification des extremités 
-            invisibleEnemy = new Enemy(1, 1, enemySpeed, new List<string> { "" }, false);
+            invisibleEnemy = new Enemy(2000, 1, enemySpeed, new List<string> { "" }, false);
             invisibleEnemy.IsAlive = false;
-            enemies.Add(invisibleEnemy);
 
             waveCount = 1;
 
@@ -465,7 +464,7 @@ namespace InheritanceVaders
                     }
                     else
                     {
-                        //lors de vagues non inversée, l'ennemi pour vérifier le deuxième groupe est envoyé à l'ennemi stationnaire invisible pour empêcher une fausse interprétation de la position de l'essein
+                        //lors de vagues non inversée, l'ennemi pour vérifier le deuxième groupe est envoyé à l'ennemi stationnaire invisible pour empêcher une fausse interprétation de la position de l'essaim
                         XtremeEnemy = GetEnemyExtremity(enemySwarm, "left", 1, 0);
                         oddXtremeEnemy = invisibleEnemy;
                     }
@@ -480,6 +479,12 @@ namespace InheritanceVaders
                     //on fait changer de direction tous les ennemis
                     if (XtremeEnemy.X == 0 || oddXtremeEnemy.X == windowWidth - oddXtremeEnemy.MaxLength - 1)
                     {
+                        if(oddXtremeEnemy.X == windowWidth - oddXtremeEnemy.MaxLength - 1)
+                        {
+                            Debug.Write("oddxtreeeeemeeeeeeeeeeeeeeeettttttttttyyyyyyyyyyyyyyyyyyyyyyyy");
+                            Debug.Write(oddXtremeEnemy.X + "||");
+                            Debug.Write(windowWidth);
+                        }
 
                         foreach (Enemy e in enemySwarm)
                         {
@@ -683,8 +688,8 @@ namespace InheritanceVaders
                     delta = 0;
                 }
 
-                if (timer.ElapsedMilliseconds > 9)
-                    Debug.Write(" lowTime: " + timer.ElapsedMilliseconds + " | ");
+                //if (timer.ElapsedMilliseconds > 9)
+                    //Debug.Write(" lowTime: " + timer.ElapsedMilliseconds + " | ");
 
                 //on temporise le thread un moment
                 Thread.Sleep(delta);
