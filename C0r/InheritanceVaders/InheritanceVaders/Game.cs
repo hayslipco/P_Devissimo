@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace InheritanceVaders
 {
     class Game : Common
     {
-
         private int shotDelayTimer = 0;
         private int shotDelay = 15;
         private int shieldDelayTimer = 350;
@@ -25,6 +26,7 @@ namespace InheritanceVaders
         private int graphicsLoop;
         private int waveCount;
         private int waveSpawnX;
+        private int score;
 
         private string livesIndicator;
         private string newWaveAppearence;
@@ -111,7 +113,16 @@ namespace InheritanceVaders
             invisibleEnemy = new Enemy(2000, 1, enemySpeed, new List<string> { "" }, false);
             invisibleEnemy.IsAlive = false;
 
+            //on charge les highscores du fichier xml
+            LoadHighScores();
+
+            foreach (HighScore h in highScores)
+            {
+                Debug.Write("[" + h.Score + " | " + h.Name + "]");
+            }
+
             waveCount = 1;
+            score = 0;
 
             //boucle qui met à jour le jeu
             do
@@ -244,6 +255,15 @@ namespace InheritanceVaders
                             //condition pour gérer le délai de tir
                             if (shotDelayTimer > shotDelay)
                             {
+                                //chaque tir coûte un certain nombre de points
+                                if (hardMode)
+                                {
+                                    score -= SHOT_COST;
+                                }
+                                else if(score > 0)
+                                {
+                                    score -= SHOT_COST;
+                                }
                                 //conditions pour vérifier le mode de tir sélectionné, on fait varier le nombre, l'apparence et la vitesse en fonction du mode
                                 if (shortShot)
                                 {
@@ -367,8 +387,9 @@ namespace InheritanceVaders
                             if (projectiles[i].GoingUp && projectiles[i].CollidesWith(e) && e.IsAlive)
                             {
                                 e.IsAlive = false;
-                                e.Appearence.Clear();
-                                e.Appearence.Add(" ");
+                                score += e.Score;
+                                //e.Appearence.Clear();
+                                //e.Appearence.Add(" ");
                                 projectiles.Remove(projectiles[i]);
                             }
                     }
@@ -479,13 +500,6 @@ namespace InheritanceVaders
                     //on fait changer de direction tous les ennemis
                     if (XtremeEnemy.X == 0 || oddXtremeEnemy.X == windowWidth - oddXtremeEnemy.MaxLength - 1)
                     {
-                        if(oddXtremeEnemy.X == windowWidth - oddXtremeEnemy.MaxLength - 1)
-                        {
-                            Debug.Write("oddxtreeeeemeeeeeeeeeeeeeeeettttttttttyyyyyyyyyyyyyyyyyyyyyyyy");
-                            Debug.Write(oddXtremeEnemy.X + "||");
-                            Debug.Write(windowWidth);
-                        }
-
                         foreach (Enemy e in enemySwarm)
                         {
                             e.IsChanging = true;
@@ -574,6 +588,12 @@ namespace InheritanceVaders
                     {
                         e.IsChanging = true;
                     }
+
+                    //si un ennemi atteint le niveau du joueur, le jeu s'arrête
+                    if(e.Y > player.Y)
+                    {
+                        player.Dead = true;
+                    }
                 }
                 //fin déplacement ennemi
 
@@ -611,12 +631,12 @@ namespace InheritanceVaders
                         player.AnimateShield();
                     }
 
-                    stateIndicator = shieldIndicator[0] + livesIndicator;
+                    stateIndicator = "score: " + score + "  " + livesIndicator;
 
                 }
                 else
                 {
-                    stateIndicator = livesIndicator;
+                    stateIndicator = "score: " + score + "  " + livesIndicator;
                 }
 
                 //mise à jour de la liste d'éléments
@@ -638,7 +658,7 @@ namespace InheritanceVaders
                     e.Load(buffer);
                 }
 
-                //le HUD (nombre de vies du joueur et barre d'état du bouclier)
+                //le HUD (nombre de vies du joueur et score)
                 for (int i = 0; i < stateIndicator.Length; i++)
                 {
                     buffer[0][windowWidth - stateIndicator.Length + i - 1] = stateIndicator[i];
@@ -675,7 +695,6 @@ namespace InheritanceVaders
                 Console.SetCursorPosition(0, 0);
                 Console.Write(fullWindow);
 
-
                 //calcul du temps de tempo en fonction du temps pris à effectuer la boucle update
                 timer.Stop();
 
@@ -689,13 +708,56 @@ namespace InheritanceVaders
                 }
 
                 //if (timer.ElapsedMilliseconds > 9)
-                    //Debug.Write(" lowTime: " + timer.ElapsedMilliseconds + " | ");
+                //    Debug.Write(" lowTime: " + timer.ElapsedMilliseconds + " | ");
 
                 //on temporise le thread un moment
                 Thread.Sleep(delta);
                 ticks++;
 
-            } while (!hasLost);
+            } while (!player.Dead);
+
+            Thread.Sleep(2000);
+
+            Console.Clear();
+            Console.SetCursorPosition((windowWidth - 60) / 2, windowHeight / 2);
+
+            ShowTopScores();
+
+            //Console.WriteLine("RIP u, u are envahised (and nul)");
+            //Console.WriteLine("big suem");
+
+            Thread.Sleep(3500);
+
+            Console.SetCursorPosition(0, windowHeight / 2);
+
+            //si on a établit un nouveau record
+            if (score > highScores[highScores.Count - 1].Score || highScores.Count < 9)
+            {
+                Console.WriteLine("Heureusement tout n'est pas perdu! Vous avez quand même réussi à placer un highscore des familles gg! Veuillez rentrer votre nom pour être enregistré dans les annales");
+                Console.WriteLine("Vous vous appelez: ");
+                var playerName = Console.ReadLine();
+
+                //TODO: remplacer ceci par dialogue pour demander le nom
+                var hScore = new HighScore(score, playerName);
+
+                //si la liste des highscores est "pleine"
+                if (highScores.Count > 9)
+                {
+                    //on remplace le dernier score de la liste
+                    highScores[9] = hScore;
+                }
+                else
+                {
+                    highScores.Add(hScore);
+                }
+
+                //on trie la liste afin de mettre le plus haut score en haut
+                highScores.Sort((x, y) => y.Score.CompareTo(x.Score));
+            }
+
+
+
+            SaveHighScores();
         }
     }
 }

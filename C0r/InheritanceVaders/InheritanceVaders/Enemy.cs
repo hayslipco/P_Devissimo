@@ -35,6 +35,8 @@ namespace InheritanceVaders
 
             if (_isSpecial)
             {
+                _score = 10000;
+
                 _deathAnimationStrings = new List<List<string>>()
                 {
                    new List<string>{ "  ███  ", "███ ███" },
@@ -121,6 +123,19 @@ namespace InheritanceVaders
             set
             {
                 _fireFrequency = value;
+            }
+        }
+
+        //get set du score de l'ennemi
+        public int Score
+        {
+            get
+            {
+                return _score;
+            }
+            set
+            {
+                _score = value;
             }
         }
 

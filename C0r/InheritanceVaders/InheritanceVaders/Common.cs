@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace InheritanceVaders
 {
@@ -16,7 +19,13 @@ namespace InheritanceVaders
         protected const int BACKGROUND_THRESHOLD = 400;
         protected const int FLICKER_RATE = 20;
         protected const int PLAYER_RESPAWN_TIME = 100;
-        protected const int PLAYER_INIT_LIVES = 10;
+        protected const int PLAYER_INIT_LIVES = 0;
+        protected const int SHOT_COST = 400;
+        protected const int SHIELD_DELAY = 350;
+
+        protected bool hardMode = true;
+
+        public List<HighScore> highScores = new List<HighScore>();
 
         protected int graphicsMargin = 0;
 
@@ -118,7 +127,38 @@ namespace InheritanceVaders
             return mostLength;
         }
 
+        protected void LoadHighScores()
+        {
+            var serializer = new XmlSerializer(highScores.GetType(), "InheritanceVaders");
+            object obj;
+            using (var reader = new StreamReader("highscores.xml"))
+            {
+                obj = serializer.Deserialize(reader.BaseStream);
+            }
 
+            highScores = (List<HighScore>)obj;
+        }
+
+        protected void SaveHighScores()
+        {
+            var serializer = new XmlSerializer(highScores.GetType(), "InheritanceVaders");
+            using (var writer = new StreamWriter("highscores.xml", false))
+            {
+                serializer.Serialize(writer.BaseStream, highScores);
+            }
+        }
+
+        public void ShowTopScores()
+        {
+            LoadHighScores();
+
+            foreach (HighScore h in highScores)
+            {
+                Console.CursorLeft = windowWidth / 3;
+                Console.WriteLine("[{0}/{1}/{2}] : {3} --- {4} points\n", h.date.Day, h.date.Month, h.date.Year, h.Name, h.Score);
+                Thread.Sleep(100);
+            }
+        }
 
     }
 }

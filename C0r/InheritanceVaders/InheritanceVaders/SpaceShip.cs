@@ -14,6 +14,7 @@ namespace InheritanceVaders
         private bool _goingLeft;
         private bool _stopped;
         private bool _shieldUp;
+        private bool _dead;
         private List<string> _shieldAnimation;
 
         public SpaceShip(int x, int y, int speed, List<string> appearence) : base(x, y, speed, appearence)
@@ -23,6 +24,7 @@ namespace InheritanceVaders
             _goingLeft = true;
             _stopped = true;
             _shieldUp = false;
+            _dead = false;
 
             _shieldAnimation = new List<string>{ "   ▀█▀   ", "  ▀▀█▀▀  ", " ▀▀▀▀▀▀▀ ", "▀▀▀▀▀▀▀▀▀",
                             "▀▀▀▀▀▀▀▀▀", "█▀▀▀▀▀▀▀█", "█▀▀▀ ▀▀▀█", "█▀▀   ▀▀█", "█▀     ▀█", "█       █",
@@ -38,6 +40,10 @@ namespace InheritanceVaders
             set
             {
                 _lives = value;
+                if(_lives < 0)
+                {
+                    _dead = true;
+                }
             }
         }
 
@@ -50,6 +56,18 @@ namespace InheritanceVaders
             set
             {
                 _spaceFlight = value;
+            }
+        }
+
+        public bool Dead
+        {
+            get
+            {
+                return _dead;
+            }
+            set
+            {
+                _dead = value;
             }
         }
 

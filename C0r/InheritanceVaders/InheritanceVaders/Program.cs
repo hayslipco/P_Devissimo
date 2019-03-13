@@ -10,7 +10,6 @@ namespace InheritanceVaders
     {
         static void Main(string[] args)
         {
-
             int WINDOW_WIDTH = 140;
             int WINDOW_HEIGHT = 60;
 
@@ -20,7 +19,6 @@ namespace InheritanceVaders
             Game game = new Game();
 
             game.Launch();
-
         }
     }
 }
