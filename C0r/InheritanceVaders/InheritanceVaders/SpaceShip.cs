@@ -29,6 +29,18 @@ namespace InheritanceVaders
             _shieldAnimation = new List<string>{ "   ▀█▀   ", "  ▀▀█▀▀  ", " ▀▀▀▀▀▀▀ ", "▀▀▀▀▀▀▀▀▀",
                             "▀▀▀▀▀▀▀▀▀", "█▀▀▀▀▀▀▀█", "█▀▀▀ ▀▀▀█", "█▀▀   ▀▀█", "█▀     ▀█", "█       █",
                         "█▄     ▄█", "█▄▄   ▄▄█", "▄▄▄▄ ▄▄▄▄", "▄▄▄▄▄▄▄▄▄", " ▄▄▄▄▄▄▄ ", "  ▄▄█▄▄  ", "   ▄█▄   ", "    █    "};
+
+            _deathAnimationStrings = new List<List<string>>
+            {
+                new List<string>{"*\\     /*", "<I>-T-<I>" },
+                new List<string>{"**|   |***", "<T>-T-<T>"},
+                new List<string>{"*        *", "<x>-|-<x>"},
+                new List<string>{"*            *", "<x> - | - <x>"},
+                new List<string>{"*               *", "<x >  -  |  -  <x >"},
+                new List<string>{"*                  *", "<  >  -   |   -    <x"},
+                new List<string>{"*                     *", "<     >                 x"},
+                new List<string>{"*", "<                                  x"}
+            };
         }
 
         public int Lives

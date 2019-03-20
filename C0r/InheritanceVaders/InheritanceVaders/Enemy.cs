@@ -9,12 +9,11 @@ namespace InheritanceVaders
     public class Enemy : Element
     {
 
-        List<List<string>> _deathAnimationStrings;
+        
 
         int _hp;
         int _fireFrequency;
         int _score;
-        int _deathAnimationInt;
         private bool _goingLeft = false;
         private bool _isChanging = false;
         private bool _isAlive = true;
@@ -30,8 +29,6 @@ namespace InheritanceVaders
 
 
             IsGoingLeft = _goingLeft;
-
-            _deathAnimationInt = 0;
 
             if (_isSpecial)
             {
@@ -190,15 +187,6 @@ namespace InheritanceVaders
         public void Shoot(List<Bullet> projectiles)
         {
             projectiles.Add(new Bullet(new List<string> { "█" }, _x + _maxLength / 2, _y, ENEMY_BULLET_SPEED, false, false));
-        }
-
-        public void Die()
-        {
-            if (_deathAnimationInt < _deathAnimationStrings.Count)
-            {
-                _appearence = _deathAnimationStrings[_deathAnimationInt];
-                _deathAnimationInt++;
-            }
         }
     }
 }
