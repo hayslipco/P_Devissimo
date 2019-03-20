@@ -14,6 +14,8 @@ namespace InheritanceVaders
         protected int _maxLength;
         protected int _flickeringInt;
         protected int _animationInt;
+        protected int _deathAnimationInt;
+        protected List<List<string>> _deathAnimationStrings;
         protected List<string> _initialAppearence;
         protected List<string> _appearence;
 
@@ -27,6 +29,7 @@ namespace InheritanceVaders
             _maxLength = GetMaxLength(appearence);
             _flickeringInt = 0;
             _animationInt = 0;
+            _deathAnimationInt = 0;
         }
 
         //get set de la position x
@@ -120,6 +123,7 @@ namespace InheritanceVaders
 
         public void Flicker(int flickerRate)
         {
+            //int qui va gérer les intervalles de clignotement
             _flickeringInt++;
 
             if (_flickeringInt % (2*flickerRate) == 0)
@@ -204,6 +208,18 @@ namespace InheritanceVaders
             }
 
         }
+        /// <summary>
+        /// Méthode pour animer la mort d'un élément
+        /// </summary>
+        public void Die()
+        {
+            if (_deathAnimationInt < _deathAnimationStrings.Count)
+            {
+                _appearence = _deathAnimationStrings[_deathAnimationInt];
+                _deathAnimationInt++;
+            }
+        }
 
     }
+
 }

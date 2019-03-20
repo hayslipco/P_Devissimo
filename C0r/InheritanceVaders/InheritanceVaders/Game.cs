@@ -29,12 +29,11 @@ namespace InheritanceVaders
         private int score;
 
         private string livesIndicator;
+        private string shieldIndicator;
         private string newWaveAppearence;
         private string fullWindow;
         private string stateIndicator;
-        private List<string> playerWithShield;
         private List<string> normalPlayer;
-        private List<string> shieldIndicator;
 
         private bool hasLost = false;
         private bool backgroundUp = true;
@@ -43,6 +42,7 @@ namespace InheritanceVaders
         private bool shortShot = false;
         private bool midShot = true;
         private bool longShot = false;
+        private bool badHSName = true;
 
         private Enemy XtremeEnemy;
         private Enemy oddXtremeEnemy;
@@ -82,17 +82,7 @@ namespace InheritanceVaders
             }
 
             //création des strings indiquants le nombre de vies et l'état du bouclier
-            livesIndicator = "♥ × " + player.Lives;
-
-            shieldIndicator = new List<string>();
-            
-            for(int i = 0; i < 15; i++)
-            {
-                string shieldState = "";
-                shieldState = shieldState.PadLeft(i, '█');
-                shieldState = shieldState.PadRight(15 - i, '▒');
-                shieldIndicator.Add(shieldState);
-            }
+            livesIndicator ="shield: " +  "♥ × " + player.Lives;
 
             //création de la vague d'ennemis, de l'ennemi spécial et de l'ennemi invisible
             enemySwarm = new Enemy[ENEMY_ROW, ENEMY_ROW];
@@ -115,11 +105,6 @@ namespace InheritanceVaders
 
             //on charge les highscores du fichier xml
             LoadHighScores();
-
-            foreach (HighScore h in highScores)
-            {
-                Debug.Write("[" + h.Score + " | " + h.Name + "]");
-            }
 
             waveCount = 1;
             score = 0;
@@ -267,9 +252,47 @@ namespace InheritanceVaders
                                 //conditions pour vérifier le mode de tir sélectionné, on fait varier le nombre, l'apparence et la vitesse en fonction du mode
                                 if (shortShot)
                                 {
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, player.X + (player.MaxLength / 3), player.Y, 4, true, true));
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, player.X + (2 * player.MaxLength / 3), player.Y, 4, true, true));
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, player.X + player.MaxLength, player.Y, 4, true, true));
+                                    int midShip = player.X + (player.MaxLength / 2);
+
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip+5, player.Y-5, 4, true, true));
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip+3, player.Y-5, 4, true, true));
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip+1, player.Y-5, 4, true, true));
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip-1, player.Y-5, 4, true, true));
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip-3, player.Y-5, 4, true, true));
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip-5, player.Y-5, 4, true, true));
+
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip + 4, player.Y -4, 4, true, true));
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip + 2, player.Y-4, 4, true, true));
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip, player.Y-4, 4, true, true));
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip - 2, player.Y-4, 4, true, true));
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip - 4, player.Y-4, 4, true, true));
+
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip + 3, player.Y-3, 4, true, true));
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip + 1, player.Y-3, 4, true, true));
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip - 1, player.Y-3, 4, true, true));
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip - 3, player.Y-3, 4, true, true));
+
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip + 2, player.Y-2, 4, true, true));
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip, player.Y-2, 4, true, true));
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip - 2, player.Y-2, 4, true, true));
+
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip + 1, player.Y - 1, 4, true, true));
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip - 1, player.Y - 1, 4, true, true));
+
+                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip, player.Y, 4, true, true));
+
+                                    //for(int l = 0; l < 7; l++)
+                                    //{
+                                    //    for(int b = 0; b < l + 1; b++)
+                                    //    {
+                                    //        if(l % 2 == 0)
+                                    //        {
+                                    //            projectiles.Add(new Bullet(new List<string> { "■" }, midShip + (b ), player.Y, 4, true, true));
+                                    //        }
+                                            
+                                    //    }
+                                    //}
+
                                 }
                                 else if (longShot)
                                 {
@@ -298,8 +321,8 @@ namespace InheritanceVaders
                             midShot = true;
                             longShot = false;
                             break;
-                        case ConsoleKey.D3://tir court ==> trois projectiles lancés mais ne dépassent pas le tier du bas de la console
-                            shotDelay = 15;
+                        case ConsoleKey.D3://tir court ==> pleins de projectiles lancés mais ne dépassent pas une certaine distance de la console
+                            shotDelay = 40;
                             shortShot = true;
                             longShot = false;
                             midShot = false;
@@ -359,7 +382,7 @@ namespace InheritanceVaders
                             projectiles[i].Move();
 
                             //on retire les balles courtes au tiers de la console
-                            if (projectiles[i].IsShort && projectiles[i].Y < 2 * windowHeight / 3)
+                            if (projectiles[i].IsShort && projectiles[i].Y < windowHeight - 15)
                             {
                                 projectiles.Remove(projectiles[i]);
                                 
@@ -630,14 +653,19 @@ namespace InheritanceVaders
                     {
                         player.AnimateShield();
                     }
+                }
 
-                    stateIndicator = "score: " + score + "  " + livesIndicator;
-
+                //mise à jour de la barre d'état du bouclier
+                if (shieldDelayTimer > shieldDelay)
+                {
+                    shieldIndicator = "shield: [■]";
                 }
                 else
                 {
-                    stateIndicator = "score: " + score + "  " + livesIndicator;
+                    shieldIndicator = "shield: [ ]";
                 }
+
+                stateIndicator = "score: " + score + "  " + livesIndicator + " " + shieldIndicator;
 
                 //mise à jour de la liste d'éléments
                 elements.Clear();
@@ -707,8 +735,8 @@ namespace InheritanceVaders
                     delta = 0;
                 }
 
-                //if (timer.ElapsedMilliseconds > 9)
-                //    Debug.Write(" lowTime: " + timer.ElapsedMilliseconds + " | ");
+                if (delta == 0)
+                    Debug.Write(" lowTime: " + timer.ElapsedMilliseconds + " | ");
 
                 //on temporise le thread un moment
                 Thread.Sleep(delta);
@@ -716,28 +744,58 @@ namespace InheritanceVaders
 
             } while (!player.Dead);
 
-            Thread.Sleep(2000);
+            //une fois que le joueur n'as plus de vie le jeu se termine
+            Thread.Sleep(1500);
 
-            Console.Clear();
-            Console.SetCursorPosition((windowWidth - 60) / 2, windowHeight / 2);
-
-            ShowTopScores();
-
-            //Console.WriteLine("RIP u, u are envahised (and nul)");
-            //Console.WriteLine("big suem");
+            EndGameScreen();
 
             Thread.Sleep(3500);
 
+            Console.ReadKey(false);
+        }
+
+        public void EndGameScreen()
+        {
+            Console.CursorVisible = true;
+
+            int minLeftPadding = 20;
+
+            Console.Clear();
             Console.SetCursorPosition(0, windowHeight / 2);
+
+            CenteredWriteLine("RIP u, u are envahised (and nul)", minLeftPadding);
+            CenteredWriteLine("big seum...", minLeftPadding);
+
+            Thread.Sleep(1500);
 
             //si on a établit un nouveau record
             if (score > highScores[highScores.Count - 1].Score || highScores.Count < 9)
             {
-                Console.WriteLine("Heureusement tout n'est pas perdu! Vous avez quand même réussi à placer un highscore des familles gg! Veuillez rentrer votre nom pour être enregistré dans les annales");
-                Console.WriteLine("Vous vous appelez: ");
-                var playerName = Console.ReadLine();
+                Console.Clear();
+                Console.SetCursorPosition(0, windowHeight / 2);
+                CenteredWriteLine("Vous avez réussi à placer un highscore des familles gg! Veuillez rentrer votre nom pour être enregistré dans les annales", minLeftPadding);
+                Console.CursorLeft = minLeftPadding;
 
-                //TODO: remplacer ceci par dialogue pour demander le nom
+                var playerName = "";
+                while (badHSName)
+                {
+                    Console.CursorLeft = minLeftPadding;
+                    playerName = Console.ReadLine();
+                    if (playerName.Length > 20)
+                    {
+                        CenteredWriteLine("Ce username est trop long chouchou ;-)", minLeftPadding);
+                    }
+                    else
+                    {
+                        badHSName = false;
+                    }
+                }
+
+                if (playerName == "")
+                {
+                    playerName = "Ghost";
+                }
+
                 var hScore = new HighScore(score, playerName);
 
                 //si la liste des highscores est "pleine"
@@ -751,13 +809,13 @@ namespace InheritanceVaders
                     highScores.Add(hScore);
                 }
 
-                //on trie la liste afin de mettre le plus haut score en haut
+                //on trie la liste par score afin de mettre à la bonne place le score récemment ajouté
                 highScores.Sort((x, y) => y.Score.CompareTo(x.Score));
             }
 
-
-
             SaveHighScores();
+            ShowTopScores();
         }
+
     }
 }

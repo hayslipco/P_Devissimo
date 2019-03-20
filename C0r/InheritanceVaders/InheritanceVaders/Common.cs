@@ -150,13 +150,92 @@ namespace InheritanceVaders
 
         public void ShowTopScores()
         {
+            Console.Clear();
             LoadHighScores();
+
+            List<string> title = new List<string>
+            {
+                "    __  ___       __                                     ",
+                "   / / / (_)___ _/ /_     ______________  ________  _____",
+                "  / /_/ / / __ `/ __ \\   / ___/ ___/ __ \\/ ___/ _ \\/ ___/",
+                " / __  / / /_/ / / / /  (__  ) /__/ /_/ / /  /  __(__  ) ",
+                "/_/ /_/_/\\__, /_/ /_/  /____/\\___/\\____/_/   \\___/____/  ",
+                "        /____/                                           "
+
+            };
+
+            Console.CursorTop = 12;
+            WriteTitle(title);
+            Console.WriteLine("\n\n");
 
             foreach (HighScore h in highScores)
             {
-                Console.CursorLeft = windowWidth / 3;
+                Console.CursorLeft = (windowWidth / 2) - ("[22/22/22] : moyenne environ --- 100000 points\n".Length/2);
                 Console.WriteLine("[{0}/{1}/{2}] : {3} --- {4} points\n", h.date.Day, h.date.Month, h.date.Year, h.Name, h.Score);
-                Thread.Sleep(100);
+                Thread.Sleep(150);
+            }
+        }
+
+        public void WriteTitle(List<string> strings)
+        {
+            int leftPadding = (Console.WindowWidth / 2) - (strings[0].Length / 2);
+
+            foreach(string s in strings)
+            {
+                Console.CursorLeft = leftPadding;
+                Console.WriteLine(s);
+            }
+        }
+
+        public void CenteredWriteLine(string s, int minLeftPadding)
+        {
+            int charsPerLine = Console.WindowWidth - (2 * minLeftPadding);
+            List<string> lines = new List<string>();
+
+            //découpage du string sur plusieurs lignes
+            if (s.Length > charsPerLine)
+            {
+                int numLines = (int)Math.Round((double)(s.Length / charsPerLine));
+
+                for (int i = 0; i <= numLines; i++)
+                {
+                    string line;
+                    if (i == numLines)
+                    {
+                        line = s.Substring(i * charsPerLine);
+                    }
+                    else
+                    {
+                        line = s.Substring((i * charsPerLine), (i + 1) * charsPerLine);
+                        if (line.Last() != ' ')
+                        {
+                            line += '-';
+                        }
+                    }
+
+                    lines.Add(new String(line.ToCharArray()));
+                }
+            }
+            else
+            {
+                lines.Add(s);
+            }
+
+            //affichage
+            foreach (string line in lines)
+            {
+                if (line == lines.Last())
+                {
+                    int leftPadding = (Console.WindowWidth / 2) - (line.Length / 2);
+                    Console.CursorLeft = leftPadding;
+                }
+                else
+                {
+                    Console.CursorLeft = minLeftPadding;
+                }
+
+                Console.WriteLine(line);
+
             }
         }
 
