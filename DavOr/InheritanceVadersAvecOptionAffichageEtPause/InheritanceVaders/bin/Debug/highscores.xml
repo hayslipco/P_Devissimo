@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<ArrayOfHighScore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="InheritanceVaders">
+  <HighScore>
+    <highScores />
+    <date>2019-03-20T13:20:49.1796128+01:00</date>
+    <Score>46200</Score>
+    <Name>Tkt</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-03-13T16:11:40.1395001+01:00</date>
+    <Score>39800</Score>
+    <Name />
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-03-20T13:17:54.0755776+01:00</date>
+    <Score>25000</Score>
+    <Name>DS</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-03-13T16:18:34.5645001+01:00</date>
+    <Score>9200</Score>
+    <Name />
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-03-13T16:05:20.6505001+01:00</date>
+    <Score>8800</Score>
+    <Name>Corlol</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-03-13T16:26:29.2205001+01:00</date>
+    <Score>8600</Score>
+    <Name>Cool man man</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-03-13T16:23:01.0675001+01:00</date>
+    <Score>4400</Score>
+    <Name>ok</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-03-13T16:23:41.3645001+01:00</date>
+    <Score>2000</Score>
+    <Name>spouk wounk</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-03-13T16:05:02.3295001+01:00</date>
+    <Score>1800</Score>
+    <Name>Corlol</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-03-13T15:47:16.7865001+01:00</date>
+    <Score>1780</Score>
+    <Name>Corboi</Name>
+  </HighScore>
+</ArrayOfHighScore>
