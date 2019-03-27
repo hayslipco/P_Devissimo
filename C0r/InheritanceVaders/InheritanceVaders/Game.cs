@@ -143,12 +143,12 @@ namespace InheritanceVaders
                 for (int i = 0; i < buffer.GetLength(0); i++)
                     for (int j = 0; j < buffer[0].Length; j++)
                     {
-                        ////space background
-                        //if (i * (buffer[0].Length - j) % backgroundTicker == 0)
-                        //{
-                        //    buffer[i][j] = '*';
-                        //}
-                        //else //fin space background
+                        //space background
+                        if (i * (buffer[0].Length - j) % backgroundTicker == 0)
+                        {
+                            buffer[i][j] = '*';
+                        }
+                        else //fin space background
                         {
                             buffer[i][j] = ' ';
                         }
@@ -254,44 +254,44 @@ namespace InheritanceVaders
                                 {
                                     int midShip = player.X + (player.MaxLength / 2);
 
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip+5, player.Y-5, 4, true, true));
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip+3, player.Y-5, 4, true, true));
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip+1, player.Y-5, 4, true, true));
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip-1, player.Y-5, 4, true, true));
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip-3, player.Y-5, 4, true, true));
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip-5, player.Y-5, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip+5, player.Y-5, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip+3, player.Y-5, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip+1, player.Y-5, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip-1, player.Y-5, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip-3, player.Y-5, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip-5, player.Y-5, 4, true, true));
 
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip + 4, player.Y -4, 4, true, true));
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip + 2, player.Y-4, 4, true, true));
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip, player.Y-4, 4, true, true));
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip - 2, player.Y-4, 4, true, true));
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip - 4, player.Y-4, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip + 4, player.Y -4, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip + 2, player.Y-4, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip, player.Y-4, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip - 2, player.Y-4, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip - 4, player.Y-4, 4, true, true));
 
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip + 3, player.Y-3, 4, true, true));
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip + 1, player.Y-3, 4, true, true));
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip - 1, player.Y-3, 4, true, true));
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip - 3, player.Y-3, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip + 3, player.Y-3, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip + 1, player.Y-3, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip - 1, player.Y-3, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip - 3, player.Y-3, 4, true, true));
 
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip + 2, player.Y-2, 4, true, true));
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip, player.Y-2, 4, true, true));
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip - 2, player.Y-2, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip + 2, player.Y-2, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip, player.Y-2, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip - 2, player.Y-2, 4, true, true));
 
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip + 1, player.Y - 1, 4, true, true));
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip - 1, player.Y - 1, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip + 1, player.Y - 1, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip - 1, player.Y - 1, 4, true, true));
 
-                                    projectiles.Add(new Bullet(new List<string> { "■" }, midShip, player.Y, 4, true, true));
+                                    //projectiles.Add(new Bullet(new List<string> { "■" }, midShip, player.Y, 4, true, true));
 
-                                    //for(int l = 0; l < 7; l++)
-                                    //{
-                                    //    for(int b = 0; b < l + 1; b++)
-                                    //    {
-                                    //        if(l % 2 == 0)
-                                    //        {
-                                    //            projectiles.Add(new Bullet(new List<string> { "■" }, midShip + (b ), player.Y, 4, true, true));
-                                    //        }
-                                            
-                                    //    }
-                                    //}
+                                    for (int l = 0; l < 30; l++)
+                                    {
+                                        for (int b = 0; b < l + 1; b++)
+                                        {
+                                            if (l % 2 == 0)
+                                            {
+                                                projectiles.Add(new Bullet(new List<string> { "■" }, midShip + ((b*2) - l), player.Y - l, 4, true, true));
+                                            }
+
+                                        }
+                                    }
 
                                 }
                                 else if (longShot)
@@ -382,7 +382,7 @@ namespace InheritanceVaders
                             projectiles[i].Move();
 
                             //on retire les balles courtes au tiers de la console
-                            if (projectiles[i].IsShort && projectiles[i].Y < windowHeight - 15)
+                            if (projectiles[i].IsShort && projectiles[i].Y < windowHeight - 70)
                             {
                                 projectiles.Remove(projectiles[i]);
                                 

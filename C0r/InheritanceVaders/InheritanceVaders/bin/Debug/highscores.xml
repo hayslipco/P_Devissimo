@@ -32,6 +32,12 @@
   </HighScore>
   <HighScore>
     <highScores />
+    <date>2019-03-21T13:16:47.3473786+01:00</date>
+    <Score>9400</Score>
+    <Name>Coureva</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
     <date>2019-03-20T15:01:08.290799+01:00</date>
     <Score>9200</Score>
     <Name>dayum</Name>
@@ -53,11 +59,5 @@
     <date>2019-03-20T15:52:16.6448688+01:00</date>
     <Score>7600</Score>
     <Name>Ghost</Name>
-  </HighScore>
-  <HighScore>
-    <highScores />
-    <date>2019-03-20T15:22:03.8351551+01:00</date>
-    <Score>3400</Score>
-    <Name> ouais</Name>
   </HighScore>
 </ArrayOfHighScore>
