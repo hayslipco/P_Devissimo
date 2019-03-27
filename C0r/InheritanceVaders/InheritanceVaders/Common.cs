@@ -13,7 +13,7 @@ namespace InheritanceVaders
     {
         protected const int ENEMY_ROW = 7;
         protected const int FPS_TEMPO = 20;
-        protected const int ENEMY_BULLET_SPEED = 3;
+        protected const int ENEMY_BULLET_SPEED = 2;
         protected const int ENEMY_FIRE_FREQ = 50;
         protected const int SHOT_DELAY = 10;
         protected const int BACKGROUND_THRESHOLD = 400;
@@ -22,6 +22,15 @@ namespace InheritanceVaders
         protected const int PLAYER_INIT_LIVES = 0;
         protected const int SHOT_COST = 400;
         protected const int SHIELD_DELAY = 350;
+        protected const int SPECIAL_ENEMY_SPAWN = 600;
+        protected const int SHORTSHOT_DELAY = 40;
+        protected const int MIDSHOT_DELAY = 8;
+        protected const int LONGSHOT_DELAY = 30;
+        protected const int SHORTSHOT_SPEED = 4;
+        protected const int MIDSHOT_SPEED = 2;
+        protected const int LONGSHOT_SPEED = 1;
+
+
 
         protected bool hardMode = true;
 
@@ -43,10 +52,10 @@ namespace InheritanceVaders
         public Enemy GetEnemyExtremity(Enemy[,] enemies, string Extremity, int lineSpecificMultiplier, int lineSpecificIncrementer)
         {
             Enemy theMostXtreme;
-            theMostXtreme = new Enemy(Console.WindowWidth / 2, Console.WindowHeight / 2, 0, new List<string> { "" }, false);
+            theMostXtreme = new Enemy(windowWidth / 2, windowHeight / 2, 1, new List<string> { "" }, false);
 
-            for (int i = 0; i < ENEMY_ROW; i++)
-                for (int j = 0; j < ENEMY_ROW; j++)
+            for (int i = 0; i < enemies.GetLength(0); i++)
+                for (int j = 0; j < enemies.GetLength(1); j++)
                 {
                     switch (Extremity)
                     {
@@ -103,7 +112,7 @@ namespace InheritanceVaders
             return frontLine;
         }
 
-        protected int GetMaxLength(List<string> strings)
+        public int GetMaxLength(List<string> strings)
         {
             int maxLength = 0;
 
@@ -116,15 +125,6 @@ namespace InheritanceVaders
             }
 
             return maxLength;
-        }
-
-        protected int GetMostLength()
-        {
-            int mostLength;
-            Graphics graphics = new Graphics();
-
-            mostLength = graphics.GetMostLength();
-            return mostLength;
         }
 
         protected void LoadHighScores()

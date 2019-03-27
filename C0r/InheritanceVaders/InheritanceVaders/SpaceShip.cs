@@ -132,28 +132,18 @@ namespace InheritanceVaders
             AnimateLine(_shieldAnimation, 3, 0);
         }
 
-
-
-        //public void flicker(int flickerRate)
-        //{
-        //    if (flickerRate % 12 == 0)
-        //    {
-        //        _appearence = _blinkAppearence;
-        //    }
-        //    else if (flickerRate % 6 == 0)
-        //    {
-        //        int usualMaxLength = _maxLength;
-
-        //        //on simule la longueur maximum du vaisseau pour empêcher qu'il ne se coince dans les bords de la console lors du clignotement
-        //        _appearence = new List<string>();
-        //        _appearence.Add("");
-        //        for (int i = 0; i < usualMaxLength; i++)
-        //        {
-        //            _appearence[0] += " ";
-        //        }
-
-        //    }
-        //}
+        public void RespawnBlink(int playerRespawnTimer)
+        {
+            if (playerRespawnTimer < PLAYER_RESPAWN_TIME)
+            {
+                Flicker(5);
+            }
+            //si le vaisseau ne fait qu'une ligne, c'est qu'il a terminé son clignotement en étant invisible, cette condition remet player.appearence au bon 'sprite'
+            else if (Appearence.Count <= 1)
+            {
+                Flicker(1);
+            }
+        }
         
     }
 }

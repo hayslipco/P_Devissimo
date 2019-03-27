@@ -208,6 +208,7 @@ namespace InheritanceVaders
             }
 
         }
+
         /// <summary>
         /// Méthode pour animer la mort d'un élément
         /// </summary>

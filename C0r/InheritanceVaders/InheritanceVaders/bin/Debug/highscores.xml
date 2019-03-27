@@ -8,6 +8,18 @@
   </HighScore>
   <HighScore>
     <highScores />
+    <date>2019-03-27T14:43:45.9959584+01:00</date>
+    <Score>21800</Score>
+    <Name>cor</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-03-27T14:14:05.7939584+01:00</date>
+    <Score>17800</Score>
+    <Name>cor</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
     <date>2019-03-20T15:48:39.7698688+01:00</date>
     <Score>13400</Score>
     <Name>ait's</Name>
@@ -17,6 +29,12 @@
     <date>2019-03-20T15:54:29.0498688+01:00</date>
     <Score>12400</Score>
     <Name>oui</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-03-27T14:29:46.1459584+01:00</date>
+    <Score>11400</Score>
+    <Name>coro</Name>
   </HighScore>
   <HighScore>
     <highScores />
@@ -41,23 +59,5 @@
     <date>2019-03-20T15:01:08.290799+01:00</date>
     <Score>9200</Score>
     <Name>dayum</Name>
-  </HighScore>
-  <HighScore>
-    <highScores />
-    <date>2019-03-20T15:34:43.4178688+01:00</date>
-    <Score>8600</Score>
-    <Name>Ghost</Name>
-  </HighScore>
-  <HighScore>
-    <highScores />
-    <date>2019-03-20T16:18:34.1538688+01:00</date>
-    <Score>7800</Score>
-    <Name>pierre</Name>
-  </HighScore>
-  <HighScore>
-    <highScores />
-    <date>2019-03-20T15:52:16.6448688+01:00</date>
-    <Score>7600</Score>
-    <Name>Ghost</Name>
   </HighScore>
 </ArrayOfHighScore>
