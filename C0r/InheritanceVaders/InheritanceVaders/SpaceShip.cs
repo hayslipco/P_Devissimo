@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InheritanceVaders
 {
+    /// <summary>
+    /// Classe du vaisseau du joueur
+    /// </summary>
     public class SpaceShip : Element
     {
 
@@ -17,6 +17,13 @@ namespace InheritanceVaders
         private bool _dead;
         private List<string> _shieldAnimation;
 
+        /// <summary>
+        /// Constructeur
+        /// </summary>
+        /// <param name="x">Position sur l'axe X</param>
+        /// <param name="y">Position sur l'axe Y</param>
+        /// <param name="speed">Vitesse de déplacement</param>
+        /// <param name="appearence">Apparence</param>
         public SpaceShip(int x, int y, int speed, List<string> appearence) : base(x, y, speed, appearence)
         {
             _lives = PLAYER_INIT_LIVES;
@@ -39,7 +46,8 @@ namespace InheritanceVaders
                 new List<string>{"*               *", "<x >  -  |  -  <x >"},
                 new List<string>{"*                  *", "<  >  -   |   -    <x"},
                 new List<string>{"*                     *", "<     >                 x"},
-                new List<string>{"*", "<                                  x"}
+                new List<string>{"*", "<                                  x"},
+                new List<string>{"            ", "                                 "}
             };
         }
 
@@ -119,19 +127,30 @@ namespace InheritanceVaders
             }
         }
 
-        public void MoveShip(int pixels)
+        /// <summary>
+        /// Déplace le vaisseau du joueur
+        /// </summary>
+        /// <param name="positions">déplace le joueur du nombre de cases correspondant</param>
+        public void MoveShip(int positions)
         {
-            if (_x + pixels >= 0 + graphicsMargin && _x + pixels + _maxLength + graphicsMargin < Console.WindowWidth)
+            if (_x + positions >= 0 + graphicsMargin && _x + positions + _maxLength + graphicsMargin < Console.WindowWidth)
             {
-                _x += pixels;
+                _x += positions;
             }
         }
 
+        /// <summary>
+        /// Anime le bouclier du vaisseau
+        /// </summary>
         public void AnimateShield()
         {
             AnimateLine(_shieldAnimation, 3, 0);
         }
 
+        /// <summary>
+        /// Gère le clignotement du vaisseau lorsque celui-ci s'est fait récemment touché
+        /// </summary>
+        /// <param name="playerRespawnTimer"></param>
         public void RespawnBlink(int playerRespawnTimer)
         {
             if (playerRespawnTimer < PLAYER_RESPAWN_TIME)

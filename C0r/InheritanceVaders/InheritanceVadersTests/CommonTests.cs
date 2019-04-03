@@ -63,5 +63,31 @@ namespace InheritanceVaders.Tests
             //Assert
             Assert.AreEqual(s4.Length, maxLength);
         }
+
+        [TestMethod()]
+        public void GetFrontLineEnemiesTest()
+        {
+            //Arrange
+            List<string> appearence = new List<string> { "-_-" };
+
+            Enemy[,] enemies = new Enemy[,]
+            {
+                {new Enemy(0,0,2, appearence, false) , new Enemy(2,0,2,appearence,false), new Enemy(4,0,2,appearence, false) },
+                {new Enemy(0,1,2,appearence,false), new Enemy(2,1,0,appearence, false), new Enemy(4,1,0,appearence,false) },
+                {new Enemy(0,2,2,appearence,false), new Enemy(2,2,0,appearence, false), new Enemy(4,2,0,appearence,false) },
+                {new Enemy(0,3,2,appearence,false), new Enemy(2,3,0,appearence, false), new Enemy(4,3,0,appearence,false) },
+                {new Enemy(0,4,2,appearence,false), new Enemy(2,4,0,appearence, false), new Enemy(4,4,0,appearence,false) }
+
+            };
+
+            //Act
+            List<Enemy> frontLineEnemies = GetFrontLineEnemies(enemies);
+
+            //Assert
+            Assert.AreEqual(enemies[4, 0], frontLineEnemies[0]);
+            Assert.AreEqual(enemies[4, 1], frontLineEnemies[1]);
+            Assert.AreEqual(enemies[4, 2], frontLineEnemies[2]);
+
+        }
     }
 }

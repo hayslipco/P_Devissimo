@@ -63,7 +63,7 @@ namespace InheritanceVaders
 
         public bool CollidesWith(Element element)
         {
-            if (_x > element.X && _x < element.X + element.MaxLength && _y == element.Y)
+            if (_x >= element.X && _x <= element.X + element.MaxLength && _y == element.Y)
             {
                 return true;
             }

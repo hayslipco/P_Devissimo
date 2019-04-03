@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace InheritanceVaders
 {
+    /// <summary>
+    /// Classe mère de chaque acteur du jeu
+    /// </summary>
     public class Element : Common
     {
         protected int _x;
@@ -109,6 +108,11 @@ namespace InheritanceVaders
             }
         }
 
+        /// <summary>
+        /// Inscrit les éléments dans un buffer pour qu'ils soient réécrits par la suite
+        /// </summary>
+        /// <param name="buffer">tableau de char qui accueillera les éléments chargés
+        /// </param>
         public void Load(char[][] buffer)
         {
             for(int l = 0; l < _appearence.Count; l++)
@@ -121,6 +125,10 @@ namespace InheritanceVaders
             }
         }
 
+        /// <summary>
+        /// Fait clignoter l'élément
+        /// </summary>
+        /// <param name="flickerRate">indique la vitesse à laquelle l'élément clignote</param>
         public void Flicker(int flickerRate)
         {
             //int qui va gérer les intervalles de clignotement
@@ -143,51 +151,35 @@ namespace InheritanceVaders
 
         }
 
-        public void Animate (List<List<string>> frames, int frameRate)
-        {
-            for(int i = 0; i < frames.Count; i++)
-            {
-                if(_animationInt < i * frameRate)
-                {
-                    _appearence = frames[i];
-                    break;
-                }
-            }
+        //public void Animate (List<List<string>> frames, int frameRate)
+        //{
+        //    for(int i = 0; i < frames.Count; i++)
+        //    {
+        //        if(_animationInt < i * frameRate)
+        //        {
+        //            _appearence = frames[i];
+        //            break;
+        //        }
+        //    }
 
-            if(_animationInt >= frameRate * frames.Count)
-            {
-                _animationInt = 0;
-            }
-            else
-            {
-                _animationInt++;
-            }
+        //    if(_animationInt >= frameRate * frames.Count)
+        //    {
+        //        _animationInt = 0;
+        //    }
+        //    else
+        //    {
+        //        _animationInt++;
+        //    }
     
-        }
+        //}
 
+        /// <summary>
+        /// Fait varier l'apparence d'une ligne d'un sprite
+        /// </summary>
+        /// <param name="frames">Différentes apparences de la ligne</param>
+        /// <param name="frameRate">Spécifie la vitesse à laquelle change le sprite</param>
+        /// <param name="line">Indique à quelle ligne du sprite prend place le changement</param>
         public void AnimateLine(List<string> frames, int frameRate, int line)
-        {
-            for (int i = 0; i < frames.Count; i++)
-            {
-                if (_animationInt < i * frameRate)
-                {
-                    _appearence[line] = frames[i];
-                    break;
-                }
-            }
-
-            if (_animationInt >= frameRate * frames.Count)
-            {
-                _animationInt = 0;
-            }
-            else
-            {
-                _animationInt++;
-            }
-
-        }
-
-        public void Animate(List<string> frames, int frameRate, int line, int animationInt)
         {
             for (int i = 0; i < frames.Count; i++)
             {

@@ -2,35 +2,35 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace InheritanceVaders
 {
+    /// <summary>
+    /// Classe commune servant à stocker des valeurs et méthodes accessibles par tous les autres classes du programme
+    /// </summary>
     public class Common
     {
-        protected const int ENEMY_ROW = 7;
-        protected const int FPS_TEMPO = 20;
-        protected const int ENEMY_BULLET_SPEED = 2;
-        protected const int ENEMY_FIRE_FREQ = 50;
+        protected const int ENEMY_ROW = 8;
+        protected const int FPS_TEMPO = 10;
+        protected const int ENEMY_BULLET_SPEED = 4;
+        protected const int ENEMY_FIRE_FREQ = 70;
         protected const int SHOT_DELAY = 10;
         protected const int BACKGROUND_THRESHOLD = 400;
         protected const int FLICKER_RATE = 20;
         protected const int PLAYER_RESPAWN_TIME = 100;
-        protected const int PLAYER_INIT_LIVES = 0;
+        protected const int PLAYER_INIT_LIVES = 40;
         protected const int SHOT_COST = 400;
         protected const int SHIELD_DELAY = 350;
         protected const int SPECIAL_ENEMY_SPAWN = 600;
         protected const int SHORTSHOT_DELAY = 40;
         protected const int MIDSHOT_DELAY = 8;
         protected const int LONGSHOT_DELAY = 30;
-        protected const int SHORTSHOT_SPEED = 4;
-        protected const int MIDSHOT_SPEED = 2;
-        protected const int LONGSHOT_SPEED = 1;
-
-
+        protected const int SHORTSHOT_SPEED = 8;
+        protected const int MIDSHOT_SPEED = 4;
+        protected const int LONGSHOT_SPEED = 2;
+        
 
         protected bool hardMode = true;
 
@@ -51,9 +51,9 @@ namespace InheritanceVaders
         /// <returns></returns>
         public Enemy GetEnemyExtremity(Enemy[,] enemies, string Extremity, int lineSpecificMultiplier, int lineSpecificIncrementer)
         {
+            //instanciation d'un ennemi se trouvant au milieu de la console, pour pouvoir ensuite comparer avec les ennemis dans l'essaim
             Enemy theMostXtreme;
             theMostXtreme = new Enemy(windowWidth / 2, windowHeight / 2, 1, new List<string> { "" }, false);
-
             for (int i = 0; i < enemies.GetLength(0); i++)
                 for (int j = 0; j < enemies.GetLength(1); j++)
                 {
@@ -91,13 +91,20 @@ namespace InheritanceVaders
             return theMostXtreme;
         }//fin de GetExtremityEnemy
 
+        /// <summary>
+        /// Récupère les ennemis vivants les plus bas de chaque colonne de l'essaim
+        /// </summary>
+        /// <param name="enemySwarm">essaim à vérifier</param>
+        /// <returns>Liste des ennemis en première ligne</returns>
         public List<Enemy> GetFrontLineEnemies(Enemy[,] enemySwarm)
         {
             Enemy lowest;
             List<Enemy> frontLine = new List<Enemy>();
+            //Parcours des colonnes
             for (int c = 0; c < enemySwarm.GetLength(1); c++)
             {
                 lowest = enemySwarm[0, c];
+                //Parcours des lignes
                 for (int l = 0; l < enemySwarm.GetLength(0); l++)
                 {
                     if (enemySwarm[l, c].Y > lowest.Y && enemySwarm[l, c].IsAlive)
@@ -112,6 +119,11 @@ namespace InheritanceVaders
             return frontLine;
         }
 
+        /// <summary>
+        /// Trouve^le string le plus long dans une liste et renvoie sa longueur
+        /// </summary>
+        /// <param name="strings">liste de strings à comparer</param>
+        /// <returns>longueur maximale des strings de la liste</returns>
         public int GetMaxLength(List<string> strings)
         {
             int maxLength = 0;
@@ -127,6 +139,9 @@ namespace InheritanceVaders
             return maxLength;
         }
 
+        /// <summary>
+        /// Récupère les Highscores stockés dans le fichier highscores.xml
+        /// </summary>
         protected void LoadHighScores()
         {
             var serializer = new XmlSerializer(highScores.GetType(), "InheritanceVaders");
@@ -139,6 +154,9 @@ namespace InheritanceVaders
             highScores = (List<HighScore>)obj;
         }
 
+        /// <summary>
+        /// Enregistre les Highscores dans le fichier highscores.xml
+        /// </summary>
         protected void SaveHighScores()
         {
             var serializer = new XmlSerializer(highScores.GetType(), "InheritanceVaders");
@@ -148,6 +166,9 @@ namespace InheritanceVaders
             }
         }
 
+        /// <summary>
+        /// Nettoie la console et affiche les Highscores l'un après l'autre avec un titre
+        /// </summary>
         public void ShowTopScores()
         {
             Console.Clear();
@@ -176,6 +197,10 @@ namespace InheritanceVaders
             }
         }
 
+        /// <summary>
+        /// Affiche un titre constitué de plusieurs lignes stockés dans une liste
+        /// </summary>
+        /// <param name="strings">lignes du titre</param>
         public void WriteTitle(List<string> strings)
         {
             int leftPadding = (Console.WindowWidth / 2) - (strings[0].Length / 2);
@@ -187,6 +212,11 @@ namespace InheritanceVaders
             }
         }
 
+        /// <summary>
+        /// Affiche du texte au centre de la console en le coupant et en l'affichant sur plusieurs lignes si nécessaire
+        /// </summary>
+        /// <param name="s">texte à écrire</param>
+        /// <param name="minLeftPadding">padding minimum que le texte ne doit pas dépasser, si c'est le cas, il est split en plusieurs lignes</param>
         public void CenteredWriteLine(string s, int minLeftPadding)
         {
             int charsPerLine = Console.WindowWidth - (2 * minLeftPadding);
@@ -197,6 +227,7 @@ namespace InheritanceVaders
             {
                 int numLines = (int)Math.Round((double)(s.Length / charsPerLine));
 
+                //construction des différentes lignes
                 for (int i = 0; i <= numLines; i++)
                 {
                     string line;

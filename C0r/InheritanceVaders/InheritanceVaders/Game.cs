@@ -19,7 +19,7 @@ namespace InheritanceVaders
         private int playerRespawnTimer = PLAYER_RESPAWN_TIME;
         private int delta;
         private int ticks;
-        private int playerSpeed = 1;
+        private int playerSpeed = 2;
         private int enemySpeed = 2;
         private int backgroundTicker = 2;
         private int graphicsInt;
@@ -350,20 +350,7 @@ namespace InheritanceVaders
 
                 //écriture de l'entierté de la fenêtre
 
-                //on remet le string de la fenêtre entière à vide
-                fullWindow = "";
-
-                //concatenation de chaque ligne de char de buffer dans fullWindow
-                for (int i = 0; i < buffer.GetLength(0); i++)
-                {
-                    fullWindow += new string(buffer[i]);
-                }
-
-                //Changements de couleur
-                BlinkColors();
-
-                Console.SetCursorPosition(0, 0);
-                Console.Write(fullWindow);
+                DrawGame();
 
                 //calcul du temps de tempo en fonction du temps pris à effectuer la boucle update
                 timer.Stop();
@@ -387,7 +374,20 @@ namespace InheritanceVaders
             } while (!player.Dead);
 
             //une fois que le joueur n'as plus de vie le jeu se termine
-            Thread.Sleep(1500);
+            int endGameInt = 0;
+
+            do
+            {
+                player.Die();
+                player.MoveShip(-1);
+                player.Load(buffer);
+
+                DrawGame();
+
+                Thread.Sleep(50);
+                endGameInt++;
+
+            } while (endGameInt < 20);
 
             EndGameScreen();
 
@@ -477,6 +477,12 @@ namespace InheritanceVaders
                 {
                     //on vérifie qu'il y ait au moins un ennemi encore en vie
                     waveAlive = true;
+
+                    //si un ennemi vivant atteint le niveau du joueur, le jeu s'arrête
+                    if (e.Y > player.Y)
+                    {
+                        player.Dead = true;
+                    }
                 }
 
                 if (e.Y < 0)
@@ -497,11 +503,6 @@ namespace InheritanceVaders
                     e.IsChanging = true;
                 }
 
-                //si un ennemi atteint le niveau du joueur, le jeu s'arrête
-                if (e.Y > player.Y)
-                {
-                    player.Dead = true;
-                }
             }
         }
 
@@ -699,10 +700,15 @@ namespace InheritanceVaders
         public void CheckCollisions()
         {
             //Ennemi indiquant à partir de quelle valeur de l'axe Y nous allons vérifier les collisions
+            int lowestEnemyY = GetEnemyExtremity(enemySwarm, "bottom", 1, 0).Y;
 
             //gestion des collisions des tirs
             for (int i = 0; i < projectiles.Count; i++)
             {
+                //s'il arrive au niveau de l'ennemi le plus bas
+                if (projectiles[i].Y <= lowestEnemyY && projectiles[i].GoingUp)
+                {
+
                     //si un ennemi est touché
                     foreach (Enemy e in enemies)
                     {
@@ -713,11 +719,10 @@ namespace InheritanceVaders
                             {
                                 e.IsAlive = false;
                                 score += e.Score;
-                                //e.Appearence.Clear();
-                                //e.Appearence.Add(" ");
                                 projectiles.Remove(projectiles[i]);
                             }
                     }
+                }
                 //si joueur est touché
                 //condition pour empêcher le pointer null
                 if (i < projectiles.Count)
@@ -829,6 +834,24 @@ namespace InheritanceVaders
             {
                 buffer[0][windowWidth - stateIndicator.Length + i - 1] = stateIndicator[i];
             }
+        }
+
+        public void DrawGame()
+        {
+            //on remet le string de la fenêtre entière à vide
+            fullWindow = "";
+
+            //concatenation de chaque ligne de char de buffer dans fullWindow
+            for (int i = 0; i < buffer.GetLength(0); i++)
+            {
+                fullWindow += new string(buffer[i]);
+            }
+
+            //Changements de couleur
+            BlinkColors();
+
+            Console.SetCursorPosition(0, 0);
+            Console.Write(fullWindow);
         }
     }
 }

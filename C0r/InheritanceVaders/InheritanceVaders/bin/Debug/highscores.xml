@@ -2,15 +2,45 @@
 <ArrayOfHighScore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="InheritanceVaders">
   <HighScore>
     <highScores />
+    <date>2019-04-03T15:27:15.4725083+02:00</date>
+    <Score>168400</Score>
+    <Name> Andradinho</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-04-03T16:16:16.3465083+02:00</date>
+    <Score>53600</Score>
+    <Name>   ref</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
     <date>2019-03-20T15:16:37.6896389+01:00</date>
     <Score>34000</Score>
     <Name>aie aie aie</Name>
   </HighScore>
   <HighScore>
     <highScores />
+    <date>2019-04-03T16:00:37.2275083+02:00</date>
+    <Score>32800</Score>
+    <Name>qweqweqweweqwe</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-04-03T16:11:39.5475083+02:00</date>
+    <Score>28000</Score>
+    <Name>  zhi</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
     <date>2019-03-27T14:43:45.9959584+01:00</date>
     <Score>21800</Score>
     <Name>cor</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-04-03T14:08:52.8605083+02:00</date>
+    <Score>21000</Score>
+    <Name>cooooooooor</Name>
   </HighScore>
   <HighScore>
     <highScores />
@@ -29,35 +59,5 @@
     <date>2019-03-20T15:54:29.0498688+01:00</date>
     <Score>12400</Score>
     <Name>oui</Name>
-  </HighScore>
-  <HighScore>
-    <highScores />
-    <date>2019-03-27T14:29:46.1459584+01:00</date>
-    <Score>11400</Score>
-    <Name>coro</Name>
-  </HighScore>
-  <HighScore>
-    <highScores />
-    <date>2019-03-20T14:51:58.6155885+01:00</date>
-    <Score>9600</Score>
-    <Name>genre ça marche</Name>
-  </HighScore>
-  <HighScore>
-    <highScores />
-    <date>2019-03-20T15:08:23.3037813+01:00</date>
-    <Score>9600</Score>
-    <Name>Ghost</Name>
-  </HighScore>
-  <HighScore>
-    <highScores />
-    <date>2019-03-21T13:16:47.3473786+01:00</date>
-    <Score>9400</Score>
-    <Name>Coureva</Name>
-  </HighScore>
-  <HighScore>
-    <highScores />
-    <date>2019-03-20T15:01:08.290799+01:00</date>
-    <Score>9200</Score>
-    <Name>dayum</Name>
   </HighScore>
 </ArrayOfHighScore>
