@@ -1,14 +1,18 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using InheritanceVaders;
-using System;
+﻿/*
+ * ETML
+ * Auteurs: Davor S. et Corwin H.
+ * Date de création: 03.04.19
+ * Description: Classe de tests pour Common
+ */
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics;
 
 namespace InheritanceVaders.Tests
 {
+    /// <summary>
+    /// Classe de tests pour Common
+    /// </summary>
     [TestClass()]
     public class CommonTests : Common
     {

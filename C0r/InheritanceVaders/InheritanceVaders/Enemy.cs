@@ -1,13 +1,18 @@
-﻿using System.Collections.Generic;
+﻿/*
+ * ETML
+ * Auteurs: Davor S. et Corwin H.
+ * Date de création: 30.01.19
+ * Description: Classe des ennemis du jeu
+ */
+using System.Collections.Generic;
 
 namespace InheritanceVaders
 {
+    /// <summary>
+    /// Classe des ennemis
+    /// </summary>
     public class Enemy : Element
     {
-
-        
-
-        int _hp;
         int _fireFrequency;
         int _score;
         private bool _goingLeft = false;
@@ -15,15 +20,19 @@ namespace InheritanceVaders
         private bool _isAlive = true;
         private bool _isSpecial;
 
+        /// <summary>
+        /// Constructeur d'un ennemi
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="speed"></param>
+        /// <param name="appearence"></param>
+        /// <param name="special">indique si l'ennemi est un ennemi special</param>
         public Enemy(int x, int y, int speed, List<string> appearence, bool special) : base (x, y, speed, appearence)
         {
             _isSpecial = special;
-
-            _hp = 1;
             _score = 1000;
             _fireFrequency = ENEMY_FIRE_FREQ;
-
-
             IsGoingLeft = _goingLeft;
 
             if (_isSpecial)
@@ -155,7 +164,7 @@ namespace InheritanceVaders
                 }
                 else
                 {
-                    _y++;
+                    _y ++;
                     _goingLeft = true;
                     _isChanging = false;
                 }

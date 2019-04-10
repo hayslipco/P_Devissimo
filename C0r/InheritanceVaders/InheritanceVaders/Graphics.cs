@@ -1,10 +1,16 @@
-﻿using System;
+﻿/*
+ * ETML
+ * Auteurs: Davor S. et Corwin H.
+ * Date de création: 06.03.19
+ * Description: Classe utilisée pour générer de la décoration du monde sur les côtés
+ */
+using System;
 using System.Collections.Generic;
 
 namespace InheritanceVaders
 {
     /// <summary>
-    /// Classe utilisée pour générer de la décoration du monde sur les côtés
+    /// Classe utilisée pour générer de la décoration du monde sur les côtés de la fenêtre
     /// </summary>
     public class Graphics : Common
     {

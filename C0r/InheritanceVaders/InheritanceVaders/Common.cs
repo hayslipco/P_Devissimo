@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * ETML
+ * Auteurs: Davor S. et Corwin H.
+ * Date de création: 06.03.19
+ * Description: Classe commune servant à stocker des valeurs et méthodes accessibles par tous les autres classes du programme
+ */
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,23 +19,23 @@ namespace InheritanceVaders
     public class Common
     {
         protected const int ENEMY_ROW = 8;
-        protected const int FPS_TEMPO = 10;
-        protected const int ENEMY_BULLET_SPEED = 4;
+        protected const int FPS_TEMPO = 15;
+        protected const int ENEMY_BULLET_SPEED = 3;
         protected const int ENEMY_FIRE_FREQ = 70;
         protected const int SHOT_DELAY = 10;
         protected const int BACKGROUND_THRESHOLD = 400;
         protected const int FLICKER_RATE = 20;
         protected const int PLAYER_RESPAWN_TIME = 100;
-        protected const int PLAYER_INIT_LIVES = 40;
+        protected const int PLAYER_INIT_LIVES = 3;
         protected const int SHOT_COST = 400;
         protected const int SHIELD_DELAY = 350;
-        protected const int SPECIAL_ENEMY_SPAWN = 600;
-        protected const int SHORTSHOT_DELAY = 40;
-        protected const int MIDSHOT_DELAY = 8;
-        protected const int LONGSHOT_DELAY = 30;
-        protected const int SHORTSHOT_SPEED = 8;
-        protected const int MIDSHOT_SPEED = 4;
-        protected const int LONGSHOT_SPEED = 2;
+        protected const int SPECIAL_ENEMY_SPAWN = 4000;
+        protected const int SHORTSHOT_DELAY = 70;
+        protected const int MIDSHOT_DELAY = 35;
+        protected const int LONGSHOT_DELAY = 70;
+        protected const int SHORTSHOT_SPEED = 6;
+        protected const int MIDSHOT_SPEED = 3;
+        protected const int LONGSHOT_SPEED = 1;
         
 
         protected bool hardMode = true;

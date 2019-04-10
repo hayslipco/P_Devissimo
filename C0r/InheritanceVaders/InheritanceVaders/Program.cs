@@ -1,16 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+ * ETML
+ * Auteurs: Davor S. et Corwin H.
+ * Date de création: 23.01.19
+ * Description: Classe d'entrée du programme duquel va être lancé le menu puis le jeu
+ */
+using System;
 
 namespace InheritanceVaders
 {
+    /// <summary>
+    /// Classe d'entrée du programme
+    /// </summary>
     public class Program
     {
         static void Main(string[] args)
         {
-            int WINDOW_WIDTH = 140;
+            int WINDOW_WIDTH = 100;
             int WINDOW_HEIGHT = 60;
 
             Console.CursorVisible = false;

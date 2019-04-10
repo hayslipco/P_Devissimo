@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿/*
+ * ETML
+ * Auteurs: Davor S. et Corwin H.
+ * Date de création: 06.03.19
+ * Description: Classe mère de chaque acteur du jeu
+ */
+using System.Collections.Generic;
 
 namespace InheritanceVaders
 {
@@ -18,6 +24,13 @@ namespace InheritanceVaders
         protected List<string> _initialAppearence;
         protected List<string> _appearence;
 
+        /// <summary>
+        /// Constructeur de base
+        /// </summary>
+        /// <param name="x">position sur l'axe x</param>
+        /// <param name="y">position sur l'axe y</param>
+        /// <param name="speed">vitesse de déplacement</param>
+        /// <param name="appearence">apparence</param>
         public Element(int x, int y, int speed, List<string> appearence)
         {
             _x = x;
@@ -71,6 +84,9 @@ namespace InheritanceVaders
             }
         }
 
+        /// <summary>
+        /// get set de l'apparence de base de l'element
+        /// </summary>
         public List<string> InitialAppearence
         {
             get
@@ -96,6 +112,9 @@ namespace InheritanceVaders
             }
         }
 
+        /// <summary>
+        /// get set de la longueur max de l'apparence de l'element
+        /// </summary>
         public int MaxLength
         {
             get
@@ -115,8 +134,10 @@ namespace InheritanceVaders
         /// </param>
         public void Load(char[][] buffer)
         {
+            //parcours des lignes du 'sprite'
             for(int l = 0; l < _appearence.Count; l++)
             {
+                //parcours des caractères de chaque ligne
                 for(int c = 0; c < _appearence[l].Length; c++)
                 {
                     if(_y + l >= 0 && _y + l < buffer.Length && _x + c >= 0 && _x + c < buffer[0].Length )
@@ -150,28 +171,6 @@ namespace InheritanceVaders
             }
 
         }
-
-        //public void Animate (List<List<string>> frames, int frameRate)
-        //{
-        //    for(int i = 0; i < frames.Count; i++)
-        //    {
-        //        if(_animationInt < i * frameRate)
-        //        {
-        //            _appearence = frames[i];
-        //            break;
-        //        }
-        //    }
-
-        //    if(_animationInt >= frameRate * frames.Count)
-        //    {
-        //        _animationInt = 0;
-        //    }
-        //    else
-        //    {
-        //        _animationInt++;
-        //    }
-    
-        //}
 
         /// <summary>
         /// Fait varier l'apparence d'une ligne d'un sprite
@@ -210,6 +209,23 @@ namespace InheritanceVaders
             {
                 _appearence = _deathAnimationStrings[_deathAnimationInt];
                 _deathAnimationInt++;
+            }
+        }
+
+
+        /// <summary>
+        /// Méthode pour animer la mort d'un élément
+        /// </summary>
+        public void Die(int tick, int modulo)
+        {
+            if (tick % modulo == 0)
+            {
+
+                if (_deathAnimationInt < _deathAnimationStrings.Count)
+                {
+                    _appearence = _deathAnimationStrings[_deathAnimationInt];
+                    _deathAnimationInt++;
+                }
             }
         }
 

@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * ETML
+ * Auteurs: Davor S. et Corwin H.
+ * Date de création: 06.02.19
+ * Description: Classe du vaisseau contrôlé par le joueur
+ */
+using System;
 using System.Collections.Generic;
 
 namespace InheritanceVaders
@@ -51,6 +57,9 @@ namespace InheritanceVaders
             };
         }
 
+        /// <summary>
+        /// get set des vies
+        /// </summary>
         public int Lives
         {
             get
@@ -67,6 +76,9 @@ namespace InheritanceVaders
             }
         }
 
+        /// <summary>
+        /// get set de la condition qui régit les modes de déplacement
+        /// </summary>
         public bool SpaceFlight
         {
             get
@@ -79,6 +91,9 @@ namespace InheritanceVaders
             }
         }
 
+        /// <summary>
+        /// get set de la condition de la mort du joueur
+        /// </summary>
         public bool Dead
         {
             get
@@ -91,6 +106,9 @@ namespace InheritanceVaders
             }
         }
 
+        /// <summary>
+        /// get set de la condition pour déterminer la direction du vaisseau
+        /// </summary>
         public bool GoingLeft
         {
             get
@@ -103,6 +121,9 @@ namespace InheritanceVaders
             }
         }
 
+        /// <summary>
+        /// get set de la condition pour déterminer si le joueur est à l'arrêt
+        /// </summary>
         public bool Stopped
         {
             get
@@ -115,6 +136,9 @@ namespace InheritanceVaders
             }
         }
 
+        /// <summary>
+        /// get set de la condition pour déterminer si le bouclier est actif
+        /// </summary>
         public bool ShieldUp
         {
             get

@@ -1,13 +1,17 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using InheritanceVaders;
-using System;
+﻿/*
+ * ETML
+ * Auteurs: Davor S. et Corwin H.
+ * Date de création: 03.04.19
+ * Description: Classe de tests pour Enemy
+ */
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InheritanceVaders.Tests
 {
+    /// <summary>
+    /// Classe de tests pour Enemy
+    /// </summary>
     [TestClass()]
     public class EnemyTests
     {

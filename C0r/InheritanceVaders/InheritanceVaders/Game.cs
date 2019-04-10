@@ -1,15 +1,19 @@
-﻿using System;
+﻿/*
+ * ETML
+ * Auteurs: Davor S. et Corwin H.
+ * Date de création: 23.01.19
+ * Description: Classe principale qui fait tourner toute la partie jeu
+ */
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace InheritanceVaders
 {
+    /// <summary>
+    /// Classe prenant en charge toute la partie jeu du programme
+    /// </summary>
     class Game : Common
     {
         private int shotDelayTimer = 0;
@@ -19,7 +23,7 @@ namespace InheritanceVaders
         private int playerRespawnTimer = PLAYER_RESPAWN_TIME;
         private int delta;
         private int ticks;
-        private int playerSpeed = 2;
+        private int playerSpeed = 1;
         private int enemySpeed = 2;
         private int backgroundTicker = 2;
         private int graphicsInt;
@@ -35,7 +39,6 @@ namespace InheritanceVaders
         private string stateIndicator;
         private List<string> normalPlayer;
 
-        private bool hasLost = false;
         private bool backgroundUp = true;
         private bool waveAlive = true;
         private bool spawning = false;
@@ -227,10 +230,14 @@ namespace InheritanceVaders
                                 //conditions pour vérifier le mode de tir sélectionné, on fait varier le nombre, l'apparence et la vitesse en fonction du mode
                                 if (shortShot)
                                 {
+                                    //création du cône du shortshot à l'aide de boucles
+
                                     int midShip = player.X + (player.MaxLength / 2);
 
+                                    //parcours des lignes
                                     for (int l = 0; l < 12; l++)
                                     {
+                                        //parcours des balles
                                         for (int b = 0; b < l + 1; b++)
                                         {
                                             if (l % 2 == 0)
@@ -307,7 +314,7 @@ namespace InheritanceVaders
                 EnemyMove();
 
                 //apparition d'un ennemi spécial
-                if (ticks % SPECIAL_ENEMY_SPAWN == 0 && !specialEnemy.IsAlive)
+                if (ticks % SPECIAL_ENEMY_SPAWN == 0 && !specialEnemy.IsAlive && specialEnemy.Y < enemySwarm[0,0].Y)
                 {
                     specialEnemy.IsAlive = true;
                     specialEnemy.Appearence = new List<string> { "  ███  ", "███████" };
@@ -494,7 +501,7 @@ namespace InheritanceVaders
                 //condition pour lancer l'animation de destruction des ennemis
                 if (!e.IsAlive)
                 {
-                    e.Die();
+                    e.Die(ticks, 3);
                 }
 
                 //condition pour faire descendre l'essein s'il n'est pas encore complètement à l'écran
@@ -655,7 +662,7 @@ namespace InheritanceVaders
                     {
                         for (int c = 0; c < ENEMY_ROW; c++)
                         {
-                            enemySwarm[l, c] = new Enemy(c * (newWaveAppearence.Length + 2) + waveSpawnX, l * 2 - ENEMY_ROW * 2, 3, new List<string> { newWaveAppearence }, false);
+                            enemySwarm[l, c] = new Enemy(c * (newWaveAppearence.Length + 2) + waveSpawnX, l * 2 - ENEMY_ROW * 2, enemySpeed, new List<string> { newWaveAppearence }, false);
                             enemies.Add(enemySwarm[l, c]);
                         }
                     }
