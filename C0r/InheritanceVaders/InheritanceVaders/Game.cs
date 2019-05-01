@@ -24,7 +24,7 @@ namespace InheritanceVaders
         private int delta;
         private int ticks;
         private int playerSpeed = 1;
-        private int enemySpeed = 2;
+        private int enemySpeed = 3;
         private int backgroundTicker = 2;
         private int graphicsInt;
         private int graphicsLoop;

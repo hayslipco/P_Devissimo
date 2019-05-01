@@ -18,7 +18,7 @@ namespace InheritanceVaders
     /// </summary>
     public class Common
     {
-        protected const int ENEMY_ROW = 8;
+        protected const int ENEMY_ROW = 10;
         protected const int FPS_TEMPO = 15;
         protected const int ENEMY_BULLET_SPEED = 3;
         protected const int ENEMY_FIRE_FREQ = 70;
@@ -26,7 +26,7 @@ namespace InheritanceVaders
         protected const int BACKGROUND_THRESHOLD = 400;
         protected const int FLICKER_RATE = 20;
         protected const int PLAYER_RESPAWN_TIME = 100;
-        protected const int PLAYER_INIT_LIVES = 3;
+        protected const int PLAYER_INIT_LIVES = 6;
         protected const int SHOT_COST = 400;
         protected const int SHIELD_DELAY = 350;
         protected const int SPECIAL_ENEMY_SPAWN = 4000;
@@ -243,11 +243,20 @@ namespace InheritanceVaders
                     }
                     else
                     {
-                        line = s.Substring((i * charsPerLine), (i + 1) * charsPerLine);
-                        if (line.Last() != ' ')
+                        if((i*charsPerLine) + ((i + 1) * charsPerLine) > s.Length)
                         {
-                            line += '-';
+                            line = s.Substring(i * charsPerLine);
                         }
+                        else
+                        {
+                            line = s.Substring((i * charsPerLine), (i + 1) * charsPerLine);
+
+                            if (line.Last() != ' ')
+                            {
+                                line += '-';
+                            }
+                        }
+
                     }
 
                     lines.Add(new String(line.ToCharArray()));

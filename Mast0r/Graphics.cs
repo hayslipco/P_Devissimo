@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * ETML
+ * Auteurs: Davor S. et Corwin H.
+ * Date de création: 06.03.19
+ * Description: Classe utilisée pour générer de la décoration du monde sur les côtés
+ */
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace InheritanceVaders
 {
+    /// <summary>
+    /// Classe utilisée pour générer de la décoration du monde sur les côtés de la fenêtre
+    /// </summary>
     public class Graphics : Common
     {       
         private List<string> _lightning = new List<string>();
@@ -41,7 +50,10 @@ namespace InheritanceVaders
             _visualDisplay = visualDisplay;
         }
 
-
+        /// <summary>
+        /// Fait apparaître les strings de _lightning dans les bords de la console
+        /// </summary>
+        /// <param name="buffer">Buffer dans lequel charger ces strings</param>
         public void SideLigthning(char[][] buffer)
         {
             if (_visualDisplay)
@@ -62,6 +74,11 @@ namespace InheritanceVaders
                              
         }
 
+        /// <summary>
+        /// Fait apparaître les éclairs dans _TwoDLightnings dans les bords de la console
+        /// </summary>
+        /// <param name="buffer">Buffer dans lequel charger ces strings</param>
+        /// <param name="line">Indique à quelle ligne il faut afficher les éclairs</param>
         public void SLightningTwoD(char[][] buffer, int line)
         {
             int ranIndex;

@@ -15,8 +15,8 @@ namespace InheritanceVaders
     {
         static void Main(string[] args)
         {
-            int WINDOW_WIDTH = 100;
-            int WINDOW_HEIGHT = 60;
+            int WINDOW_WIDTH = 120;
+            int WINDOW_HEIGHT = 70;
 
             Console.CursorVisible = false;
             Console.SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
