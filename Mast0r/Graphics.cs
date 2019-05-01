@@ -1,19 +1,14 @@
-﻿/*
- * ETML
- * Auteurs: Davor S. et Corwin H.
- * Date de création: 06.03.19
- * Description: Classe utilisée pour générer de la décoration du monde sur les côtés
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace InheritanceVaders
 {
-    /// <summary>
-    /// Classe utilisée pour générer de la décoration du monde sur les côtés de la fenêtre
-    /// </summary>
     public class Graphics : Common
-    {
+    {       
         private List<string> _lightning = new List<string>();
         private List<string> _TwoDLightning = new List<string>();
         private List<string> _TwoDLightning2 = new List<string>();
@@ -21,7 +16,7 @@ namespace InheritanceVaders
 
         private Random random = new Random();
 
-        public Graphics()
+        public Graphics(bool visualDisplay)
         {
             _lightning.Add("╔╩╦╩╩╩═╬¤");
             _lightning.Add("╚╦╩╦╦╦═╬");
@@ -43,54 +38,56 @@ namespace InheritanceVaders
             windowHeight = Console.WindowHeight;
             windowWidth = Console.WindowWidth;
 
+            _visualDisplay = visualDisplay;
         }
 
-        /// <summary>
-        /// Fait apparaître les strings de _lightning dans les bords de la console
-        /// </summary>
-        /// <param name="buffer">Buffer dans lequel charger ces strings</param>
+
         public void SideLigthning(char[][] buffer)
         {
-
-            for (int i = 0; i < windowHeight - 1; i++)
-                for (int s = 0; s < 2; s++)
-                    if (random.Next(4) == 0)
-                    {
-                        for (int l = 0; l < _lightning[0].Length; l++)
+            if (_visualDisplay)
+            {
+                for (int i = 0; i < windowHeight - 1; i++)
+                    for (int s = 0; s < 2; s++)
+                        if (random.Next(4) == 0)
                         {
-                            if (random.Next(4) == 0)
+                            for (int l = 0; l < _lightning[0].Length; l++)
                             {
-                                buffer[i][l + (s * (windowWidth - _lightning[0].Length - 1))] = _lightning[0][l];
+                                if (random.Next(4) == 0)
+                                {
+                                    buffer[i][l + (s * (windowWidth - _lightning[0].Length - 1))] = _lightning[0][l];
+                                }
                             }
                         }
-                    }
+            }
+                             
         }
 
-        /// <summary>
-        /// Fait apparaître les éclairs dans _TwoDLightnings dans les bords de la console
-        /// </summary>
-        /// <param name="buffer">Buffer dans lequel charger ces strings</param>
-        /// <param name="line">Indique à quelle ligne il faut afficher les éclairs</param>
         public void SLightningTwoD(char[][] buffer, int line)
         {
             int ranIndex;
 
-            ranIndex = random.Next(_TwoDLightnings.Count);
-
-            if (line < buffer.Length - _TwoDLightnings[ranIndex].Count)
+            if (_visualDisplay)
             {
-                for (int s = 0; s < 2; s++)
-                {
-                    for (int i = 0; i < _TwoDLightnings[ranIndex].Count; i++)
-                    {
-                        for (int l = 0; l < _TwoDLightnings[ranIndex][i].Length; l++)
-                        {
-                            buffer[line + i][l + (s * (windowWidth - _TwoDLightnings[ranIndex][i].Length - 1))] = _TwoDLightnings[ranIndex][i][l];
-                        }
+                ranIndex = random.Next(_TwoDLightnings.Count);
 
+                if (line < buffer.Length - _TwoDLightnings[ranIndex].Count)
+                {
+                    for (int s = 0; s < 2; s++)
+                    {
+                        for (int i = 0; i < _TwoDLightnings[ranIndex].Count; i++)
+                        {
+                            for (int l = 0; l < _TwoDLightnings[ranIndex][i].Length; l++)
+                            {
+                                buffer[line + i][l + (s * (windowWidth - _TwoDLightnings[ranIndex][i].Length - 1))] = _TwoDLightnings[ranIndex][i][l];
+                            }
+
+                        }
                     }
                 }
             }
+                          
         }
+
+        
     }
 }
