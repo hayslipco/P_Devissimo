@@ -1,15 +1,20 @@
-﻿using System;
+﻿using SpicyInvader;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace InheritanceVaders
 {
     public class Menu : Common
     {
-        private string _title;
+
+
+
+
         private string _selector;
         private int _optionSelected;
         private int _leftPadding;
@@ -18,10 +23,10 @@ namespace InheritanceVaders
         private bool _soundOn; //        
         private ConsoleColor _cursorColor;
         private ConsoleColor _optionsColor;
-        private ConsoleColor _onOff; // 
         private List<string> _options = new List<string>();
         private List<string> _onOffOptionVisual = new List<string>(); //
         private Graphics grapOnOff = new Graphics(_visualDisplay); // 
+        //private Sound SoundOnOff = new Sound();
 
         private int menuDrawStart = Console.WindowHeight / 3;
 
@@ -114,14 +119,14 @@ namespace InheritanceVaders
             WriteParam(modeDemploi);
         }
 
-       
+
 
         private void DrawMenu()
         {
             Console.ForegroundColor = _optionsColor;
             for (int i = 0; i < _options.Count; i++)
             {
-                if(i > 4)
+                if (i > 4)
                 {
                     Console.ForegroundColor = ConsoleColor.White;
                 }
@@ -145,7 +150,7 @@ namespace InheritanceVaders
             CheckOptionOn();
         }
 
-               
+
 
         private void DrawCursor()
         {
@@ -174,9 +179,7 @@ namespace InheritanceVaders
                     {
 
                         case ConsoleKey.DownArrow:
-                            var off = new System.Windows.Media.MediaPlayer();
-                            off.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds/off_sound.wav"));
-                            off.Play();
+                            Sound.OofSound();
                             if (_optionSelected < _options.Count - 1)
                             {
                                 _optionSelected++;
@@ -187,9 +190,7 @@ namespace InheritanceVaders
                             }
                             break;
                         case ConsoleKey.RightArrow:
-                            var off1 = new System.Windows.Media.MediaPlayer();
-                            off1.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds/off_sound.wav"));
-                            off1.Play();
+                            Sound.OofSound();
                             if (_optionSelected < _options.Count - 1)
                             {
                                 _optionSelected++;
@@ -200,9 +201,7 @@ namespace InheritanceVaders
                             }
                             break;
                         case ConsoleKey.UpArrow:
-                            var off2 = new System.Windows.Media.MediaPlayer();
-                            off2.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds/off_sound.wav"));
-                            off2.Play();
+                            Sound.OofSound();
                             if (_optionSelected > 0)
                             {
                                 _optionSelected--;
@@ -213,9 +212,7 @@ namespace InheritanceVaders
                             }
                             break;
                         case ConsoleKey.LeftArrow:
-                            var off3 = new System.Windows.Media.MediaPlayer();
-                            off3.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds/off_sound.wav"));
-                            off3.Play();
+                            Sound.OofSound();
                             if (_optionSelected > 0)
                             {
                                 _optionSelected--;
@@ -226,9 +223,7 @@ namespace InheritanceVaders
                             }
                             break;
                         case ConsoleKey.Enter:
-                            var click = new System.Windows.Media.MediaPlayer();
-                            click.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds/enter_sound.wav"));
-                            click.Play();
+                            Sound.ClickSound();
                             _stay = false;
                             break;
 
@@ -259,16 +254,16 @@ namespace InheritanceVaders
         {
             if (_soundOn)
             {
-                
+
                 Debug.WriteLine("Désactivation du son");
-                //player.controls.stop();
-                _soundOn = false;                
+                Sound.SoundClose();
+                _soundOn = false;
             }
             else
             {
-                
+
                 Debug.WriteLine("Activation du son");
-                //player.controls.start();
+                Sound.SoundStart();
                 _soundOn = true;
             }
         }
@@ -279,46 +274,19 @@ namespace InheritanceVaders
         /// </summary>
         public void GameDisplay()
         {
-            //game.Flickering();
             if (_visualDisplay)
             {
                 Debug.WriteLine("Désactivation de l'affichage");
-                //game.Flickering();
-                grapOnOff.OnOffVisualDisplay();//
+                grapOnOff.OnOffVisualDisplay();
             }
             else
             {
                 Debug.WriteLine("Activation de l'affichage");
-                //game.Flickering();
-                grapOnOff.OnOffVisualDisplay(); //
+                grapOnOff.OnOffVisualDisplay();
             }
         }
 
-        public void Difficulty()
-        {
-            if (_difficulty == 1)
-            {
-                grapOnOff.DifficultyChange();
-                Debug.WriteLine("Still Chill On");
-            }
-            else if (_difficulty == 2)
-            {
-                grapOnOff.DifficultyChange();
-                Debug.WriteLine("Not Chill On");
-            }
-            else if (_difficulty == 3)
-            {
-                grapOnOff.DifficultyChange();
-                Debug.WriteLine("Chill Norris On");
-            }
-            else
-            {
-                grapOnOff.DifficultyChange();
-                Debug.WriteLine("Very Chill On");
-            }
-        }
-       
-
+        
         /// <summary>
         /// Vérifie quelles options sont activées ou désactivées pour permettre d'identifier l'état de l'option
         /// </summary>
@@ -359,7 +327,7 @@ namespace InheritanceVaders
                 Console.SetCursorPosition(_leftPadding + 29, menuDrawStart + 1 + _topPadding);
                 Console.WriteLine("---------");
             }
-
+            /*
             // Difficulté
             if (_difficulty == 1)
             {
@@ -369,7 +337,7 @@ namespace InheritanceVaders
                 Console.SetCursorPosition(_leftPadding + 20, menuDrawStart + 1 + _topPadding * 2);
                 Console.WriteLine("----------");
             }
-            else if(_difficulty == 2)
+            else if (_difficulty == 2)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.SetCursorPosition(_leftPadding + 20, menuDrawStart + 1 + _topPadding * 2);
@@ -377,7 +345,7 @@ namespace InheritanceVaders
                 Console.SetCursorPosition(_leftPadding + 33, menuDrawStart + 1 + _topPadding * 2);
                 Console.WriteLine("-----");
             }
-            else if(_difficulty == 3)
+            else if (_difficulty == 3)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.SetCursorPosition(_leftPadding + 20, menuDrawStart + 1 + _topPadding * 2);
@@ -393,7 +361,7 @@ namespace InheritanceVaders
                 Console.SetCursorPosition(_leftPadding + 53, menuDrawStart + 1 + _topPadding * 2);
                 Console.WriteLine("------------");
             }
-
+            */
         }
 
         /// <summary>
@@ -404,7 +372,7 @@ namespace InheritanceVaders
             Console.Clear();
             DrawTitle();
             DrawModeDEmploi();
-                     
+
             WriteHowToPlay("Spacebar", "Tir");
             WriteHowToPlay("1", "Mode sniper");
             WriteHowToPlay("2", "Mode tir normal (par défaut)");
@@ -412,9 +380,9 @@ namespace InheritanceVaders
             WriteHowToPlay("Escape", "Pause");
             WriteHowToPlay("←", "Bouger à gauche");
             WriteHowToPlay("→", "Bouger à droite");
-            WriteHowToPlay("↓", "Stopper le vaisseau (mode roue libre)");
-            WriteHowToPlay("Q", "Activer/désactiver le mode roue libre");
-            WriteHowToPlay("E", "Bouclier");                      
+            WriteHowToPlay("↓", "Stopper le vaisseau (mode déplacement lisse)");
+            WriteHowToPlay("Q", "Activer/désactiver le déplacement lisse");
+            WriteHowToPlay("E", "Bouclier");
         }
 
         /// <summary>
@@ -427,7 +395,7 @@ namespace InheritanceVaders
             DrawApropos();
             Console.CursorTop = 17;
             CenteredWriteLine("SpicyInvader est un jeu, codé en C#, dont le but est de détruire les vaisseaux ennemis en leur tirant dessus.", 10);
-            
+
         }
     }
 }

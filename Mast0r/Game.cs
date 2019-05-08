@@ -4,9 +4,11 @@
  * Date de création: 23.01.19
  * Description: Classe principale qui fait tourner toute la partie jeu
  */
+using SpicyInvader;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Media;
 using System.Threading;
 
 namespace InheritanceVaders
@@ -16,8 +18,9 @@ namespace InheritanceVaders
     /// </summary>
     class Game : Common
     {
+
         private int shotDelayTimer = 0;
-        private int shotDelay = 15;
+        private int shotDelay = MIDSHOT_DELAY;
         private int shieldDelayTimer = 350;
         private int shieldDelay = 350;
         private int playerRespawnTimer = PLAYER_RESPAWN_TIME;
@@ -51,7 +54,7 @@ namespace InheritanceVaders
         private Enemy oddXtremeEnemy;
         //ennemi stationaire invisible utilisé pour garder une condition à false (lors de vagues non-inversées)
         private Enemy invisibleEnemy;
-        private Graphics graphics = new Graphics();
+        private Graphics graphics = new Graphics(_visualDisplay);
         private Random random = new Random();
 
         private char[][] buffer;
@@ -65,7 +68,16 @@ namespace InheritanceVaders
 
         public void Launch()
         {
+            Sound.OpenInGameSound();
+
+            Sound.MenuTheme(false);
+
             Console.Clear();
+
+            Sound.GameTheme(true, false, false);
+
+            projectiles.Clear();
+            
 
             //intialisation de la liste contenant tous les éléments
             elements = new List<Element>();
@@ -199,6 +211,7 @@ namespace InheritanceVaders
                         case ConsoleKey.E:
                             if (shieldDelayTimer > shieldDelay)
                             {
+                                Sound.ShieldSound();
                                 player.ShieldUp = true;
                                 shieldDelayTimer = 0;
                             }
@@ -231,7 +244,7 @@ namespace InheritanceVaders
                                 if (shortShot)
                                 {
                                     //création du cône du shortshot à l'aide de boucles
-
+                                    Sound.ShotgunSound();
                                     int midShip = player.X + (player.MaxLength / 2);
 
                                     //parcours des lignes
@@ -251,10 +264,12 @@ namespace InheritanceVaders
                                 }
                                 else if (longShot)
                                 {
+                                    Sound.SniperSound();
                                     projectiles.Add(new Bullet(new List<string> { "█", "█" }, player.X + player.MaxLength / 2, player.Y, LONGSHOT_SPEED, true, false));
                                 }
                                 else if (midShot)
                                 {
+                                    Sound.LaserSound();
                                     projectiles.Add(new Bullet(new List<string> { "█" }, player.X + player.MaxLength / 2, player.Y, MIDSHOT_SPEED, true, false));
                                 }
 
@@ -265,18 +280,21 @@ namespace InheritanceVaders
                         //Gestion du mode de tir
                         //chaque case va modifier les bools pour connaître el mode de tir, de plus, shotDelay est changé car chaque mode de tir a des délais différents
                         case ConsoleKey.D1: //tir long
+                            Sound.SniperRSound();
                             shotDelay = LONGSHOT_DELAY;
                             shortShot = false;
                             longShot = true;
                             midShot = false;
                             break;
                         case ConsoleKey.D2: //tir moyen/classique
+                            Sound.LaserRSound();
                             shotDelay = MIDSHOT_DELAY;
                             shortShot = false;
                             midShot = true;
                             longShot = false;
                             break;
                         case ConsoleKey.D3://tir court ==> pleins de projectiles lancés mais ne dépassent pas une certaine distance de la console
+                            Sound.ShotgunRSound();
                             shotDelay = SHORTSHOT_DELAY;
                             shortShot = true;
                             longShot = false;
@@ -288,7 +306,43 @@ namespace InheritanceVaders
                                 e.IsAlive = false;
                             }
                             break;
+                        case ConsoleKey.Escape: // met le jeu en pause   
+                            Console.CursorTop = Console.WindowHeight / 2; // Affiche le message au milieu de la fenêtre
+                            Sound.GameTheme(false, true, false);
+                            CenteredWriteLine("Pause", 1);
+                            CenteredWriteLine("Appuyez sur 'Escape' pour reprendre", 1);
 
+
+
+                            ConsoleKeyInfo pressed;
+                            // Début de la boucle
+                            do
+                            {
+                                // Affiche l'un des messages selon l'état du bool
+                                if (_visualDisplay)
+                                {
+                                    CenteredWriteLine("Appuyez sur 'Espace' pour désactiver l'affichage", 1);
+                                }
+                                else
+                                {
+                                    CenteredWriteLine("   Appuyez sur 'Espace' pour activer l'affichage    ", 1);
+                                }
+
+                                // Active/désactive l'affichage in-game
+                                pressed = Console.ReadKey(true);
+                                if (pressed.Key == ConsoleKey.Spacebar)
+                                {
+
+
+                                    graphics.OnOffVisualDisplay();
+                                }
+
+                            } while (pressed.Key != ConsoleKey.Escape);
+                            // Fin de la boucle
+                            Sound.GameTheme(true, false, false);
+                            Console.Clear();
+
+                            break;
                     }
                 }
 
@@ -352,6 +406,15 @@ namespace InheritanceVaders
 
                 stateIndicator = "score: " + score + "  " + livesIndicator + " " + shieldIndicator;
 
+                if(player.Lives == 0)
+                { 
+                    Sound.GameTheme(false, false, true);
+                }
+                else
+                {
+                    Sound.GameTheme(true, false, false);
+                }
+
                 //mise à jour de la liste d'éléments et chargement dans le buffer
                 LoadElements();
 
@@ -382,7 +445,7 @@ namespace InheritanceVaders
 
             //une fois que le joueur n'as plus de vie le jeu se termine
             int endGameInt = 0;
-
+            Sound.GameTheme(false, false, false);
             do
             {
                 player.Die();
@@ -396,11 +459,13 @@ namespace InheritanceVaders
 
             } while (endGameInt < 20);
 
+            Thread.Sleep(2000);
+
             EndGameScreen();
 
-            Thread.Sleep(3500);
+            
 
-            Console.ReadKey(false);
+           
         }
 
         public void SideGraphics()
@@ -738,6 +803,7 @@ namespace InheritanceVaders
                     {
                         if (!player.ShieldUp)
                         {
+                            Sound.HitSound();
                             projectiles.Remove(projectiles[i]);
                             player.Lives--;
                             //on met à jour le string indiquant le nombre de vies du joueur
@@ -762,15 +828,20 @@ namespace InheritanceVaders
             Console.Clear();
             Console.SetCursorPosition(0, windowHeight / 2);
 
-            CenteredWriteLine("RIP u, u are envahised (and nul)", minLeftPadding);
-            CenteredWriteLine("big seum...", minLeftPadding);
+            Sound.EndGameSuspense(true);
 
-            Thread.Sleep(1500);
+            CenteredWriteLine("RIP u, u are envahised", minLeftPadding);
+            
+
+            Thread.Sleep(9000);
 
             //si on a établit un nouveau record
             if (score > highScores[highScores.Count - 1].Score || highScores.Count < 9)
             {
                 Console.Clear();
+
+                Sound.NewRecord(true);
+
                 Console.SetCursorPosition(0, windowHeight / 2);
                 CenteredWriteLine("Vous avez réussi à placer un highscore des familles gg! Veuillez rentrer votre nom pour être enregistré dans les annales", minLeftPadding);
                 Console.CursorLeft = minLeftPadding;
@@ -789,6 +860,8 @@ namespace InheritanceVaders
                         badHSName = false;
                     }
                 }
+
+                
 
                 if (playerName == "")
                 {
@@ -811,9 +884,39 @@ namespace InheritanceVaders
                 //on trie la liste par score afin de mettre à la bonne place le score récemment ajouté
                 highScores.Sort((x, y) => y.Score.CompareTo(x.Score));
             }
+            else
+            {
+                Sound.NoRecord(true);
+                CenteredWriteLine("and null", minLeftPadding);
+                CenteredWriteLine("pas de record, big seum...", minLeftPadding);
 
+                
+                Thread.Sleep(5000);
+            }
+            Console.CursorVisible = false;
             SaveHighScores();
             ShowTopScores();
+
+            Thread.Sleep(3500);
+            Console.ForegroundColor = ConsoleColor.White;
+
+            ConsoleKeyInfo cki;
+            do
+            {
+                // Le message clignote                                        
+                while (!Console.KeyAvailable)
+                {
+                    CenteredWriteLine("Appuyez sur 'Enter' pour retourner au menu...    ", 1);
+                    Thread.Sleep(1000);
+                    CenteredWriteLine("                                                 ", 1);
+                    Thread.Sleep(1000);
+                }
+                cki = Console.ReadKey(true);
+
+            } while (cki.Key != ConsoleKey.Enter);
+
+            Sound.NewRecord(false);
+            Sound.NoRecord(false);
         }
 
         public void LoadElements()

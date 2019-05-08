@@ -36,8 +36,12 @@ namespace InheritanceVaders
         protected const int SHORTSHOT_SPEED = 6;
         protected const int MIDSHOT_SPEED = 3;
         protected const int LONGSHOT_SPEED = 1;
-        
 
+        private int _line = 17;
+        private int _line1 = 17;
+        protected int _difficulty = 1;
+
+        protected static bool _visualDisplay = true;
         protected bool hardMode = true;
 
         public List<HighScore> highScores = new List<HighScore>();
@@ -271,9 +275,47 @@ namespace InheritanceVaders
                     Console.CursorLeft = minLeftPadding;
                 }
 
-                Console.WriteLine(line);
+                if (Console.CursorTop < Console.WindowHeight / 2 + 2)
+                {
+                    Console.WriteLine(line);
+                }
+                else
+                {
+                    Console.Write(line);
+                }
 
             }
+        }
+
+        /// <summary>
+        /// Choix de l'affichage
+        /// </summary>
+        public void OnOffVisualDisplay()
+        {
+            if (_visualDisplay)
+            {
+                _visualDisplay = false;
+                Debug.WriteLine("Désactivé");
+            }
+            else
+            {
+                _visualDisplay = true;
+                Debug.WriteLine("Activé");
+            }
+        }
+
+        /// <summary>
+        /// Dispose le texte du mode d'emploi
+        /// </summary>
+        /// <param name="s"></param>
+        public void WriteHowToPlay(string btn, string desc)
+        {
+            Console.WriteLine();
+            Console.CursorLeft = (Console.WindowWidth / 2 - 25);
+            Console.Write(btn);
+            Console.CursorLeft = (Console.WindowWidth / 2 + 5);
+            Console.WriteLine(desc);
+            Console.WriteLine();
         }
 
     }
