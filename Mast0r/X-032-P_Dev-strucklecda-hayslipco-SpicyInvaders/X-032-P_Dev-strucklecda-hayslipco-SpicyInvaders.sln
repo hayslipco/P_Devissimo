@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.539
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders", "X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders.csproj", "{6F0E1507-D96A-4D19-9615-CD83DFA9AC2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpicyInvadersTests", "..\5-repertoires-ict-ssd\PROJETS\032-P_Dev\git\P_Devissimo\C0r\InheritanceVaders\InheritanceVadersTests\SpicyInvadersTests.csproj", "{EB0D8E3A-3248-45B2-8A4F-BE27466C2A74}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpicyInvadersTests", "SpicyInvadersTests\SpicyInvadersTests.csproj", "{EB0D8E3A-3248-45B2-8A4F-BE27466C2A74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
