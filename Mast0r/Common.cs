@@ -6,6 +6,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -36,10 +37,6 @@ namespace InheritanceVaders
         protected const int SHORTSHOT_SPEED = 6;
         protected const int MIDSHOT_SPEED = 3;
         protected const int LONGSHOT_SPEED = 1;
-
-        private int _line = 17;
-        private int _line1 = 17;
-        protected int _difficulty = 1;
 
         protected static bool _visualDisplay = true;
         protected bool hardMode = true;
@@ -237,7 +234,6 @@ namespace InheritanceVaders
             {
                 int numLines = (int)Math.Round((double)(s.Length / charsPerLine));
 
-                //construction des différentes lignes
                 for (int i = 0; i <= numLines; i++)
                 {
                     string line;
@@ -284,12 +280,10 @@ namespace InheritanceVaders
                     Console.Write(line);
                 }
 
+
             }
         }
 
-        /// <summary>
-        /// Choix de l'affichage
-        /// </summary>
         public void OnOffVisualDisplay()
         {
             if (_visualDisplay)
@@ -318,5 +312,23 @@ namespace InheritanceVaders
             Console.WriteLine();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strings"></param>
+        public void WriteParam(List<string> strings)
+        {
+            int leftPadding = (Console.WindowWidth / 2) - (strings[0].Length / 2);
+            int topPadding = 8;
+            Console.SetCursorPosition(leftPadding, topPadding);
+            Console.ForegroundColor = ConsoleColor.Red;
+            foreach (string s in strings)
+            {
+                Console.SetCursorPosition(leftPadding, topPadding);
+                topPadding++;
+                Console.WriteLine(s);
+            }
+            Console.ForegroundColor = ConsoleColor.White;
+        }
     }
 }
