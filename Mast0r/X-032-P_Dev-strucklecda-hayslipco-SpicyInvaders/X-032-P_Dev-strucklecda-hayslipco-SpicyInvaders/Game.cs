@@ -468,6 +468,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
            
         }
 
+        /// <summary>
+        /// s'occupe de l'affichage des décors sur les côtés de la fenêtre
+        /// </summary>
         public void SideGraphics()
         {
             if (ticks % FLICKER_RATE == 0)
@@ -497,6 +500,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             }
         }
 
+        /// <summary>
+        /// Fait clignoter la console de couleurs différentes
+        /// </summary>
         public void BlinkColors()
         {
             if (ticks % FLICKER_RATE == 0)
@@ -515,6 +521,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             }
         }
 
+        /// <summary>
+        /// Déplace les ennemis à chaque boucle de jeu et vérifie si la vague est encore en vie ou est en train de réapparaître
+        /// </summary>
         public void EnemyMove()
         {
             //on considère la vague comme morte jusqu'à ce qu'on trouve un ennemi vivant dans enemySwarm
@@ -578,6 +587,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             }
         }
 
+        /// <summary>
+        /// Fait changer de direciton les ennemis dès qûe la vague atteint le bord de l'écran
+        /// </summary>
         public void EnemySideCheck()
         {
             //on récupère l'ennemi (ou les ennemis) qui se trouve(nt) le plus à gauche ou à droite dépendant du sens du groupe
@@ -646,6 +658,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             } //fin de déplacement des ennemis
         }
 
+        /// <summary>
+        /// Fait tirer les ennemis de la ligne avant
+        /// </summary>
         public void EnemyFire()
         {
             foreach (Enemy e in GetFrontLineEnemies(enemySwarm))
@@ -662,6 +677,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             }
         }
 
+        /// <summary>
+        /// Gère le mouvement du vaisseau en déplacement lisse
+        /// </summary>
         public void SpaceFlightMove()
         {
             if (player.SpaceFlight && !player.Stopped)
@@ -682,6 +700,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             }
         }
 
+        /// <summary>
+        /// Gère la réapparition des vagues ennemis
+        /// </summary>
         public void EnemySpawn()
         {
             //lorsqu'il n y a plus d'ennemis vivants dans la vague et que random atteignent un certain nombre (cela permet un petit temps aléatoire de temporisation entre les vagues)
@@ -738,6 +759,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             } //fin apparition de nouvelles vagues
         }
 
+        /// <summary>
+        /// Déplace les projectiles à chaque boucle de jeu
+        /// </summary>
         public void MoveProjectiles()
         {
             //boucle passant à travers chaque projectile présent dans le jeu (dans projectiles)
@@ -769,6 +793,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             }
         }
 
+        /// <summary>
+        /// Vérifie les collisions des projectiles et effectue les opérations nécessaires lors de touches
+        /// </summary>
         public void CheckCollisions()
         {
             //Ennemi indiquant à partir de quelle valeur de l'axe Y nous allons vérifier les collisions
@@ -819,6 +846,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             }
         }
 
+        /// <summary>
+        /// Affiche l'écran de fin, demande à l'utilisateur de 
+        /// </summary>
         public void EndGameScreen()
         {
             Console.CursorVisible = true;
@@ -867,7 +897,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                     }
                 }
 
-                
+
 
                 if (playerName == "")
                 {
@@ -896,7 +926,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                 CenteredWriteLine("and null", minLeftPadding);
                 CenteredWriteLine("pas de record, big seum...", minLeftPadding);
 
-                
+
                 Thread.Sleep(5000);
             }
             Console.CursorVisible = false;
@@ -925,6 +955,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             Sound.NoRecord(false);
         }
 
+        /// <summary>
+        /// Ecrit tous les éléments dans le buffer
+        /// </summary>
         public void LoadElements()
         {
             elements.Clear();
@@ -952,6 +985,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             }
         }
 
+        /// <summary>
+        /// Affiche le buffer dans la fenêtre de la console
+        /// </summary>
         public void DrawGame()
         {
             //on remet le string de la fenêtre entière à vide
