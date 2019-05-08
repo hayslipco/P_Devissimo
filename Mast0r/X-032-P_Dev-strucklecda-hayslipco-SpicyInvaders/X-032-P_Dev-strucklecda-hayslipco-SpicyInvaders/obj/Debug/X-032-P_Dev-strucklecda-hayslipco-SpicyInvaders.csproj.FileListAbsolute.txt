@@ -1,0 +1,7 @@
+F:\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders\obj\Debug\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders.csprojAssemblyReference.cache
+F:\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders\obj\Debug\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders.csproj.CoreCompileInputs.cache
+F:\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders\bin\Debug\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders.exe.config
+F:\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders\bin\Debug\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders.exe
+F:\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders\bin\Debug\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders.pdb
+F:\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders\obj\Debug\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders.exe
+F:\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders\obj\Debug\X-032-P_Dev-strucklecda-hayslipco-SpicyInvaders.pdb

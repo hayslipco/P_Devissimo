@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<ArrayOfHighScore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders">
+  <HighScore>
+    <highScores />
+    <date>2019-05-08T14:07:40.5403503+02:00</date>
+    <Score>30600</Score>
+    <Name>Ghost</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-05-08T13:59:17.776506+02:00</date>
+    <Score>9000</Score>
+    <Name>Ghost</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-05-08T14:06:32.3693503+02:00</date>
+    <Score>5600</Score>
+    <Name>là ça marche</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-05-08T13:57:05.6067243+02:00</date>
+    <Score>3400</Score>
+    <Name>Corboi</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-05-08T13:57:40.736211+02:00</date>
+    <Score>2200</Score>
+    <Name>Ghost</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-05-08T14:10:38.1523503+02:00</date>
+    <Score>1400</Score>
+    <Name>C'est beou</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-05-08T14:10:00.2253503+02:00</date>
+    <Score>-400</Score>
+    <Name>lol</Name>
+  </HighScore>
+  <HighScore>
+    <highScores />
+    <date>2019-05-08T14:12:18.5043503+02:00</date>
+    <Score>-600</Score>
+    <Name>Corwib</Name>
+  </HighScore>
+</ArrayOfHighScore>
