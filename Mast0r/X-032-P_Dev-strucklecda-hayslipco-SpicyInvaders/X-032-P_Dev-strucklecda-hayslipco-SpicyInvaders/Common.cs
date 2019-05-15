@@ -19,18 +19,12 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
     /// </summary>
     public class Common
     {
-        protected const int ENEMY_ROW = 8;
         protected const int FPS_TEMPO = 15;
-        protected const int ENEMY_BULLET_SPEED = 3;
-        protected const int ENEMY_FIRE_FREQ = 70;
-        protected const int SHOT_DELAY = 10;
         protected const int BACKGROUND_THRESHOLD = 400;
         protected const int FLICKER_RATE = 20;
         protected const int PLAYER_RESPAWN_TIME = 100;
         protected const int PLAYER_INIT_LIVES = 3;
         protected const int SHOT_COST = 400;
-        protected const int SHIELD_DELAY = 350;
-        protected const int SPECIAL_ENEMY_SPAWN = 4000;
         protected const int SHORTSHOT_DELAY = 70;
         protected const int MIDSHOT_DELAY = 35;
         protected const int LONGSHOT_DELAY = 70;
@@ -45,8 +39,46 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
 
         protected int graphicsMargin = 0;
 
+        //attributs changeant avec la dfficulté
+        protected int enemyRow = 8;
+        protected int enemyBulletSpeed = 4;
+        protected int enemyFireFreq = 100;
+        protected int specialEnemySpawn = 3000;
+        protected int shieldDelay = 600;
+        protected int shieldDuration = 200;
+        protected int specialEnemyPoints = 10000;
+        protected int enemyPoints = 1000;
+
         protected int windowWidth = Console.WindowWidth;
         protected int windowHeight = Console.WindowHeight;
+
+        public void SetDifficulty(string difficulty)
+        {
+            switch (difficulty)
+            {
+                case "Easy":
+                    enemyRow = 8;
+                    enemyBulletSpeed = 4;
+                    enemyFireFreq = 100;
+                    shieldDelay = 600;
+                    shieldDuration = 200;
+                    specialEnemySpawn = 3000;
+                    enemyPoints = 800;
+                    specialEnemyPoints = 10 * enemyPoints;
+                    break;
+
+                case "Hard":
+                    enemyRow = 10;
+                    enemyBulletSpeed = 3;
+                    enemyFireFreq = 50;
+                    shieldDelay = 600;
+                    shieldDuration = 100;
+                    specialEnemySpawn = 4000;
+                    enemyPoints = 1000;
+                    specialEnemyPoints = 10 * enemyPoints;
+                    break;
+            }
+        }
 
         /// <summary>
         /// Méthode pour trouver un des ennemis vivants se trouvant aux extrémités du groupe

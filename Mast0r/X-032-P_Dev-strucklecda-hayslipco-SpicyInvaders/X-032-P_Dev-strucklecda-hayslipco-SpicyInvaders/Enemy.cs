@@ -31,13 +31,13 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
         public Enemy(int x, int y, int speed, List<string> appearence, bool special) : base (x, y, speed, appearence)
         {
             _isSpecial = special;
-            _score = 1000;
-            _fireFrequency = ENEMY_FIRE_FREQ;
+            _score = enemyPoints;
+            _fireFrequency = enemyFireFreq;
             IsGoingLeft = _goingLeft;
 
             if (_isSpecial)
             {
-                _score = 10000;
+                _score = specialEnemyPoints;
 
                 _deathAnimationStrings = new List<List<string>>()
                 {
@@ -191,7 +191,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
 
         public void Shoot(List<Bullet> projectiles)
         {
-            projectiles.Add(new Bullet(new List<string> { "█" }, _x + _maxLength / 2, _y, ENEMY_BULLET_SPEED, false, false));
+            projectiles.Add(new Bullet(new List<string> { "█" }, _x + _maxLength / 2, _y, enemyBulletSpeed, false, false));
         }
     }
 }

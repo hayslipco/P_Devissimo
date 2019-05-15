@@ -29,7 +29,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             Common common = new Common();
             //création menu paramètre
             List<string> parametersOption = new List<string> { "Son", "Affichage", "Difficulté", "Quitter" };
-            List<string> onOffOptionVisual = new List<string> { "Activé / Désactivé", "Activé / Désactivé", "Very Chill / Chill / Not Chill / Chill Norris" };
+            List<string> onOffOptionVisual = new List<string> { "Activé / Désactivé", "Activé / Désactivé", "Chill / Chill Norris" };
 
             Menu parameters = new Menu(">>", ConsoleColor.Yellow, ConsoleColor.DarkMagenta, parametersOption, onOffOptionVisual);
 

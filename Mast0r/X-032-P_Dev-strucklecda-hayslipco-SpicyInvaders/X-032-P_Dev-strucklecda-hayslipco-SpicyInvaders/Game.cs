@@ -16,22 +16,21 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
     /// </summary>
     class Game : Common
     {
-
-        private int shotDelayTimer = 0;
-        private int shotDelay = MIDSHOT_DELAY;
-        private int shieldDelayTimer = 350;
-        private int shieldDelay = 350;
-        private int playerRespawnTimer = PLAYER_RESPAWN_TIME;
+        //attributs permettant le bon fonctionnement du jeu
         private int delta;
         private int ticks;
-        private int playerSpeed = 1;
-        private int enemySpeed = 2;
         private int backgroundTicker = 2;
         private int graphicsInt;
         private int graphicsLoop;
         private int waveCount;
         private int waveSpawnX;
+        private int playerSpeed = 1;
+        private int enemySpeed = 2;
+        private int playerRespawnTimer = PLAYER_RESPAWN_TIME;
+        private int shotDelay = MIDSHOT_DELAY;
+        private int shotDelayTimer = 0;
         private int score;
+        private int shieldDelayTimer = 1000;
 
         private string livesIndicator;
         private string shieldIndicator;
@@ -64,6 +63,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
         private Stopwatch timer = new Stopwatch();
         private SpaceShip player;
 
+        /// <summary>
+        /// Méthode principale du jeu
+        /// </summary>
         public void Launch()
         {
             Sound.OpenInGameSound();
@@ -102,10 +104,10 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             livesIndicator ="shield: " +  "♥ × " + player.Lives;
 
             //création de la vague d'ennemis, de l'ennemi spécial et de l'ennemi invisible
-            enemySwarm = new Enemy[ENEMY_ROW, ENEMY_ROW];
+            enemySwarm = new Enemy[enemyRow, enemyRow];
 
-            for (int l = 0; l < ENEMY_ROW; l++)
-                for (int c = 0; c < ENEMY_ROW; c++)
+            for (int l = 0; l < enemyRow; l++)
+                for (int c = 0; c < enemyRow; c++)
                 {
                     enemySwarm[l, c] = new Enemy(c * ("|-O-|".Length + 2), l * 2 + 1, enemySpeed, new List<string> { "|-O-|" }, false);
                     enemies.Add(enemySwarm[l, c]);
@@ -368,7 +370,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                 EnemyMove();
 
                 //apparition d'un ennemi spécial
-                if (ticks % SPECIAL_ENEMY_SPAWN == 0 && !specialEnemy.IsAlive && specialEnemy.Y < enemySwarm[0,0].Y)
+                if (ticks % specialEnemySpawn == 0 && !specialEnemy.IsAlive && specialEnemy.Y < enemySwarm[0,0].Y)
                 {
                     specialEnemy.IsAlive = true;
                     specialEnemy.Appearence = new List<string> { "  ███  ", "███████" };
@@ -382,7 +384,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                 //Gestion de la durée et de l'animation du shield
                 if (player.ShieldUp)
                 {
-                    if(shieldDelayTimer > shieldDelay/3)
+                    if(shieldDelayTimer > shieldDuration)
                     {
                         player.Appearence = new List<string>(normalPlayer);   
                         player.InitialAppearence = new List<string>(normalPlayer);
@@ -462,10 +464,6 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             Thread.Sleep(2000);
 
             EndGameScreen();
-
-            
-
-           
         }
 
         /// <summary>
@@ -719,7 +717,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                 //condition pour que les vagues alternent leur arrivée de la gauche et de la droite
                 if (waveCount % 2 == 0)
                 {
-                    waveSpawnX = windowWidth - ((newWaveAppearence.Length + 2) * ENEMY_ROW);
+                    waveSpawnX = windowWidth - ((newWaveAppearence.Length + 2) * enemyRow);
                 }
                 else
                 {
@@ -728,15 +726,15 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
 
                 //création de la nouvelle vague d'ennemis
                 //boucle itérant à travers chaque ligne de la vague
-                for (int l = 0; l < ENEMY_ROW; l++)
+                for (int l = 0; l < enemyRow; l++)
                 {
 
                     //lors des vagues inversées, la vague apparaît au milieu de la fenêtre de console et une ligne sur deux aura sa direction de départ changée
                     if (waveCount % 4 == 0)
                     {
-                        for (int c = 0; c < ENEMY_ROW; c++)
+                        for (int c = 0; c < enemyRow; c++)
                         {
-                            enemySwarm[l, c] = new Enemy(c * (newWaveAppearence.Length + 2) + ((windowWidth / 2) - (ENEMY_ROW * (newWaveAppearence.Length + 2)) / 2), l * 2 - ENEMY_ROW * 2, 3, new List<string> { newWaveAppearence }, false);
+                            enemySwarm[l, c] = new Enemy(c * (newWaveAppearence.Length + 2) + ((windowWidth / 2) - (enemyRow * (newWaveAppearence.Length + 2)) / 2), l * 2 - enemyRow * 2, 3, new List<string> { newWaveAppearence }, false);
                             if (l % 2 == 0)
                             {
                                 enemySwarm[l, c].IsGoingLeft = true;
@@ -746,9 +744,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                     }
                     else
                     {
-                        for (int c = 0; c < ENEMY_ROW; c++)
+                        for (int c = 0; c < enemyRow; c++)
                         {
-                            enemySwarm[l, c] = new Enemy(c * (newWaveAppearence.Length + 2) + waveSpawnX, l * 2 - ENEMY_ROW * 2, enemySpeed, new List<string> { newWaveAppearence }, false);
+                            enemySwarm[l, c] = new Enemy(c * (newWaveAppearence.Length + 2) + waveSpawnX, l * 2 - enemyRow * 2, enemySpeed, new List<string> { newWaveAppearence }, false);
                             enemies.Add(enemySwarm[l, c]);
                         }
                     }
@@ -897,7 +895,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                     }
                 }
 
-
+                
 
                 if (playerName == "")
                 {
@@ -926,7 +924,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                 CenteredWriteLine("and null", minLeftPadding);
                 CenteredWriteLine("pas de record, big seum...", minLeftPadding);
 
-
+                
                 Thread.Sleep(5000);
             }
             Console.CursorVisible = false;
