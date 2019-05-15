@@ -337,5 +337,16 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             }
             Console.ForegroundColor = ConsoleColor.White;
         }
+
+        public void StayInMenu()
+        {
+            ConsoleKeyInfo pressedKey;
+            do
+            {
+                pressedKey = Console.ReadKey(true);
+
+            } while (pressedKey.Key != ConsoleKey.Escape && pressedKey.Key != ConsoleKey.Enter && pressedKey.Key != ConsoleKey.Backspace);
+            Console.Clear();
+        }
     }
 }
