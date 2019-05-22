@@ -27,6 +27,8 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             Console.CursorVisible = false;
             Console.SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
+            Common common = new Common();
+
             //création menu paramètre
             List<string> parametersOption = new List<string> { "Son", "Affichage", "Difficulté", "Revenir" };
             List<string> onOffOptionVisual = new List<string> { "Activé / Désactivé", "Activé / Désactivé", "Chill / Chill Norris" };
@@ -97,38 +99,23 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
 
                         break;
                         
-                    case 2:                      
-                        Console.WriteLine("Bienvenu dans le highscore");
+                    case 2:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        common.ShowTopScores();
+                        common.StayInMenu();
+                        Console.ForegroundColor = ConsoleColor.White;
                         break;
 
                     case 3:
                         // Affiche le mode d'emploi
-                        ConsoleKeyInfo pressedKey;
                         mainMenu.ModeDemploi();
-                        do
-                        {
-
-                            pressedKey = Console.ReadKey(true);
-
-                        } while (pressedKey.Key != ConsoleKey.Escape);
-                        Console.Clear();
-
+                        common.StayInMenu();
                         break;
 
                     case 4:
                         // Affiche l'à propos du jeu
-                        ConsoleKeyInfo pressed;
                         mainMenu.Apropos();
-
-                        do
-                        {
-
-                            pressed = Console.ReadKey(true);
-
-                        } while (pressed.Key != ConsoleKey.Escape);
-
-                        Console.Clear();
-
+                        common.StayInMenu();
                         break;
 
                     case 5:

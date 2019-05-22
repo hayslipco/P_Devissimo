@@ -267,8 +267,6 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
         /// <param name="strings">lignes du titre</param>
         public void WriteTitle(List<string> strings)
         {
-            Console.ForegroundColor = ConsoleColor.White;
-
             int leftPadding = (Console.WindowWidth / 2) - (strings[0].Length / 2);
 
             foreach (string s in strings)
@@ -338,8 +336,6 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                 {
                     Console.Write(line);
                 }
-
-
             }
         }
 
@@ -390,6 +386,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             Console.ForegroundColor = ConsoleColor.White;
         }
 
+        /// <summary>
+        /// Méthode pour rester dans une des options du menu
+        /// </summary>
         public void StayInMenu()
         {
             ConsoleKeyInfo pressedKey;

@@ -6,10 +6,6 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
 {
@@ -46,8 +42,6 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
 
             windowHeight = Console.WindowHeight;
             windowWidth = Console.WindowWidth;
-
-            _visualDisplay = visualDisplay;
         }
 
         /// <summary>
@@ -56,7 +50,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
         /// <param name="buffer">Buffer dans lequel charger ces strings</param>
         public void SideLigthning(char[][] buffer)
         {
-            if (_visualDisplay)
+            if (visualDisplay)
             {
                 for (int i = 0; i < windowHeight - 1; i++)
                     for (int s = 0; s < 2; s++)
@@ -83,7 +77,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
         {
             int ranIndex;
 
-            if (_visualDisplay)
+            if (visualDisplay)
             {
                 ranIndex = random.Next(_TwoDLightnings.Count);
 
