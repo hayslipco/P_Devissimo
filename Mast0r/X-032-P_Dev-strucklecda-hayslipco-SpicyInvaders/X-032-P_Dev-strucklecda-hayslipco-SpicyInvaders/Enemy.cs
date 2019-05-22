@@ -141,6 +141,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             }
         }
 
+        /// <summary>
+        /// Méthode faisant bouger les ennemis
+        /// </summary>
         public void Move()
         {
             if (_goingLeft)
@@ -171,6 +174,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             }
         }
 
+        /// <summary>
+        /// Méthode faisant bouger l'ennemi spécial
+        /// </summary>
         public void SpecialMove()
         {
             if (_goingLeft)
@@ -189,6 +195,10 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
 
         }
 
+        /// <summary>
+        /// Tir des ennemis
+        /// </summary>
+        /// <param name="projectiles"></param>
         public void Shoot(List<Bullet> projectiles)
         {
             projectiles.Add(new Bullet(new List<string> { "█" }, _x + _maxLength / 2, _y, enemyBulletSpeed, false, false));

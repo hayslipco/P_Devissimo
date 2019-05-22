@@ -21,6 +21,10 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
 
         private Random random = new Random();
 
+        /// <summary>
+        /// Constructeur custom
+        /// </summary>
+        /// <param name="visualDisplay"></param>
         public Graphics(bool visualDisplay)
         {
             _lightning.Add("╔╩╦╩╩╩═╬¤");

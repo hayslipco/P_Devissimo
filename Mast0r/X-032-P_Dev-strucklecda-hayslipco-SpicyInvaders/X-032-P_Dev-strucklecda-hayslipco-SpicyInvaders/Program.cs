@@ -1,12 +1,11 @@
 ﻿/*
  * ETML
  * Auteurs: Davor S. et Corwin H.
- * Date de création: 23.01.19
+ * Date de création: 16.01.19
  * Description: Classe d'entrée du programme duquel va être lancé le menu puis le jeu
  */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
 {
@@ -17,17 +16,22 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
     {
         static void Main(string[] args)
         {
+            // Ouverture des fichiers sons
             Sound.OpenSounds();
 
             int WINDOW_WIDTH = 140;
             int WINDOW_HEIGHT = 52;
-
             Console.BufferHeight = 52;
-
+            
+            // Cache le curseur par défaut
             Console.CursorVisible = false;
+
+            // Taille de la fenêtre
             Console.SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
+            // Instanciation de common et game
             Common common = new Common();
+            Game game = new Game();
 
             //création menu paramètre
             List<string> parametersOption = new List<string> { "Son", "Affichage", "Difficulté", "Revenir" };
@@ -38,16 +42,13 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             //création du menu principal
             List<string> mainMenuOptions = new List<string> { "Jouer", "Paramètres", "Highscores", "Mode d'emploi", "À propos", "Quitter" };
             Menu mainMenu = new Menu(">>", ConsoleColor.Cyan, ConsoleColor.Red, mainMenuOptions, onOffOptionVisual);
-
-            Game game = new Game();
-
+          
+            // Joue le theme du menu
             Sound.MenuTheme(true);
 
+            // Début de la boucle do... while
             do
             {
-                
-                //menuTheme.Play();
-
                 Console.Clear();
                 parameters.DrawTitle();
                 mainMenu.EnterMenu();
@@ -100,6 +101,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                         break;
                         
                     case 2:
+                        // Affiche les highscores
                         Console.ForegroundColor = ConsoleColor.Red;
                         common.ShowTopScores();
                         common.StayInMenu();
@@ -125,6 +127,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
 
                 }                
             } while (mainMenu.SelectedOption != 5);
+            // Fin de la boucle do... while
         }
     }
 }

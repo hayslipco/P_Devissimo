@@ -1,9 +1,17 @@
-﻿using System;
+﻿/*
+ * ETML
+ * Auteurs: Davor S. et Corwin H.
+ * Date de création: 16.01.19
+ * Description: Classe du menu
+ */
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
 {
+    /// <summary>
+    /// Classe Menu héritant de Common
+    /// </summary>
     public class Menu : Common
     {
         private string _selector;
@@ -16,10 +24,13 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
         private List<string> _options = new List<string>();
         private List<string> _onOffOptionVisual = new List<string>();
         private Graphics grapOnOff = new Graphics(visualDisplay);
-        private int _difficulty = 1;
+        
 
         private int menuDrawStart = Console.WindowHeight / 3;
-
+        
+        /// <summary>
+        /// Gettteur et setteir de _optionSelected
+        /// </summary>
         public int SelectedOption
         {
             get
@@ -32,6 +43,14 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             }
         }
 
+        /// <summary>
+        /// Constructeur par défaut
+        /// </summary>
+        /// <param name="selector"></param>
+        /// <param name="cursorColor"></param>
+        /// <param name="optionsColor"></param>
+        /// <param name="options"></param>
+        /// <param name="onOffOptionVisual"></param>
         public Menu(string selector, ConsoleColor cursorColor, ConsoleColor optionsColor, List<string> options, List<string> onOffOptionVisual)
         {
             _selector = selector;
@@ -66,6 +85,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             WriteTitle(title);
         }
 
+        /// <summary>
+        /// Dessine le titre Paramètre
+        /// </summary>
         public void DrawParameter()
         {
             List<string> param = new List<string>
@@ -76,9 +98,13 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                @"/_/   \_,_/_/  \_,_/_/_/_\__/\__/_/ \__/___/",
             };
 
+            // Affiche le Paramètre
             WriteParam(param);
         }
 
+        /// <summary>
+        /// Affiche le titre du À Propos
+        /// </summary>
         public void DrawApropos()
         {
             List<string> aPropos = new List<string>
@@ -94,6 +120,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             WriteParam(aPropos);
         }
 
+        /// <summary>
+        /// Affiche le titre du Mode d'emploi
+        /// </summary>
         public void DrawModeDEmploi()
         {
             List<string> modeDemploi = new List<string>
@@ -110,7 +139,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
         }
 
 
-
+        /// <summary>
+        /// Affiche les choix dans le menu
+        /// </summary>
         private void DrawMenu()
         {
             Console.ForegroundColor = _optionsColor;
@@ -141,7 +172,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
         }
 
 
-
+        /// <summary>
+        /// Dessine le curseur à côté des options
+        /// </summary>
         private void DrawCursor()
         {
             Console.CursorLeft = _leftPadding - _selector.Length - 1;
@@ -153,6 +186,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             Console.ForegroundColor = ConsoleColor.White;
         }
 
+        /// <summary>
+        /// Dessine le menu, le curseur et permet de selectionner une option
+        /// </summary>
         public void EnterMenu()
         {
             DrawMenu();

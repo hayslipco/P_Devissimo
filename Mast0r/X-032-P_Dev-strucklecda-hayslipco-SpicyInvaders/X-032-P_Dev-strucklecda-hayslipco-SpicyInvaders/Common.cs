@@ -53,6 +53,10 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
         protected int windowWidth = Console.WindowWidth;
         protected int windowHeight = Console.WindowHeight;
 
+        /// <summary>
+        /// Change les valeurs pour les difficultés
+        /// </summary>
+        /// <param name="difficulty"></param>
         public void SetDifficulty(string difficulty)
         {
             switch (difficulty)

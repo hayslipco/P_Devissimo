@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * ETML
+ * Auteurs: Davor S.et Corwin H.
+ * Date de création: 15.05.19
+ * Description: Classe des sons joués
+ */
+using System;
 using System.Media;
 using System.Threading;
 using System.Windows.Media;

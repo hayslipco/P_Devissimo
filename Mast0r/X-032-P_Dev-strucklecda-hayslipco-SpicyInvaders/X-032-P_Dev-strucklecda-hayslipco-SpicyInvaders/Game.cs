@@ -68,14 +68,18 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
         /// </summary>
         public void Launch()
         {
+            // Ouverture des fichiers in-game
             Sound.OpenInGameSound();
             
+            // Thème du menu stopper
             Sound.MenuTheme(false);
 
             Console.Clear();
 
+            // Lance le thème in-game
             Sound.GameTheme(true, false, false);
 
+            // Choisie la difficulté en fonction des paramètres choisies
             if(difficulty)
             {
                 SetDifficulty("Easy");
@@ -85,6 +89,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                 SetDifficulty("Hard");
             }
 
+            // Efface les projectiles des parties précédentes
             projectiles.Clear();
 
             //réattribution de badHSName lorsqu'on refait une partie
