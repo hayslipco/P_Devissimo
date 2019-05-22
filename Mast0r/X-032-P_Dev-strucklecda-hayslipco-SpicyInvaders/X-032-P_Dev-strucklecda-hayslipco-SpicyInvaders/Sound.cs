@@ -10,8 +10,8 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
     /// </summary>
     public static class Sound
     {
-        private static MediaPlayer gameTheme = new MediaPlayer();
-        private static MediaPlayer menuTheme = new MediaPlayer();
+        // création des instances de sons
+        private static MediaPlayer gameTheme = new MediaPlayer();       
         private static MediaPlayer shield = new MediaPlayer();
         private static MediaPlayer shotgun = new MediaPlayer();
         private static MediaPlayer sniper = new MediaPlayer();
@@ -20,23 +20,32 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
         private static MediaPlayer sniperR = new MediaPlayer();
         private static MediaPlayer laserR = new MediaPlayer();
         private static MediaPlayer click = new MediaPlayer();
-        private static MediaPlayer hit = new MediaPlayer();
-        private static MediaPlayer record = new MediaPlayer();
-        private static MediaPlayer suspense = new MediaPlayer();
-        private static MediaPlayer loss = new MediaPlayer();
+        private static MediaPlayer hit = new MediaPlayer();       
+        private static MediaPlayer suspense = new MediaPlayer();       
         private static MediaPlayer oof = new MediaPlayer();
+        private static SoundPlayer menuTheme = new SoundPlayer(AppDomain.CurrentDomain.BaseDirectory + @"sounds\mii_theme.wav");
+        private static SoundPlayer record = new SoundPlayer(AppDomain.CurrentDomain.BaseDirectory + @"sounds\newRecord_sound.wav");
+        private static SoundPlayer loss = new SoundPlayer(AppDomain.CurrentDomain.BaseDirectory + @"sounds\cheh_sound.wav");
+
 
         private static bool open = true;
-        private static bool onOffSound = true;
+        public static bool onOffSound = true;
 
+        /// <summary>
+        /// Ouverture des fichiers sons au lancement du jeu
+        /// </summary>
         public static void OpenSounds()
-        {
-            menuTheme.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds\mii_theme.wav"));
+        {            
             gameTheme.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds\wii_sport.wav"));            
-            click.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds\minecraft_click.wav"));            
+            click.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds\minecraft_click.wav"));
             oof.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds\off_sound.wav"));            
+            click.Volume = 0.7;
+            oof.Volume = 0.7;
         }
 
+        /// <summary>
+        /// Ouverture des fichiers sons au lancement de la partie
+        /// </summary>
         public static void OpenInGameSound()
         {
             if (OpenFiles())
@@ -48,14 +57,28 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                 shotgunR.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds\shotgun_recharge.wav"));               
                 sniperR.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds\sniper_recharge.wav"));
                 laserR.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds\laser_recharge.wav"));
-                hit.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds\death.wav"));
-                record.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds\newRecord_sound.wav"));
-                suspense.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds\suspense_music.wav"));
-                loss.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds\cheh_sound.wav"));
-                Thread.Sleep(150);
+                hit.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds\death.wav"));               
+                suspense.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"sounds\suspense_music.wav"));               
+                Thread.Sleep(150);                
+            }
+        }
+        /// <summary>
+        /// Get de onOffSound
+        /// </summary>
+        public static bool OnOffSound
+        {
+            get
+            {
+                return onOffSound;
             }
         }
 
+        
+
+        /// <summary>
+        /// Méthode permettant d'ouvrir une seul fois les fichiers sons in-game
+        /// </summary>
+        /// <returns></returns>
         private static bool OpenFiles()
         {
             if (open)
@@ -66,43 +89,45 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             else
             {
                 return false;
-            }
-            
+            }           
         }
 
-        public static bool OnOffSound
-        {
-            get
-            {
-                return onOffSound;
-            }
-        }
-
+        /// <summary>
+        /// Joue/stop le theme du menu
+        /// </summary>
+        /// <param name="play"></param>
         public static void MenuTheme(bool play)
         {
             if (play && onOffSound)
-            {
-                menuTheme.Play();
+            {                
+                menuTheme.PlayLooping();
                 
             }
             else
             {
-                menuTheme.Stop();
+                menuTheme.Stop();               
             }
         }
 
+        /// <summary>
+        /// Joue/stop/accélère le theme de la partie
+        /// </summary>
+        /// <param name="play"></param>
+        /// <param name="pause"></param>
+        /// <param name="danger"></param>
         public static void GameTheme(bool play, bool pause, bool danger)
         {
-            if (play)
+            if (play && onOffSound)
             {
                 gameTheme.SpeedRatio = 1;
                 gameTheme.Play();
             }
-            else if (pause)
+            else if (pause && onOffSound)
             {
                 gameTheme.Pause();
             }
-            else if (danger)
+            // Accélère le theme de la partie s'il ne reste qu'une seul vie au joueur
+            else if (danger && onOffSound)
             {                
                 gameTheme.SpeedRatio = 1.5;
             }
@@ -112,148 +137,172 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             }
         }
 
+        /// <summary>
+        /// Joue le son du déplacement du curseur dans le menu
+        /// </summary>
         public static void OofSound()
         {
-            oof.Position = TimeSpan.Zero;
-            oof.Play();
+            if (onOffSound)
+            {
+                oof.Position = TimeSpan.Zero;           
+                oof.Play();
+            }                
         }
 
+        /// <summary>
+        /// Joue le son de click dans le menu
+        /// </summary>
         public static void ClickSound()
         {
-            click.Position = TimeSpan.FromMilliseconds(500);
-            click.Play();
+            if (onOffSound)
+            {
+                click.Position = TimeSpan.FromMilliseconds(500);            
+                click.Play();
+            }
         }
 
+        /// <summary>
+        /// Son joué lorsqu'on est touché par un projectile
+        /// </summary>
         public static void HitSound()
         {
-            hit.Position = TimeSpan.Zero;
-            hit.Play();
+            if (onOffSound)
+            {
+                hit.Position = TimeSpan.Zero;
+                hit.Play();
+            }
         }
 
+        /// <summary>
+        /// Son du tir fusil à pompe
+        /// </summary>
         public static void ShotgunSound()
         {
-            shotgun.Position = TimeSpan.Zero;
-            shotgun.Play();
+            if (onOffSound)
+            {
+                shotgun.Position = TimeSpan.Zero;
+                shotgun.Play();
+            }               
         }
 
+        /// <summary>
+        /// Son du rechargement fusil à pompe
+        /// </summary>
         public static void ShotgunRSound()
         {
-            shotgunR.Position = TimeSpan.Zero;
-            shotgunR.Play();
+            if (onOffSound)
+            {
+                shotgunR.Position = TimeSpan.Zero;
+                shotgunR.Play();
+            }
         }
 
+        /// <summary>
+        /// Son du tir sniper
+        /// </summary>
         public static void SniperSound()
         {
-            sniper.Position = TimeSpan.Zero;
-            sniper.Play();
+            if (onOffSound)
+            {
+                sniper.Position = TimeSpan.Zero;
+                sniper.Play();
+            }
         }
 
+        /// <summary>
+        /// Son du rechargement sniper
+        /// </summary>
         public static void SniperRSound()
         {
-            sniperR.Position = TimeSpan.Zero;
-            sniperR.Play();
+            if (onOffSound)
+            {
+                sniperR.Position = TimeSpan.Zero;
+                sniperR.Play();
+            }          
         }
 
+        /// <summary>
+        /// Son du tir laser
+        /// </summary>
         public static void LaserSound()
         {
-            laser.Position = TimeSpan.Zero;
-            laser.Play();
+            if (onOffSound)
+            {
+                laser.Position = TimeSpan.Zero;
+                laser.Play();
+            }
         }
 
+        /// <summary>
+        /// Son du rechragement sniper
+        /// </summary>
         public static void LaserRSound()
         {
-            laserR.Position = TimeSpan.Zero;
-            laserR.Play();
+            if (onOffSound)
+            {
+                laserR.Position = TimeSpan.Zero;
+                laserR.Play();
+            }            
         }
 
+        /// <summary>
+        /// Son du bouclier
+        /// </summary>
         public static void ShieldSound()
         {
-            shield.Position = TimeSpan.Zero;
-            shield.Play();
+            if (onOffSound)
+            {
+                shield.Position = TimeSpan.Zero;
+                shield.Play();
+            }              
         }
 
+        /// <summary>
+        /// Musique de suspense
+        /// </summary>
+        /// <param name="play"></param>
         public static void EndGameSuspense(bool play)
         {
-            if (play)
+            if (play && onOffSound)
             {
                 suspense.Play();
             }
             else
             {
                 suspense.Stop();
-            }
-            
+            }           
         }
 
+        /// <summary>
+        /// Musique quand aucun record n'est battu
+        /// </summary>
+        /// <param name="play"></param>
         public static void NoRecord(bool play)
         {
-            if (play)
+            if (play && onOffSound)
             {
-                loss.Play();
+                loss.PlayLooping();
             }
             else
             {
                 loss.Stop();
             }
-
         }
 
-
+        /// <summary>
+        /// Musique quand un record a été battu
+        /// </summary>
+        /// <param name="play"></param>
         public static void NewRecord(bool play)
         {
-            if (play)
+            if (play && onOffSound)
             {
-                record.Play();
+                record.PlayLooping();
             }
             else
             {
                 record.Stop();
             }
-        }
-
-        public static void SoundClose()
-        {
-          
-            menuTheme.Stop();
-            suspense.Volume = 0;
-            gameTheme.Volume = 0;
-            record.Volume = 0;
-            loss.Volume = 0;
-            oof.Volume = 0;
-            click.Volume = 0;
-            hit.Volume = 0;
-            sniper.Volume = 0;
-            sniperR.Volume = 0;
-            shotgun.Volume = 0;
-            shotgunR.Volume = 0;
-            laser.Volume = 0;
-            laserR.Volume = 0;
-            shield.Volume = 0;
-
-            onOffSound = false;
-        }
-
-        public static void SoundStart()
-        {           
-            menuTheme.Play();
-            oof.Volume = 0.5;
-            click.Volume = 0.5;
-            hit.Volume = 0.5;
-            sniper.Volume = 0.5;
-            sniperR.Volume = 0.5;
-            shotgun.Volume = 0.5;
-            shotgunR.Volume = 0.5;
-            laser.Volume = 0.5;
-            laserR.Volume = 0.5;
-            shield.Volume = 0.5;
-            suspense.Volume = 0.5;
-            gameTheme.Volume = 0.5;
-            record.Volume = 0.5;
-            loss.Volume = 0.5;
-
-            onOffSound = true;
-        }
-
-
+        }       
     }
 }

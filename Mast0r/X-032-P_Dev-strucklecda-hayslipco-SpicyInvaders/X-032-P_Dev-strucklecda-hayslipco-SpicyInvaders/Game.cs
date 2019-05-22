@@ -51,7 +51,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
         private Enemy oddXtremeEnemy;
         //ennemi stationaire invisible utilisé pour garder une condition à false (lors de vagues non-inversées)
         private Enemy invisibleEnemy;
-        private Graphics graphics = new Graphics(_visualDisplay);
+        private Graphics graphics = new Graphics(visualDisplay);
         private Random random = new Random();
 
         private char[][] buffer;
@@ -69,12 +69,21 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
         public void Launch()
         {
             Sound.OpenInGameSound();
-
+            
             Sound.MenuTheme(false);
 
             Console.Clear();
 
             Sound.GameTheme(true, false, false);
+
+            if(difficulty)
+            {
+                SetDifficulty("Easy");
+            }
+            else
+            {
+                SetDifficulty("Hard");
+            }
 
             projectiles.Clear();
 
@@ -101,7 +110,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             }
 
             //création des strings indiquants le nombre de vies et l'état du bouclier
-            livesIndicator ="shield: " +  "♥ × " + player.Lives;
+            livesIndicator = "shield: " + "♥ × " + player.Lives;
 
             //création de la vague d'ennemis, de l'ennemi spécial et de l'ennemi invisible
             enemySwarm = new Enemy[enemyRow, enemyRow];
@@ -238,7 +247,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                                 {
                                     score -= SHOT_COST;
                                 }
-                                else if(score > 0)
+                                else if (score > 0)
                                 {
                                     score -= SHOT_COST;
                                 }
@@ -257,7 +266,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                                         {
                                             if (l % 2 == 0)
                                             {
-                                                projectiles.Add(new Bullet(new List<string> { "■" }, midShip + ((b*2) - l), player.Y - l, SHORTSHOT_SPEED, true, true));
+                                                projectiles.Add(new Bullet(new List<string> { "■" }, midShip + ((b * 2) - l), player.Y - l, SHORTSHOT_SPEED, true, true));
                                             }
 
                                         }
@@ -313,6 +322,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                             Sound.GameTheme(false, true, false);
                             CenteredWriteLine("Pause", 1);
                             CenteredWriteLine("Appuyez sur 'Escape' pour reprendre", 1);
+                            CenteredWriteLine("Appuyez sur 'F4' pour quitter la partie", 1);
 
 
 
@@ -320,23 +330,55 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                             // Début de la boucle
                             do
                             {
-                                // Affiche l'un des messages selon l'état du bool
-                                if (_visualDisplay)
+                                string soundOption = "Appuyez sur 'M' pour activer/désactiver le son [ON] /  OFF ";
+
+
+                                Console.SetCursorPosition((Console.WindowWidth / 2) - (soundOption.Length / 2), Console.WindowHeight / 2 + 3);
+
+                                //Affiche le message pour activer/désactiver le son
+                                if (Sound.onOffSound)
                                 {
-                                    CenteredWriteLine("Appuyez sur 'Espace' pour désactiver l'affichage", 1);
+                                    Console.WriteLine("Appuyez sur 'M' pour activer/désactiver le son [ON] /  OFF ", 1);
+                                    Sound.onOffSound = true;
                                 }
                                 else
                                 {
-                                    CenteredWriteLine("   Appuyez sur 'Espace' pour activer l'affichage    ", 1);
+                                    Console.WriteLine("Appuyez sur 'M' pour activer/désactiver le son  ON  / [OFF]", 1);
+                                    Sound.onOffSound = false;
                                 }
+                                //Affiche le message pour activer/désactiver l'affichage
+                                if (visualDisplay)
+                                {
+                                    CenteredWriteLine("Appuyez sur 'Espace' pour activer/désactiver l'affichage [ON] /  OFF ", 1);
+                                }
+                                else
+                                {
+                                    CenteredWriteLine("Appuyez sur 'Espace' pour activer/désactiver l'affichage  ON  / [OFF]", 1);
+                                }
+
 
                                 // Active/désactive l'affichage in-game
                                 pressed = Console.ReadKey(true);
                                 if (pressed.Key == ConsoleKey.Spacebar)
                                 {
-
-
                                     graphics.OnOffVisualDisplay();
+                                }
+                                // Active/désactive le son
+                                else if (pressed.Key == ConsoleKey.M)
+                                {
+                                    if (Sound.onOffSound)
+                                    {
+                                        Sound.onOffSound = false;
+                                    }
+                                    else
+                                    {
+                                        Sound.onOffSound = true;
+                                    }
+                                }
+                                // Retourne au menu
+                                else if (pressed.Key == ConsoleKey.F4)
+                                {
+                                    return;
                                 }
 
                             } while (pressed.Key != ConsoleKey.Escape);
@@ -370,7 +412,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                 EnemyMove();
 
                 //apparition d'un ennemi spécial
-                if (ticks % specialEnemySpawn == 0 && !specialEnemy.IsAlive && specialEnemy.Y < enemySwarm[0,0].Y)
+                if (ticks % specialEnemySpawn == 0 && !specialEnemy.IsAlive && specialEnemy.Y < enemySwarm[0, 0].Y)
                 {
                     specialEnemy.IsAlive = true;
                     specialEnemy.Appearence = new List<string> { "  ███  ", "███████" };
@@ -384,9 +426,9 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                 //Gestion de la durée et de l'animation du shield
                 if (player.ShieldUp)
                 {
-                    if(shieldDelayTimer > shieldDuration)
+                    if (shieldDelayTimer > shieldDuration)
                     {
-                        player.Appearence = new List<string>(normalPlayer);   
+                        player.Appearence = new List<string>(normalPlayer);
                         player.InitialAppearence = new List<string>(normalPlayer);
                         player.ShieldUp = false;
                     }
@@ -408,8 +450,8 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
 
                 stateIndicator = "score: " + score + "  " + livesIndicator + " " + shieldIndicator;
 
-                if(player.Lives == 0)
-                { 
+                if (player.Lives == 0)
+                {
                     Sound.GameTheme(false, false, true);
                 }
                 else
@@ -437,7 +479,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                 }
 
                 //if (delta == 0)
-                    Debug.Write(" Time: " + timer.ElapsedMilliseconds + " | ");
+                Debug.Write(" Time: " + timer.ElapsedMilliseconds + " | ");
 
                 //on temporise le thread un moment
                 Thread.Sleep(delta);
@@ -895,7 +937,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                     }
                 }
 
-                
+
 
                 if (playerName == "")
                 {
@@ -924,7 +966,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                 CenteredWriteLine("and null", minLeftPadding);
                 CenteredWriteLine("pas de record, big seum...", minLeftPadding);
 
-                
+
                 Thread.Sleep(5000);
             }
             Console.CursorVisible = false;

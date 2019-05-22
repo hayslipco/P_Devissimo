@@ -15,26 +15,26 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
     /// </summary>
     public class Program
     {
-
         static void Main(string[] args)
         {
-
             Sound.OpenSounds();
-            Console.CursorVisible = false;
 
             int WINDOW_WIDTH = 140;
             int WINDOW_HEIGHT = 52;
+
+            Console.BufferHeight = 52;
+
+            Console.CursorVisible = false;
             Console.SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-            Common common = new Common();
             //création menu paramètre
-            List<string> parametersOption = new List<string> { "Son", "Affichage", "Difficulté", "Quitter" };
+            List<string> parametersOption = new List<string> { "Son", "Affichage", "Difficulté", "Revenir" };
             List<string> onOffOptionVisual = new List<string> { "Activé / Désactivé", "Activé / Désactivé", "Chill / Chill Norris" };
 
             Menu parameters = new Menu(">>", ConsoleColor.Yellow, ConsoleColor.DarkMagenta, parametersOption, onOffOptionVisual);
 
             //création du menu principal
-            List<string> mainMenuOptions = new List<string> { "Jouer", "Paramètres", "Highscores", "Mode d'emploi", "A propos", "Exit" };
+            List<string> mainMenuOptions = new List<string> { "Jouer", "Paramètres", "Highscores", "Mode d'emploi", "À propos", "Quitter" };
             Menu mainMenu = new Menu(">>", ConsoleColor.Cyan, ConsoleColor.Red, mainMenuOptions, onOffOptionVisual);
 
             Game game = new Game();
@@ -48,7 +48,6 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
 
                 Console.Clear();
                 parameters.DrawTitle();
-                Debug.WriteLine("Début de boucle");
                 mainMenu.EnterMenu();
 
                 //Switch case du menu principal
@@ -84,10 +83,10 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                             {
                                 parameters.GameDisplay();
                             }
+                            // changement de la difficulté
                             if (parameters.SelectedOption == 2)
                             {
-
-                                Debug.WriteLine("Changement de la difficulté");
+                                parameters.DifficultySetting();
                             }
                             // efface les options des paramètres                       
                             if (parameters.SelectedOption == 3)
@@ -97,34 +96,48 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                         } while (parameters.SelectedOption != 3);
 
                         break;
-
-                    case 2:
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        common.ShowTopScores();
-                        common.StayInMenu();
-                        Console.ForegroundColor = ConsoleColor.White;
+                        
+                    case 2:                      
+                        Console.WriteLine("Bienvenu dans le highscore");
                         break;
 
                     case 3:
+                        // Affiche le mode d'emploi
+                        ConsoleKeyInfo pressedKey;
                         mainMenu.ModeDemploi();
-                        common.StayInMenu();
+                        do
+                        {
+
+                            pressedKey = Console.ReadKey(true);
+
+                        } while (pressedKey.Key != ConsoleKey.Escape);
+                        Console.Clear();
 
                         break;
 
                     case 4:
+                        // Affiche l'à propos du jeu
+                        ConsoleKeyInfo pressed;
                         mainMenu.Apropos();
-                        common.StayInMenu();
+
+                        do
+                        {
+
+                            pressed = Console.ReadKey(true);
+
+                        } while (pressed.Key != ConsoleKey.Escape);
+
+                        Console.Clear();
 
                         break;
 
                     case 5:
+                        // Quitte l'application
                         Environment.Exit(0);
                         break;
 
-                }
-                Debug.WriteLine("fin de boucle");
+                }                
             } while (mainMenu.SelectedOption != 5);
-            Debug.WriteLine("Sorti du switch");
         }
     }
 }

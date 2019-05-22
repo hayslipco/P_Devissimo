@@ -10,14 +10,13 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
         private int _optionSelected;
         private int _leftPadding;
         private int _topPadding;
-        private bool _stay;
-        private bool _soundOn; //        
+        private bool _stay;              
         private ConsoleColor _cursorColor;
         private ConsoleColor _optionsColor;
         private List<string> _options = new List<string>();
-        private List<string> _onOffOptionVisual = new List<string>(); //
-        private Graphics grapOnOff = new Graphics(_visualDisplay); // 
-        //private Sound SoundOnOff = new Sound();
+        private List<string> _onOffOptionVisual = new List<string>();
+        private Graphics grapOnOff = new Graphics(visualDisplay);
+        private int _difficulty = 1;
 
         private int menuDrawStart = Console.WindowHeight / 3;
 
@@ -39,12 +38,12 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             _cursorColor = cursorColor;
             _options = options;
             _optionsColor = optionsColor;
-            _onOffOptionVisual = onOffOptionVisual; //
+            _onOffOptionVisual = onOffOptionVisual;
 
             _topPadding = Console.WindowHeight / options.Count / 2;
             _leftPadding = Console.WindowWidth / 3;
             _stay = true;
-            _soundOn = true;
+            
             _optionSelected = 0;
         }
 
@@ -243,19 +242,15 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
         /// </summary>
         public void SoundOption()
         {
-            if (_soundOn)
-            {
-
-                Debug.WriteLine("Désactivation du son");
-                Sound.SoundClose();
-                _soundOn = false;
+            if (Sound.onOffSound)
+            {               
+                Sound.onOffSound = false;
+                Sound.MenuTheme(false);                
             }
             else
-            {
-
-                Debug.WriteLine("Activation du son");
-                Sound.SoundStart();
-                _soundOn = true;
+            {                
+                Sound.onOffSound = true;
+                Sound.MenuTheme(true);                               
             }
         }
 
@@ -265,26 +260,23 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
         /// </summary>
         public void GameDisplay()
         {
-            if (_visualDisplay)
+            if (visualDisplay)
             {
-                Debug.WriteLine("Désactivation de l'affichage");
                 grapOnOff.OnOffVisualDisplay();
             }
             else
             {
-                Debug.WriteLine("Activation de l'affichage");
                 grapOnOff.OnOffVisualDisplay();
             }
         }
-
-        
+                          
         /// <summary>
         /// Vérifie quelles options sont activées ou désactivées pour permettre d'identifier l'état de l'option
         /// </summary>
         public void CheckOptionOn()
         {
-            // Son
-            if (_soundOn)
+            // Affichage de quelle option de son est choisie
+            if (Sound.onOffSound)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.SetCursorPosition(_leftPadding + 29, menuDrawStart + 1);
@@ -301,8 +293,8 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                 Console.WriteLine("---------");
             }
 
-            // Affichage
-            if (_visualDisplay)
+            // Affichage de quelle option d'afficahge est choisie
+            if (visualDisplay)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.SetCursorPosition(_leftPadding + 29, menuDrawStart + 1 + _topPadding);
@@ -318,41 +310,24 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                 Console.SetCursorPosition(_leftPadding + 29, menuDrawStart + 1 + _topPadding);
                 Console.WriteLine("---------");
             }
-            /*
-            // Difficulté
-            if (_difficulty == 1)
-            {
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.SetCursorPosition(_leftPadding + 29, menuDrawStart + 1 + _topPadding * 2);
-                Console.Write("         ");
+
+            // Affichage de quelle difficulté est choisie
+            if (difficulty)
+            {              
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.SetCursorPosition(_leftPadding + 28, menuDrawStart + 1 + _topPadding * 2);
+                Console.Write("            ");
                 Console.SetCursorPosition(_leftPadding + 20, menuDrawStart + 1 + _topPadding * 2);
-                Console.WriteLine("----------");
-            }
-            else if (_difficulty == 2)
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.SetCursorPosition(_leftPadding + 20, menuDrawStart + 1 + _topPadding * 2);
-                Console.Write("         ");
-                Console.SetCursorPosition(_leftPadding + 33, menuDrawStart + 1 + _topPadding * 2);
                 Console.WriteLine("-----");
             }
-            else if (_difficulty == 3)
-            {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.SetCursorPosition(_leftPadding + 20, menuDrawStart + 1 + _topPadding * 2);
-                Console.Write("         ");
-                Console.SetCursorPosition(_leftPadding + 41, menuDrawStart + 1 + _topPadding * 2);
-                Console.WriteLine("---------");
-            }
             else
-            {
+            {       
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.SetCursorPosition(_leftPadding + 20, menuDrawStart + 1 + _topPadding * 2);
                 Console.Write("         ");
-                Console.SetCursorPosition(_leftPadding + 53, menuDrawStart + 1 + _topPadding * 2);
+                Console.SetCursorPosition(_leftPadding + 28, menuDrawStart + 1 + _topPadding * 2);
                 Console.WriteLine("------------");
-            }
-            */
+            }                      
         }
 
         /// <summary>
@@ -385,7 +360,8 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
             DrawTitle();
             DrawApropos();
             Console.CursorTop = 17;
-            CenteredWriteLine("SpicyInvader est un jeu, codé en C#, dont le but est de détruire les vaisseaux ennemis en leur tirant dessus.", 10);
+            CenteredWriteLine("SpicyInvader est un jeu de tir, codé en c#, crée par Hayslip Corwin et Struklec Davor Le but du jeu est de détruire les vaisseaux" +
+                " ennemis avant qu'ils n'envahissent la terre.", 10);
 
         }
     }

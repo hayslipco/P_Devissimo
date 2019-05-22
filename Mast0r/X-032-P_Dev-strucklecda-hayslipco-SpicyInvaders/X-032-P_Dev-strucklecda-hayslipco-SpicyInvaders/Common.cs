@@ -32,7 +32,8 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
         protected const int MIDSHOT_SPEED = 3;
         protected const int LONGSHOT_SPEED = 1;
 
-        protected static bool _visualDisplay = true;
+        protected static bool visualDisplay = true;
+        protected static bool difficulty = true;
         protected bool hardMode = true;
 
         public List<HighScore> highScores = new List<HighScore>();
@@ -77,6 +78,23 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                     enemyPoints = 1000;
                     specialEnemyPoints = 10 * enemyPoints;
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Set la difficulté du jeu
+        /// </summary>
+        public void DifficultySetting()
+        {
+            if (difficulty)   
+            {
+                difficulty = false;
+                SetDifficulty("Hard");               
+            }
+            else
+            {
+                SetDifficulty("Easy");
+                difficulty = true;               
             }
         }
 
@@ -237,7 +255,7 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
 
             foreach (HighScore h in highScores)
             {
-                Console.CursorLeft = (windowWidth / 2) - ("[22/22/22] : moyenne environ --- 100000 points\n".Length/2);
+                Console.CursorLeft = (windowWidth / 2) - ("[22/22/22] : moyenne environ --- 100000 points\n".Length / 2);
                 Console.WriteLine("[{0}/{1}/{2}] : {3} --- {4} points\n", h.date.Day, h.date.Month, h.date.Year, h.Name, h.Score);
                 Thread.Sleep(150);
             }
@@ -249,9 +267,11 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
         /// <param name="strings">lignes du titre</param>
         public void WriteTitle(List<string> strings)
         {
+            Console.ForegroundColor = ConsoleColor.White;
+
             int leftPadding = (Console.WindowWidth / 2) - (strings[0].Length / 2);
 
-            foreach(string s in strings)
+            foreach (string s in strings)
             {
                 Console.CursorLeft = leftPadding;
                 Console.WriteLine(s);
@@ -325,14 +345,14 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
 
         public void OnOffVisualDisplay()
         {
-            if (_visualDisplay)
+            if (visualDisplay)
             {
-                _visualDisplay = false;
+                visualDisplay = false;
                 Debug.WriteLine("Désactivé");
             }
             else
             {
-                _visualDisplay = true;
+                visualDisplay = true;
                 Debug.WriteLine("Activé");
             }
         }
