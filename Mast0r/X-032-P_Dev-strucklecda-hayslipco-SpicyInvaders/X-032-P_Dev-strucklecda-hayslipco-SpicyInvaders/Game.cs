@@ -484,11 +484,13 @@ namespace X_032_P_Dev_strucklecda_hayslipco_SpicyInvaders
                 }
 
                 //if (delta == 0)
-                Debug.Write(" Time: " + timer.ElapsedMilliseconds + " | ");
+                //Debug.Write(" Time: " + timer.ElapsedMilliseconds + " | ");
+                //Debug.Write(" Delta: " + delta + " | ");
+
+                ticks++;
 
                 //on temporise le thread un moment
                 Thread.Sleep(delta);
-                ticks++;
 
             } while (!player.Dead);
 
